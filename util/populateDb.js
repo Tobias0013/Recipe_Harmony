@@ -1,3 +1,6 @@
+require('dotenv').config()
+const { MongoClient } = require("mongodb");
+
 async function fetchRecipeData(){
     try{
         const response = await fetch("https://dummyjson.com/recipes?skip=0&limit=0")
@@ -8,7 +11,6 @@ async function fetchRecipeData(){
 }
 
 async function formatData(){
-    const user_id = "user_id"; //skapa user
     const data = await fetchRecipeData();
     return data.recipes.map(recipe => {
         let stepCounter = 0;
@@ -22,7 +24,7 @@ async function formatData(){
                 ...recipe.tags
             ],
             calories: recipe.caloriesPerServing,
-            ingredients: [
+            ingredients: 
                 recipe.ingredients.map(ingredient => {
                     return({
                         name: ingredient,
@@ -30,9 +32,9 @@ async function formatData(){
                         quantity: 0
                     })
                 })
-            ],
+            ,
             difficulty: recipe.difficulty,
-            instructions: [
+            instructions: 
                 recipe.instructions.map(instruction => {
                     stepCounter++;
                     return({
@@ -40,7 +42,7 @@ async function formatData(){
                         text: instruction
                     })
                 })
-            ],
+            ,
             rating: recipe.rating,
             review_count: recipe.reviewCount,
             image:{
@@ -51,12 +53,24 @@ async function formatData(){
     })
 }
 
-async function logRecipes(){
-    const data = await formatData();
-    data.forEach(recipe => {
-        console.log(recipe)
-        //insert into database
-    })
+
+async function insertDocument(){
+    const client = new MongoClient(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try{
+        await client.connect();
+        const db = client.db();
+        const data = await formatData();
+        for (const recipe of data){
+            const result = await db.collection('Recipes').insertOne(recipe);
+            console.log(result)
+        }
+
+    }catch(err){
+        console.error("Error inserting doc: "+err);
+    }finally{
+        await client.close();
+    }
 }
 
-logRecipes();
+insertDocument();
