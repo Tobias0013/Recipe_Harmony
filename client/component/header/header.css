@@ -1,9 +1,10 @@
+/* CSS file for header component */
+
 header{
     display: flex;
     width: 100%;
     height: 7rem;
     align-items: center;
-
 }
 
 /* Header Logo */
@@ -127,16 +128,6 @@ header{
         width: auto;
     }
     
-    .header-input-box i,
-    .header-input-box .button {
-    }
-    
-    .header-input-box i {
-    }
-    
-    .header-input-box input {
-    }
-    
     /* Navigation */
 
     .header-nav-icon{
@@ -157,24 +148,20 @@ header{
         flex-direction: column;
         margin: 1rem 0 0 0;
         width: 100%;
+        height: 21.5rem;
+    }
+
+    .header-nav{
         overflow: hidden;
-        height: 0px;
-
-        transition: all 1s;
+        transition: all 400ms;
+        height: 0rem;
+        width: 100%;
     }
 
-    .header-navbar.show{
-        height: 215px;
+    .header-nav.open{
+        height: 23rem;
     }
 
-    @keyframes show {
-        0% {
-            height: 215px;
-        }
-        100% {
-            height: 0px;
-        }
-    }
 
     .header-navbar > li {
         width: 100%;
