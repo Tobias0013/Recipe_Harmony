@@ -16,7 +16,7 @@ async function formatData(){
             name: recipe.name,
             prep_time: recipe.prepTimeMinutes,
             cook_time: recipe.cookTimeMinutes,
-            author: user_id,
+            author: "662fcd37aa94785cbe8a847d",
             servings: recipe.servings,
             tags: [
                 ...recipe.tags
