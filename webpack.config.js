@@ -10,7 +10,15 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
+        
       },
+      {
+        test: /.css$/,
+        use: [
+            'style-loader',
+            'css-loader'
+        ]
+    }
     ],
   },
   plugins: [
@@ -22,4 +30,5 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   }
+
 };
