@@ -1,12 +1,12 @@
 import {Schema, model, Types, Document} from "mongoose";
 
-interface IShoppingList {
+interface IShoppingListItem {
     name: string,
     quantity_type: string,
     quantity: number
 }
 
-interface IIngredients {
+interface IIngredient {
     name: string,
     quantity_type: string,
     quantity: number
@@ -17,8 +17,8 @@ interface IHousehold extends Document{
     name: string,
     owner: string,
     members: string[],
-    shopping_list: IShoppingList[],
-    ingredients: IIngredients[]
+    shopping_list: IShoppingListItem[],
+    ingredients: IIngredient[]
 };
 
 const householdSchema: Schema = new Schema<IHousehold>(

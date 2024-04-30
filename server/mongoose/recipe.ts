@@ -1,12 +1,12 @@
 import {Schema, model, Types, Document} from "mongoose";
 
-interface IIngredients {
+interface IIngredient {
     name: string,
     quantity_type: string,
     quantity: number
 };
 
-interface IInstructions{
+interface IInstruction{
     step: number,
     text: string
 };
@@ -26,9 +26,9 @@ interface IRecipe extends Document{
     servings: number,
     tags: string[],
     calories: number,
-    ingredients: IIngredients[],
+    ingredients: IIngredient[],
     difficulty: string,
-    instructions: IInstructions[],
+    instructions: IInstruction[],
     rating: number,
     review_count: number,
     image: IImage
