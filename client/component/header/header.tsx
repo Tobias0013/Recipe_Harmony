@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./header.css";
 
 import ListItem from "./listItem";
+import { useLocation } from "react-router-dom";
 
 /**
  * Represents the header component of the application.
@@ -10,20 +11,25 @@ import ListItem from "./listItem";
  * @param {string} prop.location - The current location of the user.
  * @returns {JSX.Element} The header component.
  */
-export default function Header(prop: { loggedIn: boolean; location: string }) {
-    const { loggedIn, location } = prop;
+export default function Header(prop: { loggedIn: boolean }) {
+    const { loggedIn } = prop;
+    const location = getLocation(useLocation().pathname.toLocaleLowerCase());
+
     const [navbarShow, setNavbarShow] = useState(false);
 
     const handleShowNavbar = () => {
         setNavbarShow(!navbarShow);
     };
 
-    let navBarItems: string[] = [
-        "Home",
-        "Explore",
-        "Add Recipe",
-        "About",
-        loggedIn ? "Household" : "Login/Register",
+    let navBarItems: { text: string; link: string }[] = [
+        { text: "Home", link: "/home" },
+        { text: "Explore", link: "/explore" },
+        { text: "Add Recipe", link: "/add" },
+        { text: "About", link: "/about" },
+        {
+            text: loggedIn ? "Household" : "Login/Register",
+            link: loggedIn ? "/household" : "/login",
+        },
     ];
 
     return (
@@ -45,10 +51,35 @@ export default function Header(prop: { loggedIn: boolean; location: string }) {
             <div className={navbarShow ? "header-nav open" : "header-nav"}>
                 <ul className="header-navbar">
                     {navBarItems.map((item) => {
-                        return <ListItem text={item} location={location} />;
+                        return (
+                            <ListItem
+                                key={item.text}
+                                text={item.text}
+                                path={item.link}
+                                location={location}
+                            />
+                        );
                     })}
                 </ul>
             </div>
         </header>
     );
+}
+
+function getLocation(location) {
+    if (location === "/") location = "Home";
+    else if (location.includes("/explore")) {
+        location = "Explore";
+    } else if (location.includes("/add")) {
+        location = "Add Recipe";
+    } else if (location.includes("/about")) {
+        location = "About";
+    } else if (location.includes("/login") || location.includes("/register")) {
+        location = "Login/Register";
+    } else if (location.includes("/household")) {
+        location = "Household";
+    } else {
+        location = "";
+    }
+    return location;
 }
