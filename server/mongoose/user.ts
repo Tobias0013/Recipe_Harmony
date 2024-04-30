@@ -19,7 +19,7 @@ const userSchema: Schema = new Schema<IUser>(
         password:String,
         email:{
             type:String,
-            unqie:true,
+            unique:true,
             required:true
         },
         joined:Date,
