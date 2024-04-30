@@ -60,7 +60,7 @@ const recipeSchema: Schema = new Schema<IRecipe>(
         rating:Number,
         review_count:Number,
         image:{
-            type:String,
+            type:{type: String},
             url:String,
             base64:String
         }
