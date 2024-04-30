@@ -1,0 +1,65 @@
+/* Home banner */
+
+.home-banner{
+    margin: 2.5rem 0 0 0;
+    width: 100%;
+    height: fit-content;
+    background-color: #dee9e2;
+    display: flex;
+    gap: 5rem;
+}
+
+.home-banner-container{
+    position: relative;
+    width: 110rem;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.home-banner-image{
+    max-height: 40rem;
+    object-fit: scale-down;
+    margin-left: 50%;
+}
+
+.home-banner-arrow{
+    top: 50%;
+    transform: translate(0, -50%);
+    display: flex;
+    font-size: 12.5rem;
+    cursor: pointer;    
+}
+
+.home-banner-arrow-left{
+    position: absolute;
+    left: -2.5%;
+}
+
+.home-banner-arrow-right{
+    position: absolute;
+    right: -2.5%;
+}
+
+.home-banner-overlay{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    max-width: 44rem;
+}
+
+.home-banner-trending{
+    font-size: 2.4rem;
+    color: #509e2f;
+    text-decoration: underline;
+}
+
+.home-banner-title{
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.home-banner-author{
+    font-size: 2rem;
+}
+

@@ -1,16 +1,24 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+
 import Header from "../../component/header/header";
+import "./home.css";
+import Banner from "./banner";
 
-export default function Home() {
-    const handleClick = () => {
-        console.log(useLocation());
-    };
-
+export default function Home(prop: { info: string }) {
     return (
         <>
             <Header loggedIn={false} />
-            <h1 onClick={handleClick}>Home</h1>{" "}
+
+            <main>
+                <section className="home-banner">
+                    <Banner
+                        image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
+                        title={"Classic Margherita Pizza"}
+                        firstName={"Humberto"}
+                        lastName={"Botsford"}
+                    />
+                </section>
+            </main>
         </>
     );
 }
