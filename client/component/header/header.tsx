@@ -22,7 +22,7 @@ export default function Header(prop: { loggedIn: boolean }) {
     };
 
     let navBarItems: { text: string; link: string }[] = [
-        { text: "Home", link: "/home" },
+        { text: "Home", link: "/" },
         { text: "Explore", link: "/explore" },
         { text: "Add Recipe", link: "/add" },
         { text: "About", link: "/about" },
