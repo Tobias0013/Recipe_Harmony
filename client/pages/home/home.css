@@ -6,7 +6,7 @@
     height: fit-content;
     background-color: #dee9e2;
     display: flex;
-    gap: 5rem;
+    max-height: 40rem;
 }
 
 .home-banner-container{
@@ -18,27 +18,10 @@
 }
 
 .home-banner-image{
+    border-radius: 16px;
     max-height: 40rem;
     object-fit: scale-down;
     margin-left: 50%;
-}
-
-.home-banner-arrow{
-    top: 50%;
-    transform: translate(0, -50%);
-    display: flex;
-    font-size: 12.5rem;
-    cursor: pointer;    
-}
-
-.home-banner-arrow-left{
-    position: absolute;
-    left: -2.5%;
-}
-
-.home-banner-arrow-right{
-    position: absolute;
-    right: -2.5%;
 }
 
 .home-banner-overlay{
@@ -63,3 +46,45 @@
     font-size: 2rem;
 }
 
+/* Home content */
+
+.home-content-title{
+    width: 70%;
+    margin: 6rem auto 0 auto;
+}
+
+.home-content-title > h1{
+    font-size: 3.6rem;
+    font-weight: 600;
+
+}
+
+.home-content-recipe-card{
+    text-align: center;
+    margin: 4rem auto 8rem auto;
+    position: relative;
+    width: 80%;
+}
+
+@media only screen and (orientation: portrait) {
+    /* Home banner */
+    
+    .home-banner{
+        background-color: white;
+    }
+    
+    .home-banner-image{
+        margin: 0 0 0 0;
+        opacity: 60%;
+        width: 100%;
+        filter: brightness(70%);
+    }
+    
+    .home-banner-overlay{
+        max-width: 100%;
+    }
+    
+    .home-banner-trending{
+        color: rgb(4, 64, 4);
+    }
+}
