@@ -1,5 +1,15 @@
 import React from "react";
 
+/**
+ * Renders a banner component with an image, title, and author information.
+ *
+ * @param prop - The props object containing the image, title, first name, and last name.
+ * @param prop.image - The URL of the image to be displayed.
+ * @param prop.title - The title of the recipe.
+ * @param prop.firstName - The first name of the recipe author.
+ * @param prop.lastName - The last name of the recipe author.
+ * @returns The rendered banner component.
+ */
 export default function Banner(prop: {
     image: string;
     title: string;

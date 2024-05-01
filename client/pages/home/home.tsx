@@ -5,7 +5,11 @@ import "./home.css";
 import Banner from "./banner";
 import RecipeCard from "../../component/recipe_card/recipeCard";
 
-export default function Home(prop: { info: string }) {
+/**
+ * Renders the Home component.
+ * @returns The rendered Home component.
+ */
+export default function Home() {
     const recipes = exampleData;
 
     return (
@@ -42,6 +46,7 @@ export default function Home(prop: { info: string }) {
     );
 }
 
+//TODO will remove once able to fetch data
 const exampleData = [
     {
         id: 1,
