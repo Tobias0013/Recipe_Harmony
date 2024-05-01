@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router, Request, Response} from "express";
 import cors from "cors";
 
 import apiRouter from "./routes";
@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use("/api", apiRouter);
 
-app.get("/status", (req, res) =>{
+app.get("/status", (req: Request, res: Response) =>{
     res.json("Server is upp and running!")
 });
 
