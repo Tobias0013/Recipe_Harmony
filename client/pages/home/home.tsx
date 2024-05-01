@@ -1,9 +1,10 @@
 import React from "react";
+import "./home.css";
 
 import Header from "../../component/header/header";
-import "./home.css";
 import Banner from "./banner";
 import RecipeCard from "../../component/recipe_card/recipeCard";
+import Footer from "../../component/footer/footer";
 
 /**
  * Renders the Home component.
@@ -42,6 +43,8 @@ export default function Home() {
                     </div>
                 </section>
             </main>
+
+            <Footer />
         </>
     );
 }
