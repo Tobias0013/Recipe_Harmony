@@ -1,13 +1,9 @@
 import { Router } from "express";
 
-import employeesRouter from './employees';
-import assignmentRouter from './assignments';
-import projectRouter from './project';
+import usersRouter from './users';
 
-const router = Router();
+const router: Router = Router();
 
-router.use("/employees", employeesRouter);
-router.use("/project_assignments", assignmentRouter);
-router.use("/projects", projectRouter);
+router.use("/users", usersRouter);
 
 export default router;
