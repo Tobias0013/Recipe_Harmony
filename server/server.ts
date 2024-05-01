@@ -3,7 +3,7 @@ import cors from "cors";
 
 import apiRouter from "./routes";
 import { port, uri } from "./controller/config";
-import { connect } from "./controller/database/mongoDB";
+import { connect } from "./controller/database/connection";
 
 connect(uri);
 const app = express();
