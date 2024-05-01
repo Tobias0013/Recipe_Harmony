@@ -8,7 +8,6 @@ import { useLocation } from "react-router-dom";
  * Represents the header component of the application.
  * @param {Object} prop - The props for the component.
  * @param {boolean} prop.loggedIn - Indicates whether the user is logged in.
- * @param {string} prop.location - The current location of the user.
  * @returns {JSX.Element} The header component.
  */
 export default function Header(prop: { loggedIn: boolean }) {

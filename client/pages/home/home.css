@@ -1,0 +1,90 @@
+/* Home banner */
+
+.home-banner{
+    margin: 2.5rem 0 0 0;
+    width: 100%;
+    height: fit-content;
+    background-color: #dee9e2;
+    display: flex;
+    max-height: 40rem;
+}
+
+.home-banner-container{
+    position: relative;
+    width: 110rem;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.home-banner-image{
+    border-radius: 16px;
+    max-height: 40rem;
+    object-fit: scale-down;
+    margin-left: 50%;
+}
+
+.home-banner-overlay{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    max-width: 44rem;
+}
+
+.home-banner-trending{
+    font-size: 2.4rem;
+    color: #509e2f;
+    text-decoration: underline;
+}
+
+.home-banner-title{
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.home-banner-author{
+    font-size: 2rem;
+}
+
+/* Home content */
+
+.home-content-title{
+    width: 70%;
+    margin: 6rem auto 0 auto;
+}
+
+.home-content-title > h1{
+    font-size: 3.6rem;
+    font-weight: 600;
+
+}
+
+.home-content-recipe-card{
+    text-align: center;
+    margin: 4rem auto 8rem auto;
+    position: relative;
+    width: 80%;
+}
+
+@media only screen and (orientation: portrait) {
+    /* Home banner */
+    
+    .home-banner{
+        background-color: white;
+    }
+    
+    .home-banner-image{
+        margin: 0 0 0 0;
+        opacity: 60%;
+        width: 100%;
+        filter: brightness(70%);
+    }
+    
+    .home-banner-overlay{
+        max-width: 100%;
+    }
+    
+    .home-banner-trending{
+        color: rgb(4, 64, 4);
+    }
+}
