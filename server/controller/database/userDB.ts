@@ -44,11 +44,11 @@ async function createUserSession(email: string, password: string){
         }
         const hashedPassword: string = res[0].password;
         const validPassword: boolean = await bcrypt.compare(password, hashedPassword);
-        return{error: null}
         if(!validPassword){
             //incorrect password
             return{error: 401}
         }
+        return{error: null}
 
     }catch(e){
         return{error: e}
