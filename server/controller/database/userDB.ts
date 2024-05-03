@@ -31,11 +31,9 @@ async function addUser(full_name: string, password: string, email: string){
 
 
 /*
-    Verify user credentials and return JWT token for further authorization
-    TODO:
-    Implement JWT Token
+    Verify user credentials using emal and password
 */
-async function createUserSession(email: string, password: string){
+async function verifyUserCredentials(email: string, password: string){
     try{
         const res = await User.find({email: email});
         if(res.length === 0){
@@ -58,6 +56,6 @@ async function createUserSession(email: string, password: string){
 export default {
     user: {
         add: addUser,
-        login: createUserSession
+        login: verifyUserCredentials
     }
 }
