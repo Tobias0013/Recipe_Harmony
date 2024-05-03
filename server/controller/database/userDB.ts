@@ -46,7 +46,7 @@ async function verifyUserCredentials(email: string, password: string){
             //incorrect password
             return{error: 401}
         }
-        return{error: null}
+        return{error: null, userId: res[0]._id, fullName: res[0].full_name, email: res[0].email}
 
     }catch(e){
         return{error: e}

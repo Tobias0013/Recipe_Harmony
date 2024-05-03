@@ -1,10 +1,10 @@
 import { sign, verify} from "jsonwebtoken";
 import "dotenv";
 
-function createAndSignJWT(userId: string, fullName: string, email: string){
+function createAndSignJWT(userId: any, fullName: any, email: any){
 
     interface IJwtPayload {
-        user_id: string,
+        user_id: any,
         full_name: string,
         email: string
     };

@@ -1,5 +1,6 @@
 import express, {Router, Request, Response} from "express";
 import userDB from "../controller/database/userDB";
+import jwt from "../controller/session/jwt";
 
 const sessionRouter: Router = express.Router();
 
@@ -12,7 +13,8 @@ sessionRouter.post("/", async(req: Request, res: Response) => {
             if(result.error === 401){
                 res.status(401).json({"Error" : "401 Incorrect email or password"})
             }else if (result.error === null){
-                res.status(200).json({"Message":"Logged in"});
+                const jwtToken = jwt.session.createJWT(result.userId, result.fullName, result.email);
+                res.status(200).json({"jwt":jwtToken});
             }else{
                 res.status(500).json({"Error" : "500 Internal Server Error"});
             }
