@@ -8,7 +8,7 @@ const sessionRouter: Router = express.Router();
 /*
     POST with body containing email and password
     Returns 401 if wrong email or password
-    Returns json with jwt field containg token if valid jwt token, or null if invalid jwt token
+    Returns json with jwt field containg the jwt token if valid email and password combo
 */
 sessionRouter.post("/", async(req: Request, res: Response) => {
     if(!req.body.password || !req.body.email){
