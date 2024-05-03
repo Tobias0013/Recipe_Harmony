@@ -21,8 +21,15 @@ function createAndSignJWT(userId: string, fullName: string, email: string){
     return jwtToken;
 }
 
-function verifyJWT(){
-
+function verifyJWT(token: string){
+    try{
+        const secret: any = process.env.SECRET;
+        const jwtPayload: any = verify(token, secret);
+        return jwtPayload;
+    }catch(e){
+        //JWT token not valid
+        return null;
+    }
 }
 
 export default {
