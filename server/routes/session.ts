@@ -4,6 +4,12 @@ import jwt from "../controller/session/jwt";
 
 const sessionRouter: Router = express.Router();
 
+
+/*
+    POST with body containing email and password
+    Returns 401 if wrong email or password
+    Returns json with jwt field containg token if valid jwt token, or null if invalid jwt token
+*/
 sessionRouter.post("/", async(req: Request, res: Response) => {
     if(!req.body.password || !req.body.email){
         res.status(400).json({"Error" : "400 Body Missing Required Data"});
