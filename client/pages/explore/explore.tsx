@@ -7,6 +7,10 @@ import Footer from "../../component/footer/footer";
 import RecipeCard from "../../component/recipe_card/recipeCard";
 import ExploreExample from "./exploreExample";
 
+/**
+ * The Explore component.
+ * @returns The Explore component.
+ */
 export default function Explore() {
     const [recipes, setRecipes] = useState<any>();
 
