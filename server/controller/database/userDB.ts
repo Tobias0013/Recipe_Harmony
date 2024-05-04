@@ -60,14 +60,14 @@ async function verifyUserCredentials(email: string, password: string){
 */
 async function getUserById(id: any){
     try{
-        const res = await User.findOne({_id: id});
-        if(res){
+        const res = await User.find({_id: id});
+        if(res.length === 1){
             return({
                 "error":null,
-                "fullName":res.full_name,
-                "email":res.email,
-                "joined":res.joined,
-                "favoriteRecipes":res.favorite_recipes
+                "fullName":res[0].full_name,
+                "email":res[0].email,
+                "joined":res[0].joined,
+                "favoriteRecipes":res[0].favorite_recipes
             })
         }else{
             return {error: 404};

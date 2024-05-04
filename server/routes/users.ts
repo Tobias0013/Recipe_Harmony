@@ -27,7 +27,7 @@ usersRouter.post("/", async(req: Request, res: Response) => {
     Protected using JWT
 */
 usersRouter.get("/:id", async (req: Request, res: Response) => {
-    const id: number = req.params.id;
+    const id: string = req.params.id;
     try{
         const result = await userDB.user.getUserData(id);
         if(result.error === null){
