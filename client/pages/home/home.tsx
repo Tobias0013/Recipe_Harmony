@@ -14,38 +14,32 @@ export default function Home() {
     const recipes = exampleData;
 
     return (
-        <>
-            <Header loggedIn={false} />
-
-            <main>
-                <section className="home-banner">
-                    <Banner
-                        image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
-                        title={"Classic Margherita Pizza"}
-                        firstName={"Humberto"}
-                        lastName={"Botsford"}
-                    />
-                </section>
-                <section>
-                    <div className="home-content-title">
-                        <h1>Recommended Recipes</h1>
-                    </div>
-                    <div className="home-content-recipe-card">
-                        {recipes.map((recipe) => (
-                            <RecipeCard
-                                key={recipe.id}
-                                title={recipe.name}
-                                cookTime={recipe.cookTimeMinutes}
-                                image={recipe.image}
-                                rating={recipe.rating}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </main>
-
-            <Footer />
-        </>
+        <main>
+            <section className="home-banner">
+                <Banner
+                    image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
+                    title={"Classic Margherita Pizza"}
+                    firstName={"Humberto"}
+                    lastName={"Botsford"}
+                />
+            </section>
+            <section>
+                <div className="home-content-title">
+                    <h1>Recommended Recipes</h1>
+                </div>
+                <div className="home-content-recipe-card">
+                    {recipes.map((recipe) => (
+                        <RecipeCard
+                            key={recipe.id}
+                            title={recipe.name}
+                            cookTime={recipe.cookTimeMinutes}
+                            image={recipe.image}
+                            rating={recipe.rating}
+                        />
+                    ))}
+                </div>
+            </section>
+        </main>
     );
 }
 

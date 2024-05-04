@@ -46,36 +46,32 @@ export default function Explore() {
 
     return (
         recipes && (
-            <>
-                <Header loggedIn={false} />
-                <main>
-                    <section className="explore-section">
-                        {queryParameters.size < 1 &&
-                            exploreSearch.map((s, index) => (
-                                <ExploreExample
-                                    key={index}
-                                    id={index}
-                                    text={s.text}
-                                    url={s.url}
-                                />
-                            ))}
-                    </section>
-                    <section>
-                        <div className="explore-section">
-                            {recipes.map((recipe) => (
-                                <RecipeCard
-                                    key={recipe.id}
-                                    title={recipe.name}
-                                    cookTime={recipe.cookTimeMinutes}
-                                    image={recipe.image}
-                                    rating={recipe.rating}
-                                />
-                            ))}
-                        </div>
-                    </section>
-                </main>
-                <Footer />
-            </>
+            <main>
+                <section className="explore-section">
+                    {queryParameters.size < 1 &&
+                        exploreSearch.map((s, index) => (
+                            <ExploreExample
+                                key={index}
+                                id={index}
+                                text={s.text}
+                                url={s.url}
+                            />
+                        ))}
+                </section>
+                <section>
+                    <div className="explore-section">
+                        {recipes.map((recipe) => (
+                            <RecipeCard
+                                key={recipe.id}
+                                title={recipe.name}
+                                cookTime={recipe.cookTimeMinutes}
+                                image={recipe.image}
+                                rating={recipe.rating}
+                            />
+                        ))}
+                    </div>
+                </section>
+            </main>
         )
     );
 }
