@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./explore.css";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import Header from "../../component/header/header";
 import Footer from "../../component/footer/footer";
 import RecipeCard from "../../component/recipe_card/recipeCard";
-import { text } from "express";
+import ExploreExample from "./exploreExample";
 
 export default function Explore() {
     const [recipes, setRecipes] = useState<any>();
@@ -52,7 +52,7 @@ export default function Explore() {
                     <section className="explore-section">
                         {queryParameters.size <= 0 &&
                             exploreSearch.map((s, index) => (
-                                <ExploreSearch
+                                <ExploreExample
                                     key={index}
                                     id={index}
                                     text={s.text}
@@ -77,20 +77,6 @@ export default function Explore() {
                 <Footer />
             </>
         )
-    );
-}
-
-function ExploreSearch(prop: { id: number; text: string; url: string }) {
-    const { id, text, url } = prop;
-
-    return (
-        <Link to={url}>
-            <div className={`explore-search s${id}`}>
-                <div>
-                    <p>{text}</p>
-                </div>
-            </div>
-        </Link>
     );
 }
 
