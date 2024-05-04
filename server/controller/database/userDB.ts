@@ -63,13 +63,14 @@ async function getUserById(id: any){
         const res = await User.findOne({_id: id});
         if(res){
             return({
+                "error":null,
                 "fullName":res.full_name,
                 "email":res.email,
                 "joined":res.joined,
                 "favoriteRecipes":res.favorite_recipes
             })
         }else{
-            return null;
+            return {error: 404};
         }
     }catch(e){
         return{error: e}

@@ -22,4 +22,24 @@ usersRouter.post("/", async(req: Request, res: Response) => {
     }
 })
 
+/*
+    Endpoint to get user data from id
+    Protected using JWT
+*/
+usersRouter.get("/:id", async (req: Request, res: Response) => {
+    const id: number = req.params.id;
+    try{
+        const result = await userDB.user.getUserData(id);
+        if(result.error === null){
+            res.status(200).json(result);
+        }else if(result.error === 404){
+            res.status(404).json({"Error" : "404 User Not Found"});
+        }else{
+            res.status(500).json({"Error" : "500 Internal Server Error"});
+        }
+    }catch(e){
+        res.status(500).json({"Error" : "500 Internal Server Error"});
+    }
+})
+
 export default usersRouter;
