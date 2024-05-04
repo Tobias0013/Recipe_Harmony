@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./header.css";
 
 import ListItem from "./listItem";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Represents the header component of the application.
@@ -44,10 +44,12 @@ export default function Header(prop: { loggedIn: boolean }) {
 
     return (
         <header>
-            <div className="header-logo">
-                <p className="header-recipe">RECIPE</p>
-                <p className="header-harmony">HARMONY</p>
-            </div>
+            <Link to={"/"}>
+                <div className="header-logo">
+                    <p className="header-recipe">RECIPE</p>
+                    <p className="header-harmony">HARMONY</p>
+                </div>
+            </Link>
 
             <div className="header-nav-icon" onClick={handleShowNavbar}>
                 <span className="material-icons">menu</span>
