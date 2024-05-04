@@ -4,8 +4,9 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./style.css";
 
 import Home from "./pages/home/home";
-import LoginDesign from "./pages/login/login"
-import SignUpDesign from "./pages/sign_up/sign_up"
+import Explore from "./pages/explore/explore";
+import LoginDesign from "./pages/login/login";
+import SignUpDesign from "./pages/sign_up/sign_up";
 
 const rootElem = document.getElementById("root");
 
@@ -18,6 +19,7 @@ export default function Index() {
         <BrowserRouter>
             <Routes>
                 <Route index element={<Home />} />
+                <Route path="/explore" element={<Explore />} />
                 <Route path="/login" element={<LoginDesign />} />
                 <Route path="/signup" element={<SignUpDesign />} />
             </Routes>

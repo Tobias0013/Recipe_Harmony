@@ -29,6 +29,7 @@
 .recipe-card-row {
     display: flex;
     flex-direction: row;
+    width: 30rem;
 }
 
 .recipe-card-row.two {
