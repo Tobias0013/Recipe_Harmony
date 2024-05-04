@@ -50,7 +50,7 @@ export default function Explore() {
                 <Header loggedIn={false} />
                 <main>
                     <section className="explore-section">
-                        {queryParameters.size <= 0 &&
+                        {queryParameters.size < 1 &&
                             exploreSearch.map((s, index) => (
                                 <ExploreExample
                                     key={index}
