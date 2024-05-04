@@ -53,6 +53,14 @@ async function verifyUserCredentials(email: string, password: string){
     }
 }
 
+async function getUserById(id: any){
+    try{
+        const res = await User.findOne({_id: id});
+    }catch(err){
+        
+    }
+}
+
 export default {
     user: {
         add: addUser,
