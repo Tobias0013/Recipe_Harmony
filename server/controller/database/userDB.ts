@@ -53,9 +53,34 @@ async function verifyUserCredentials(email: string, password: string){
     }
 }
 
+/*
+    Get user information from user id. Designed to be used on pages were JWT is valid
+    Provide user id found in JWT token
+    Returns null if no user with provided id is found
+*/
+async function getUserById(id: any){
+    try{
+        const res = await User.find({_id: id});
+        if(res.length === 1){
+            return({
+                "error":null,
+                "fullName":res[0].full_name,
+                "email":res[0].email,
+                "joined":res[0].joined,
+                "favoriteRecipes":res[0].favorite_recipes
+            })
+        }else{
+            return {error: 404};
+        }
+    }catch(e){
+        return{error: e}
+    }
+}
+
 export default {
     user: {
         add: addUser,
-        login: verifyUserCredentials
+        login: verifyUserCredentials,
+        getUserData: getUserById
     }
 }
