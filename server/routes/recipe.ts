@@ -1,7 +1,10 @@
 import express, { Router, Request, Response } from "express";
-import RecipeModel from "../mongoose/recipe";
+import { isValidObjectId } from "mongoose";
 
-const RecipeRouter: Router = express.Router();
+import RecipeModel from "../mongoose/recipe";
+import recipeDB from '../controller/database/recipeDB';
+
+const RecipeRouter: Router = Router();
 
 RecipeRouter.get('/', async (req: Request, res: Response) => {
     try {
@@ -21,6 +24,26 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
       console.error('Error fetching recipes:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
+  });
+
+  RecipeRouter.get("/:id", async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    if (!isValidObjectId(id)) {
+      res.status(400).json({Error: "400 parm not valid id"})
+      return;
+    }
+    const { error, recipe } = await recipeDB.getById(id);
+
+    if (error === -1) {
+      res.status(400).json({Error: "400 user does not exist"});
+      return;
+    }
+    else if (error) {
+      res.status(500).json({Error: "500 internal server error"});
+      return;
+    }
+    res.json(recipe);
   });
 
 RecipeRouter.delete('/recipes/:id', async (req: Request, res: Response) => {
