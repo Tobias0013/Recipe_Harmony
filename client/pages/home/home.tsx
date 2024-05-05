@@ -1,9 +1,10 @@
 import React from "react";
+import "./home.css";
 
 import Header from "../../component/header/header";
-import "./home.css";
 import Banner from "./banner";
 import RecipeCard from "../../component/recipe_card/recipeCard";
+import Footer from "../../component/footer/footer";
 
 /**
  * Renders the Home component.
@@ -13,36 +14,32 @@ export default function Home() {
     const recipes = exampleData;
 
     return (
-        <>
-            <Header loggedIn={false} />
-
-            <main>
-                <section className="home-banner">
-                    <Banner
-                        image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
-                        title={"Classic Margherita Pizza"}
-                        firstName={"Humberto"}
-                        lastName={"Botsford"}
-                    />
-                </section>
-                <section>
-                    <div className="home-content-title">
-                        <h1>Recommended Recipes</h1>
-                    </div>
-                    <div className="home-content-recipe-card">
-                        {recipes.map((recipe) => (
-                            <RecipeCard
-                                key={recipe.id}
-                                title={recipe.name}
-                                cookTime={recipe.cookTimeMinutes}
-                                image={recipe.image}
-                                rating={recipe.rating}
-                            />
-                        ))}
-                    </div>
-                </section>
-            </main>
-        </>
+        <main>
+            <section className="home-banner">
+                <Banner
+                    image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
+                    title={"Classic Margherita Pizza"}
+                    firstName={"Humberto"}
+                    lastName={"Botsford"}
+                />
+            </section>
+            <section>
+                <div className="home-content-title">
+                    <h1>Recommended Recipes</h1>
+                </div>
+                <div className="home-content-recipe-card">
+                    {recipes.map((recipe) => (
+                        <RecipeCard
+                            key={recipe.id}
+                            title={recipe.name}
+                            cookTime={recipe.cookTimeMinutes}
+                            image={recipe.image}
+                            rating={recipe.rating}
+                        />
+                    ))}
+                </div>
+            </section>
+        </main>
     );
 }
 
