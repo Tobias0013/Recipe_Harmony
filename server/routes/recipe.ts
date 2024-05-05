@@ -3,7 +3,7 @@ import RecipeModel from "../mongoose/recipe";
 
 const RecipeRouter: Router = express.Router();
 
-RecipeRouter.get('/recipes', async (req: Request, res: Response) => {
+RecipeRouter.get('/', async (req: Request, res: Response) => {
   try {
     const recipes = await RecipeModel.find();
 
