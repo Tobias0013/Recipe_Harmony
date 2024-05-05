@@ -29,8 +29,58 @@ async function addUser(full_name: string, password: string, email: string){
     }
 }
 
+
+/*
+    Verify user credentials using emal and password
+*/
+async function verifyUserCredentials(email: string, password: string){
+    try{
+        const res = await User.find({email: email});
+        if(res.length === 0){
+            //no user with that email
+            return{error: 401}
+        }
+        const hashedPassword: string = res[0].password;
+        const validPassword: boolean = await bcrypt.compare(password, hashedPassword);
+        if(!validPassword){
+            //incorrect password
+            return{error: 401}
+        }
+        return{error: null, userId: res[0]._id, fullName: res[0].full_name, email: res[0].email}
+
+    }catch(e){
+        return{error: e}
+    }
+}
+
+/*
+    Get user information from user id. Designed to be used on pages were JWT is valid
+    Provide user id found in JWT token
+    Returns null if no user with provided id is found
+*/
+async function getUserById(id: any){
+    try{
+        const res = await User.find({_id: id});
+        if(res.length === 1){
+            return({
+                "error":null,
+                "fullName":res[0].full_name,
+                "email":res[0].email,
+                "joined":res[0].joined,
+                "favoriteRecipes":res[0].favorite_recipes
+            })
+        }else{
+            return {error: 404};
+        }
+    }catch(e){
+        return{error: e}
+    }
+}
+
 export default {
     user: {
-        add: addUser
+        add: addUser,
+        login: verifyUserCredentials,
+        getUserData: getUserById
     }
 }
