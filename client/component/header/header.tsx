@@ -92,7 +92,7 @@ function getLocation(location) {
         location = "Add Recipe";
     } else if (location.includes("/about")) {
         location = "About";
-    } else if (location.includes("/login") || location.includes("/register")) {
+    } else if (location.includes("/login") || location.includes("/signup")) {
         location = "Login/Register";
     } else if (location.includes("/household")) {
         location = "Household";

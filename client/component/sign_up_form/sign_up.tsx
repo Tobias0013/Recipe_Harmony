@@ -8,6 +8,7 @@ const sign_up_form: React.FC = () => {
                 <input type="text" placeholder="Full Name" className="input-field" />
                 <input type="text" placeholder="Email" className="input-field" />
                 <input type="password" placeholder="Password" className="input-field" />
+                <input type="retype_password" placeholder="Re-enter password" className="input-field" />
                 <button type="submit" className="submit-button">Sign Up</button>
             </form>
             <p>Already have an account? <a href="/login">Login here</a></p>
