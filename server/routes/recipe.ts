@@ -4,15 +4,25 @@ import RecipeModel from "../mongoose/recipe";
 const RecipeRouter: Router = express.Router();
 
 RecipeRouter.get('/', async (req: Request, res: Response) => {
-  try {
-    const recipes = await RecipeModel.find();
-
-    res.json(recipes);
-  } catch (error) {
-    console.error('Error fetching recipes:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    try {
+      const { limit, skip, tag, name, cookTimeLess } = req.query;
+  
+      const query: any = {};
+      if (tag) query.tags = { $in: Array.isArray(tag) ? tag : [tag] };
+      if (name) query.name = { $regex: new RegExp(name, 'i') };
+      if (cookTimeLess) query.cook_time = { $lte: parseInt(cookTimeLess as string) };
+  
+      const recipes = await RecipeModel.find(query)
+        .select('_id name tags cook_time rating review_count image')
+        .limit(limit ? parseInt(limit as string) : 10)
+        .skip(skip ? parseInt(skip as string) : 0);
+  
+      res.json(recipes);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 RecipeRouter.delete('/recipes/:id', async (req: Request, res: Response) => {
     try {
