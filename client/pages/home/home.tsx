@@ -17,6 +17,7 @@ export default function Home() {
         const { error, recipes } = await recipeAPI.get({ limit: 8 });
         if (error) {
             alert("Error: 500 server error");
+            return;
         }
         setRecipes(recipes);
 
