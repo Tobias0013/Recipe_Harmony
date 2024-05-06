@@ -25,25 +25,15 @@ async function get(query: Query): Promise<any> {
         fetchURL += `?${queryParms.join("&")}`;
     }
 
-    console.log(queryParms);
-    console.log(fetchURL);
-
     try {
         const res = await fetch(fetchURL);
         const data = await res.json();
-        console.log(data);
-        
+        return {error: null, recipes: data};        
     }
     catch (e) {
-        throw e
+        return {error: e, recipes: null}
     }
 }
-
-get({
-    limit: 8,
-    skip: 1
-})
-
 
 export default {
     get
