@@ -41,7 +41,12 @@ export default function Explore() {
     ];
 
     const fetchRecipes = async () => {
-        setRecipes(await exampleData());
+        //get querry parms
+        queryParameters.get("")
+
+        // what to do if name is there? chose seperate fetch?
+
+        setRecipes(/*  */);
     };
 
     useEffect(() => {
@@ -79,17 +84,3 @@ export default function Explore() {
         )
     );
 }
-
-//TODO will remove once able to fetch data
-const exampleData = async () => {
-    try {
-        const res = await fetch(
-            "https://dummyjson.com/recipe?limit=16&select=id,name,image,cookTimeMinutes,rating"
-        );
-        const data = await res.json();
-        return data.recipes;
-    } catch (e) {
-        console.log(e);
-        return null;
-    }
-};
