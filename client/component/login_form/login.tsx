@@ -16,8 +16,9 @@ const LoginForm: React.FC = () => {
             const response: Response = await fetchUsers.user.login(email, password);
 
             if(response.status === 200){
-                //store JWT token
-                console.log(response.json());
+                const data = await response.json();
+                const jwtToken = data.jwt;
+                sessionStorage.setItem("jwt", jwtToken)
             }else if(response.status === 400){
                 setError("All fields must be filled in");
             }else if(response.status === 401){
