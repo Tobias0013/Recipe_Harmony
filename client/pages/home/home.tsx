@@ -20,6 +20,8 @@ export default function Home() {
         }
         setRecipes(recipes);
 
+        const rndNmr = Math.floor(Math.random() * recipes.length);
+        setRecipeToday(recipes[rndNmr]);
     };
 
     useEffect(() => {
@@ -35,8 +37,6 @@ export default function Home() {
                     <Banner
                         image={recipeToday.image.url}
                         title={recipeToday.name}
-                        firstName={recipeToday}
-                        lastName={"Botsford"}
                     />
                 </section>
                 <section>
