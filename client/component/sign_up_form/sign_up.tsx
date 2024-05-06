@@ -1,11 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./sign_up.css"; 
 import { useNavigate } from "react-router-dom";
 const sign_up_form: React.FC = () => {
     const [fullName, setFullName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
     const nav = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +40,16 @@ const sign_up_form: React.FC = () => {
         }
     }
 
+    useEffect(() => {
+        if(confirmPassword !== password){
+            setError("Passwords not matching");
+            setIsSubmitDisabled(true);
+        }else{
+            setError("");
+            setIsSubmitDisabled(false);
+        }
+    }, [confirmPassword, password])
+
     return (
         <div className="signup-form">
             <p className="error-msg">{error}</p>
@@ -45,7 +57,8 @@ const sign_up_form: React.FC = () => {
                 <input type="text" placeholder="Full Name" className="input-field" onChange={(e) => setFullName(e.target.value)}/>
                 <input type="text" placeholder="Email" className="input-field" onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}/>
-                <button type="submit" className="submit-button">Sign Up</button>
+                <input type="password" placeholder="Re-enter password" className="input-field" onChange={(e) => setConfirmPassword(e.target.value)}/>
+                <button type="submit" className="submit-button" disabled={isSubmitDisabled}>Sign Up</button>
             </form>
             <p className="login-msg">Already have an account? <a href="/login">Login here</a></p>
         </div>
