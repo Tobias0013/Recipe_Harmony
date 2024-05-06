@@ -35,6 +35,21 @@ async function get(query: Query): Promise<any> {
     }
 }
 
+async function getByName(name:string){
+    let fetchURL = url;
+    fetchURL += `/api/recipes?name=${name}`;
+
+    try {
+        const res = await fetch(fetchURL);
+        const data = await res.json();
+        return {error: null, recipes: data};        
+    }
+    catch (e) {
+        return {error: e, recipes: null}
+    }
+}
+
 export default {
-    get
+    get,
+    getByName
 }
