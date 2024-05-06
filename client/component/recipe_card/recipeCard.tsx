@@ -7,6 +7,7 @@ import "./recipeCard.css";
  * @param prop - The props for the recipe card component.
  * @param prop.title - The title of the recipe.
  * @param prop.cookTime - The cooking time of the recipe in minutes.
+ * @param prop.prepTime - The preparation time of the recipe in minutes.
  * @param prop.image - The URL of the recipe image.
  * @param prop.rating - The rating of the recipe.
  * @returns The recipe card component.
@@ -14,10 +15,11 @@ import "./recipeCard.css";
 export default function RecipeCard(prop: {
     title: string;
     cookTime: number;
+    prepTime: number;
     image: string;
     rating: number;
 }) {
-    const { title, cookTime, image, rating } = prop;
+    const { title, cookTime, prepTime, image, rating } = prop;
     return (
         <div className="recipe-card">
             <div
@@ -41,7 +43,7 @@ export default function RecipeCard(prop: {
                     </div>
                 </div>
                 <div className="recipe-card-row two">
-                    <p className="recipe-card-cook-time">{`${cookTime} min`}</p>
+                    <p className="recipe-card-cook-time">{`${cookTime + prepTime} min`}</p>
                 </div>
             </div>
         </div>
