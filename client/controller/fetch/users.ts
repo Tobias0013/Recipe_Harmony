@@ -21,8 +21,29 @@ async function signup(fullName: string, password: string, email: string): Promis
     }
 }
 
+async function login(email: string, password: string): Promise<Response> {
+    try{
+        const response = await fetch(`${url}/api/session`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        return response;
+    }catch(err){
+        console.log(err);
+        throw err;
+    }
+}
+
 export default {
     user: {
-        signup: signup
+        signup: signup,
+        login: login
     }
 }
