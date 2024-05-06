@@ -28,8 +28,6 @@ export default function Home() {
         fetchRecipes();
     }, []);
 
-    console.log("DEBUG", recipes);
-
     return (
         recipes && (
             <main>
