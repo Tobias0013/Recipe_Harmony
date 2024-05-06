@@ -1,104 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 
-import Header from "../../component/header/header";
 import Banner from "./banner";
 import RecipeCard from "../../component/recipe_card/recipeCard";
-import Footer from "../../component/footer/footer";
+import recipeAPI from "../../controller/fetch/recipes";
 
 /**
  * Renders the Home component.
  * @returns The rendered Home component.
  */
 export default function Home() {
-    const recipes = exampleData;
+    const [recipes, setRecipes] = useState<any>();
+    const [recipeToday, setRecipeToday] = useState<any>();
+
+    const fetchRecipes = async () => {
+        const { error, recipes } = await recipeAPI.get({ limit: 8 });
+        if (error) {
+            alert("Error: 500 server error");
+        }
+        setRecipes(recipes);
+
+        const rndNmr = Math.floor(Math.random() * recipes.length);
+        setRecipeToday(recipes[rndNmr]);
+    };
+
+    useEffect(() => {
+        fetchRecipes();
+    }, []);
 
     return (
-        <main>
-            <section className="home-banner">
-                <Banner
-                    image={"https://cdn.dummyjson.com/recipe-images/1.webp"}
-                    title={"Classic Margherita Pizza"}
-                    firstName={"Humberto"}
-                    lastName={"Botsford"}
-                />
-            </section>
-            <section>
-                <div className="home-content-title">
-                    <h1>Recommended Recipes</h1>
-                </div>
-                <div className="home-content-recipe-card">
-                    {recipes.map((recipe) => (
-                        <RecipeCard
-                            key={recipe.id}
-                            title={recipe.name}
-                            cookTime={recipe.cookTimeMinutes}
-                            image={recipe.image}
-                            rating={recipe.rating}
-                        />
-                    ))}
-                </div>
-            </section>
-        </main>
+        recipes && (
+            <main>
+                <section className="home-banner">
+                    <Banner
+                        image={recipeToday.image.url}
+                        title={recipeToday.name}
+                    />
+                </section>
+                <section>
+                    <div className="home-content-title">
+                        <h1>Recommended Recipes</h1>
+                    </div>
+                    <div className="home-content-recipe-card">
+                        {recipes.map((recipe) => (
+                            <RecipeCard
+                                key={recipe.id}
+                                title={recipe.name}
+                                cookTime={recipe.cook_time}
+                                image={recipe.image.url}
+                                rating={recipe.rating}
+                            />
+                        ))}
+                    </div>
+                </section>
+            </main>
+        )
     );
 }
-
-//TODO will remove once able to fetch data
-const exampleData = [
-    {
-        id: 1,
-        name: "Classic Margherita Pizza",
-        image: "https://cdn.dummyjson.com/recipe-images/1.webp",
-        cookTimeMinutes: 15,
-        rating: 4.6,
-    },
-    {
-        id: 2,
-        name: "Vegetarian Stir-Fry",
-        image: "https://cdn.dummyjson.com/recipe-images/2.webp",
-        cookTimeMinutes: 20,
-        rating: 4.7,
-    },
-    {
-        id: 3,
-        name: "Chocolate Chip Cookies",
-        image: "https://cdn.dummyjson.com/recipe-images/3.webp",
-        cookTimeMinutes: 10,
-        rating: 4.9,
-    },
-    {
-        id: 4,
-        name: "Chicken Alfredo Pasta",
-        image: "https://cdn.dummyjson.com/recipe-images/4.webp",
-        cookTimeMinutes: 20,
-        rating: 4.9,
-    },
-    {
-        id: 5,
-        name: "Mango Salsa Chicken",
-        image: "https://cdn.dummyjson.com/recipe-images/5.webp",
-        cookTimeMinutes: 25,
-        rating: 4.9,
-    },
-    {
-        id: 6,
-        name: "Quinoa Salad with Avocado",
-        image: "https://cdn.dummyjson.com/recipe-images/6.webp",
-        cookTimeMinutes: 15,
-        rating: 4.4,
-    },
-    {
-        id: 7,
-        name: "Tomato Basil Bruschetta",
-        image: "https://cdn.dummyjson.com/recipe-images/7.webp",
-        cookTimeMinutes: 10,
-        rating: 4.7,
-    },
-    {
-        id: 8,
-        name: "Beef and Broccoli Stir-Fry",
-        image: "https://cdn.dummyjson.com/recipe-images/8.webp",
-        cookTimeMinutes: 15,
-        rating: 4.7,
-    },
-];
