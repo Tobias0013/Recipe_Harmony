@@ -15,7 +15,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
         if (cookTimeLess) query.cook_time = { $lte: parseInt(cookTimeLess as string) };
         
         const recipes = await RecipeModel.find(query)
-            .select('_id name tags cook_time rating review_count image')
+            .select('_id name tags cook_time prep_time rating review_count image')
             .limit(limit ? parseInt(limit as string) : 10)
             .skip(skip ? parseInt(skip as string) : 0);
         
