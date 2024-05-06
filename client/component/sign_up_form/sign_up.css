@@ -33,3 +33,14 @@
 .submit-button:hover {
     background-color: #0056b3; 
 }
+
+.error-msg{
+    color: red;
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+.login-msg{
+    margin-top: 1rem;
+    font-size: 1.6rem;
+}
