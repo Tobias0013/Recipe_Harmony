@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import "./sign_up.css"; 
 import { useNavigate } from "react-router-dom";
+import fetchUsers from "../../controller/fetch/users";
+
 const sign_up_form: React.FC = () => {
     const [fullName, setFullName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -13,17 +15,8 @@ const sign_up_form: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try{
-            const response = await fetch("http://localhost:3000/api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify({
-                    full_name: fullName,
-                    password: password,
-                    email: email
-                })
-            });
+            
+            const response: Response = await fetchUsers.user.signup(fullName, password, email);
 
             if(response.status === 201){
                 nav("/login");
@@ -32,11 +25,12 @@ const sign_up_form: React.FC = () => {
             }else if(response.status === 409){
                 setError("Email already in use");
             }else{
-                setError("Internal Server Error")
+                setError("Internal Server Error");
             }
         
         }catch(err){
             console.log(err);
+            setError("Internal Server Error");
         }
     }
 
