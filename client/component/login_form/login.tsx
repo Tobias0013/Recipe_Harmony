@@ -19,6 +19,7 @@ const LoginForm: React.FC = () => {
                 const data = await response.json();
                 const jwtToken = data.jwt;
                 sessionStorage.setItem("jwt", jwtToken)
+                nav("/")
             }else if(response.status === 400){
                 setError("All fields must be filled in");
             }else if(response.status === 401){
