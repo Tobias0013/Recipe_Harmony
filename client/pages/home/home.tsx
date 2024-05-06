@@ -48,6 +48,7 @@ export default function Home() {
                                 key={recipe.id}
                                 title={recipe.name}
                                 cookTime={recipe.cook_time}
+                                prepTime={recipe.prep_time}
                                 image={recipe.image.url}
                                 rating={recipe.rating}
                             />
