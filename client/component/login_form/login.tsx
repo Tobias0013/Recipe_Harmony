@@ -7,7 +7,7 @@ const LoginForm: React.FC = () => {
             <form>
                 <input type="text" placeholder="Email" className="input-field" />
                 <input type="password" placeholder="Password" className="input-field" />
-                <button type="submit" className="submit-button">Login here</button>
+                <button type="submit" className="submit-button">Login</button>
             </form>
             <p>Don't have an account? <a href="/signup">Sign up here</a></p>
         </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./header.css";
 
 import ListItem from "./listItem";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Represents the header component of the application.
@@ -12,12 +12,23 @@ import { useLocation } from "react-router-dom";
  */
 export default function Header(prop: { loggedIn: boolean }) {
     const { loggedIn } = prop;
+    const navigate = useNavigate();
     const location = getLocation(useLocation().pathname.toLocaleLowerCase());
 
     const [navbarShow, setNavbarShow] = useState(false);
-
     const handleShowNavbar = () => {
         setNavbarShow(!navbarShow);
+    };
+
+    const [query, setQuery] = useState("");
+
+    const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
+    };
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        navigate(`/explore?name=${query}`);
     };
 
     let navBarItems: { text: string; link: string }[] = [
@@ -33,18 +44,26 @@ export default function Header(prop: { loggedIn: boolean }) {
 
     return (
         <header>
-            <div className="header-logo">
-                <p className="header-recipe">RECIPE</p>
-                <p className="header-harmony">HARMONY</p>
-            </div>
+            <Link to={"/"}>
+                <div className="header-logo">
+                    <p className="header-recipe">RECIPE</p>
+                    <p className="header-harmony">HARMONY</p>
+                </div>
+            </Link>
 
             <div className="header-nav-icon" onClick={handleShowNavbar}>
                 <span className="material-icons">menu</span>
             </div>
 
             <div className="header-input-box">
-                <i className="material-icons">search</i>
-                <input type="text" placeholder="Search here..." />
+                <form onSubmit={(e) => handleSearch(e)}>
+                    <i className="material-icons">search</i>
+                    <input
+                        type="text"
+                        placeholder="Search here..."
+                        onChange={handleQuery}
+                    />
+                </form>
             </div>
 
             <div className={navbarShow ? "header-nav open" : "header-nav"}>
@@ -73,7 +92,7 @@ function getLocation(location) {
         location = "Add Recipe";
     } else if (location.includes("/about")) {
         location = "About";
-    } else if (location.includes("/login") || location.includes("/register")) {
+    } else if (location.includes("/login") || location.includes("/signup")) {
         location = "Login/Register";
     } else if (location.includes("/household")) {
         location = "Household";

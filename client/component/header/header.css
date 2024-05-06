@@ -57,6 +57,10 @@ header{
     transform: translateY(-50%);
 }
 
+.header-input-box > form {
+    height: 100%;
+}
+
 .header-input-box i {
     left: 1rem;
     font-size: 3rem;
@@ -65,12 +69,12 @@ header{
 
 .header-input-box input {
     height: 100%;
-    width: 100%;
+    width: 90%;
     outline: none;
     font-size: 1.8rem;
     font-weight: 400;
     border: none;
-    padding: 0 15.5rem 0 5rem;
+    padding: 0 1rem 0 5rem;
     background-color: transparent;
 }
 
