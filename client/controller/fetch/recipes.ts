@@ -3,22 +3,27 @@ import url from "../config"
 type Query = {
     limit?: number;
     skip?: number;
-    tag?: string[];
+    tags?: string[];
     cookTimeLess?: number;
 }
 
 async function get(query: Query): Promise<any> {
-    const { limit, skip, tag, cookTimeLess } = query;
+    const { limit, skip, tags, cookTimeLess } = query;
+    console.log(url);
+    
     let fetchURL = url;
     fetchURL += "/api/recipes";
     
     const queryParms: string[] = [];
 
     limit && queryParms.push(`limit=${limit}`);
+
     skip && queryParms.push(`skip=${skip}`);
+    
     cookTimeLess && queryParms.push(`cookTimeLess=${cookTimeLess}`);
-    if (tag) {
-        tag.length > 1 ? queryParms.push(tag.join(",")) : queryParms.push(tag[0])
+    
+    if (tags) {
+        tags.length > 1 ? queryParms.push(`tag=${tags.join(",")}`) : queryParms.push(`tag=${tags[0]}`)
     }
 
     if (queryParms.length > 0) {
