@@ -1,0 +1,17 @@
+.access-denied-wrapper{
+    height: 65dvh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.access-denied-text{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.access-denied-text:nth-child(1){
+    color: red;
+    font-size: 3rem;
+}
