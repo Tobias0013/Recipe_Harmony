@@ -1,1 +1,0 @@
-export const productInfo: string = "Recipe Harmony isn't just any recipe app—it's about bringing together the joy of cooking with ease and convenience. Designed with you in mind, it's packed with features to help you cook confidently and get creative in the kitchen. Let's embark on this journey together to change how we cook and eat, one recipe at a time.";
