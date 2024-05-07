@@ -1,4 +1,4 @@
-import HouseholdModel from '../../mongoose/household';
+import HouseholdModel from '../../mongoose/households';
 
 async function addHousehold(name: string, members: number) {
     try {

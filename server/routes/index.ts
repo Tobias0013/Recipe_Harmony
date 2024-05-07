@@ -3,7 +3,7 @@ import { Router } from "express";
 import usersRouter from './users';
 import RecipeRouter from './recipe';
 import sessionRouter from "./session";
-import HouseholdRouter from './household';
+import HouseholdRouter from './households';
 
 
 
@@ -14,6 +14,6 @@ router.use("/users", usersRouter);
 router.use("/recipes", RecipeRouter);
 router.use("/session", sessionRouter);
 
-router.use("/household", HouseholdRouter);
+router.use("/households", HouseholdRouter);
 
 export default router;
