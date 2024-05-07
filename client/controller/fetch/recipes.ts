@@ -1,35 +1,31 @@
 import url from "../config"
 
 type Query = {
-    limit?: number;
-    skip?: number;
     tags?: string[];
     cookTimeLess?: number;
+    limit: number;
+    skip: number;
 }
 
 async function get(query: Query): Promise<any> {
     const { limit, skip, tags, cookTimeLess } = query;
-    console.log(url);
     
     let fetchURL = url;
     fetchURL += "/api/recipes";
     
-    const queryParms: string[] = [];
+    const queryParams: string[] = [];
 
-    limit && queryParms.push(`limit=${limit}`);
-
-    skip && queryParms.push(`skip=${skip}`);
+    queryParams.push(`limit=${limit}`);
+    queryParams.push(`skip=${skip}`);
     
-    cookTimeLess && queryParms.push(`cookTimeLess=${cookTimeLess}`);
+    cookTimeLess && queryParams.push(`cookTimeLess=${cookTimeLess}`);
     
-    if (tags) {
-        tags.length > 1 ? queryParms.push(`tag=${tags.join(",")}`) : queryParms.push(`tag=${tags[0]}`)
+    if (tags && tags.length > 0) {
+        tags.length > 1 ? queryParams.push(`tag=${tags.join(",")}`) : queryParams.push(`tag=${tags[0]}`)
+        console.log("DEBUG ", "test");
     }
 
-    if (queryParms.length > 0) {
-        fetchURL += `?${queryParms.join("&")}`;
-    }
-
+    fetchURL += `?${queryParams.join("&")}`;
     try {
         const res = await fetch(fetchURL);
         const data = await res.json();
@@ -40,9 +36,9 @@ async function get(query: Query): Promise<any> {
     }
 }
 
-async function getByName(name:string){
+async function getByName(name:string, limit: number, skip: number){
     let fetchURL = url;
-    fetchURL += `/api/recipes?name=${name}`;
+    fetchURL += `/api/recipes?name=${name}&limit=${limit}&skip=${skip}`;
 
     try {
         const res = await fetch(fetchURL);

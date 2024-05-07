@@ -11,69 +11,47 @@ import recipeAPI from "../../controller/fetch/recipes";
  * @returns The Explore component.
  */
 export default function Explore() {
-    const [recipes, setRecipes] = useState<any>();
-
     const [queryParameters] = useSearchParams();
 
-    const exploreSearch = [
-        //TODO redo based on recipes
-        {
-            text: "Less than 10 min",
-            url: "http://localhost:8080/explore?cookTimeLess=10",
-        },
-        {
-            text: "Less than 20 min",
-            url: "http://localhost:8080/explore?cookTimeLess=20",
-        },
-        {
-            text: "Less than 30 min",
-            url: "http://localhost:8080/explore?cookTimeLess=30",
-        },
-        {
-            text: "Pasta",
-            url: "http://localhost:8080/explore?tag=Pasta",
-        },
-        {
-            text: "Chicken",
-            url: "http://localhost:8080/explore?tag=Rice",
-        },
-    ];
+    const [recipes, setRecipes] = useState<any>([]);
+    //used for infinite scrolling
+    const [items, setItems] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [index, setIndex] = useState(2);
 
-    const fetchRecipes = async () => {
-        // if query contains name
+    const exploreExamples = getExploreExamples();
+
+    const fetchRecipes = async (skip: number) => { // Fetch init data
         const name = queryParameters.get("name");
-
         if (name) {
-            const { error, recipes } = await recipeAPI.getByName(name);
+            const { error, recipes } = await recipeAPI.getByName(name, 8, skip);
             if (error) {
                 alert("Error: 500 server error");
                 return;
             }
-            setRecipes(recipes);
+            setRecipes((prevItems) => [...prevItems, ...recipes]);
             return;
         }
 
-        const limit = queryParameters.get("limit");
-        const skip = queryParameters.get("skip");
         const cookTimeLess = queryParameters.get("cookTimeLess");
         const tags = queryParameters.getAll("tag");
 
         const { error, recipes } = await recipeAPI.get({
-            limit: limit ? parseInt(limit) : undefined,
-            skip: skip ? parseInt(skip) : undefined,
             cookTimeLess: cookTimeLess ? parseInt(cookTimeLess) : undefined,
             tags: tags ? tags : undefined,
+            limit: 8,
+            skip: skip
         });
 
         if (error) {
             alert("Error: 500 server error");
             return;
         }
-        setRecipes(recipes);
+        setRecipes((prevItems) => [...prevItems, ...recipes]);
     };
 
     useEffect(() => {
-        fetchRecipes();
+        fetchRecipes(0);
     }, [queryParameters]);
 
     return (
@@ -81,7 +59,7 @@ export default function Explore() {
             <main>
                 <section className="explore-section">
                     {queryParameters.size < 1 &&
-                        exploreSearch.map((s, index) => (
+                        exploreExamples.map((s, index) => (
                             <ExploreExample
                                 key={index}
                                 id={index}
@@ -108,3 +86,29 @@ export default function Explore() {
         )
     );
 }
+
+const getExploreExamples = (): { text: string; url: string }[] => {
+    return [
+        //TODO redo based on recipes in DB
+        {
+            text: "Less than 10 min",
+            url: "http://localhost:8080/explore?cookTimeLess=10",
+        },
+        {
+            text: "Less than 20 min",
+            url: "http://localhost:8080/explore?cookTimeLess=20",
+        },
+        {
+            text: "Less than 30 min",
+            url: "http://localhost:8080/explore?cookTimeLess=30",
+        },
+        {
+            text: "Pasta",
+            url: "http://localhost:8080/explore?tag=Pasta",
+        },
+        {
+            text: "Chicken",
+            url: "http://localhost:8080/explore?tag=Chicken",
+        },
+    ];
+};
