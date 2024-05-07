@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./explore.css";
 import { useSearchParams } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
+import "./explore.css";
 import RecipeCard from "../../component/recipe_card/recipeCard";
 import ExploreExample from "./exploreExample";
 import recipeAPI from "../../controller/fetch/recipes";
@@ -13,15 +14,21 @@ import recipeAPI from "../../controller/fetch/recipes";
 export default function Explore() {
     const [queryParameters] = useSearchParams();
 
-    const [recipes, setRecipes] = useState<any>([]);
+    const [recipes, setRecipes] = useState<any[]>([]);
     //used for infinite scrolling
-    const [items, setItems] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-    const [index, setIndex] = useState(2);
+    const [skip, setSkip] = useState(0);
 
     const exploreExamples = getExploreExamples();
 
-    const fetchRecipes = async (skip: number) => { // Fetch init data
+    const updateSkip = () => {
+        setSkip((prevSkip) => prevSkip + 8);
+    };
+
+    const fetchRecipes = async () => {
+        console.log("DEBUG e", skip);
+
+        // Fetch init data
         const name = queryParameters.get("name");
         if (name) {
             const { error, recipes } = await recipeAPI.getByName(name, 8, skip);
@@ -30,6 +37,7 @@ export default function Explore() {
                 return;
             }
             setRecipes((prevItems) => [...prevItems, ...recipes]);
+            updateSkip();
             return;
         }
 
@@ -40,7 +48,7 @@ export default function Explore() {
             cookTimeLess: cookTimeLess ? parseInt(cookTimeLess) : undefined,
             tags: tags ? tags : undefined,
             limit: 8,
-            skip: skip
+            skip: skip,
         });
 
         if (error) {
@@ -48,10 +56,14 @@ export default function Explore() {
             return;
         }
         setRecipes((prevItems) => [...prevItems, ...recipes]);
+        updateSkip();
     };
 
     useEffect(() => {
-        fetchRecipes(0);
+        setHasMore(true);
+        setSkip(0);
+        setRecipes([]);
+        fetchRecipes();
     }, [queryParameters]);
 
     return (
@@ -68,20 +80,27 @@ export default function Explore() {
                             />
                         ))}
                 </section>
-                <section>
-                    <div className="explore-section">
-                        {recipes.map((recipe) => (
-                            <RecipeCard
-                                key={recipe._id}
-                                title={recipe.name}
-                                cookTime={recipe.cook_time}
-                                prepTime={recipe.prep_time}
-                                image={recipe.image.url}
-                                rating={recipe.rating}
-                            />
-                        ))}
-                    </div>
-                </section>
+                <InfiniteScroll
+                    dataLength={recipes.length}
+                    next={fetchRecipes}
+                    hasMore={hasMore}
+                    loader={""}
+                >
+                    <section>
+                        <div className="explore-section">
+                            {recipes.map((recipe) => (
+                                <RecipeCard
+                                    key={recipe._id}
+                                    title={recipe.name}
+                                    cookTime={recipe.cook_time}
+                                    prepTime={recipe.prep_time}
+                                    image={recipe.image.url}
+                                    rating={recipe.rating}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                </InfiniteScroll>
             </main>
         )
     );
