@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import { isValidObjectId } from "mongoose";
 
-import HouseholdModel from "../mongoose/households";
+import HouseholdModel from "../mongoose/household";
 import householdDB from '../controller/database/householdDB';
 
 const HouseholdRouter: Router = Router();
