@@ -63,4 +63,102 @@ RecipeRouter.delete('/recipes/:id', async (req: Request, res: Response) => {
     }
   });
 
+RecipeRouter.post('/', async (req: Request, res: Response) => {
+    try {
+        const {
+            name,
+            prep_time,
+            cook_time,
+            author,
+            servings,
+            tags,
+            calories,
+            ingredients,
+            difficulty,
+            instructions,
+            rating,
+            review_count,
+            image
+        } = req.body;
+
+    
+        const newRecipe = new RecipeModel({
+            name,
+            prep_time,
+            cook_time,
+            author,
+            servings,
+            tags,
+            calories,
+            ingredients,
+            difficulty,
+            instructions,
+            rating,
+            review_count,
+            image
+        });
+
+       
+        const savedRecipe = await newRecipe.save();
+
+        res.status(201).json(savedRecipe); 
+    } catch (error) {
+        console.error('Error creating recipe:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+RecipeRouter.put('/:id', async (req: Request, res: Response) => {
+  try {
+      const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+          return res.status(400).json({ error: "Invalid recipe ID" });
+      }
+
+      const {
+          name,
+          prep_time,
+          cook_time,
+          author,
+          servings,
+          tags,
+          calories,
+          ingredients,
+          difficulty,
+          instructions,
+          rating,
+          review_count,
+          image
+      } = req.body;
+
+      const existingRecipe = await RecipeModel.findById(id);
+      if (!existingRecipe) {
+          return res.status(404).json({ error: "Recipe not found" });
+      }
+
+      existingRecipe.name = name;
+      existingRecipe.prep_time = prep_time;
+      existingRecipe.cook_time = cook_time;
+      existingRecipe.author = author;
+      existingRecipe.servings = servings;
+      existingRecipe.tags = tags;
+      existingRecipe.calories = calories;
+      existingRecipe.ingredients = ingredients;
+      existingRecipe.difficulty = difficulty;
+      existingRecipe.instructions = instructions;
+      existingRecipe.rating = rating;
+      existingRecipe.review_count = review_count;
+      existingRecipe.image = image;
+
+      const updatedRecipe = await existingRecipe.save();
+
+      res.json(updatedRecipe);
+  } catch (error) {
+      console.error('Error updating recipe:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
   export default RecipeRouter;
