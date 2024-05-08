@@ -28,25 +28,12 @@ function AddRecipe() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const formData = new FormData();
-            formData.append('name', recipeData.name);
-            formData.append('prep_time', recipeData.prep_time);
-            formData.append('cook_time', recipeData.cook_time);
-            formData.append('author', recipeData.author);
-            formData.append('servings', recipeData.servings);
-            formData.append('tags', recipeData.tags);
-            formData.append('calories', recipeData.calories);
-            formData.append('ingredients', recipeData.ingredients);
-            formData.append('difficulty', recipeData.difficulty);
-            formData.append('instructions', recipeData.instructions);
-            
-            if (recipeData.review_image !== null) {
-                formData.append('review_image', recipeData.review_image);
-            }
-            
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
-                body: formData
+                headers: {
+                    "Content-Type": "application/json"
+                },    
+                body: JSON.stringify(recipeData)
             });
     
             if (response.ok) {

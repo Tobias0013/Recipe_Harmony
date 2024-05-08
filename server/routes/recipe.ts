@@ -94,7 +94,6 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
             image
         });
 
-       
         const savedRecipe = await newRecipe.save();
 
         res.status(201).json(savedRecipe); 
