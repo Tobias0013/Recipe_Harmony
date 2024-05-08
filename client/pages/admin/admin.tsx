@@ -1,5 +1,5 @@
 import React from "react";
-import Users from "../../component/admin/Users";
+import Users from "../../component/admin/users";
 import Receips from "../../component/admin/recipes";
 import Households from "../../component/admin/households";
 

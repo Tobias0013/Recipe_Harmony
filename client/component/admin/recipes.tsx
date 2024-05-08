@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "./recipe.css"; // Import the CSS file
+import "./recipe.css";
 
-// TODO: Remove this once able to fetch data from your actual API
+interface Recipe {
+    id: string;
+    name: string;
+    image: string;
+    cookTimeMinutes: number;
+    rating: number;
+}
+
+// TODO: Remove this once able to fetch data from actual API
 const exampleData = async () => {
     try {
         const res = await fetch(
-            "https://dummyjson.com/recipe?limit=5&select=id,name,image,cookTimeMinutes,rating" // Change limit to 5
+            "https://dummyjson.com/recipe?limit=5&select=id,name,image,cookTimeMinutes,rating"
         );
         const data = await res.json();
         return data.recipes;
@@ -16,14 +24,14 @@ const exampleData = async () => {
 };
 
 const Recipes = () => {
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState<Recipe[]>([]); 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null); 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await exampleData(); // Use exampleData function to fetch data
+                const data = await exampleData();
                 if (!data) {
                     throw new Error("Failed to fetch recipes");
                 }
@@ -38,11 +46,11 @@ const Recipes = () => {
         fetchData();
     }, []);
 
-    const handleRemoveRecipe = (id) => {
+    const handleRemoveRecipe = (id: string) => {
         // Implement logic to remove recipe with the specified id
     };
 
-    const handleEditRecipe = (id) => {
+    const handleEditRecipe = (id: string) => {
         // Implement logic to edit recipe with the specified id
     };
 
