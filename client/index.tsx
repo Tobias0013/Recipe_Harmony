@@ -21,7 +21,7 @@ if (!rootElem) {
 export default function Index() {
     return (
         <BrowserRouter>
-            <Header loggedIn={false} />
+            <Header />
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="/explore" element={<Explore />} />
