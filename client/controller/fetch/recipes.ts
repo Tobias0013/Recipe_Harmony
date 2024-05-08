@@ -7,7 +7,7 @@ type Query = {
     tags?: string[];
     cookTimeLess?: number;
     limit: number;
-    skip: number;
+    skip?: number;
 }
 
 /**

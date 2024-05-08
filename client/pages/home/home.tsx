@@ -45,7 +45,7 @@ export default function Home() {
                     <div className="home-content-recipe-card">
                         {recipes.map((recipe) => (
                             <RecipeCard
-                                key={recipe.id}
+                                key={recipe._id}
                                 title={recipe.name}
                                 cookTime={recipe.cook_time}
                                 prepTime={recipe.prep_time}
