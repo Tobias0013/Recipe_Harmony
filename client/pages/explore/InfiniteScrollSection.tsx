@@ -3,6 +3,16 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import RecipeCard from "../../component/recipe_card/recipeCard";
 
+/**
+ * ExploreExample component.
+ * 
+ * @param prop - The component props.
+ * @param prop.recipes - An array of recipes.
+ * @param prop.skip - The number of recipes to skip.
+ * @param prop.hasMore - Indicates if there are more recipes to fetch.
+ * @param prop.fetchRecipes - A function to fetch recipes.
+ * @returns The ExploreExample component.
+ */
 export default function ExploreExample(prop: {
     recipes: any[];
     skip: number;

@@ -27,7 +27,11 @@ export default function Explore() {
     const fetchRecipes = async (skip: number) => {
         const name = queryParameters.get("name");
         if (name) {
-            const { error, recipes } = await recipeAPI.getByName(name, 12, skip);
+            const { error, recipes } = await recipeAPI.getByName(
+                name,
+                12,
+                skip
+            );
             if (error) {
                 alert("Error: 500 server error");
                 return;
@@ -93,23 +97,23 @@ const getExploreExamples = (): { text: string; url: string }[] => {
         //TODO redo based on recipes in DB
         {
             text: "Less than 10 min",
-            url: "http://localhost:8080/explore?cookTimeLess=10",
+            url: `/explore?cookTimeLess=10`,
         },
         {
             text: "Less than 20 min",
-            url: "http://localhost:8080/explore?cookTimeLess=20",
+            url: "/explore?cookTimeLess=20",
         },
         {
             text: "Less than 30 min",
-            url: "http://localhost:8080/explore?cookTimeLess=30",
+            url: "/explore?cookTimeLess=30",
         },
         {
             text: "Pasta",
-            url: "http://localhost:8080/explore?tag=Pasta",
+            url: "/explore?tag=Pasta",
         },
         {
             text: "Chicken",
-            url: "http://localhost:8080/explore?tag=Chicken",
+            url: "/explore?tag=Chicken",
         },
     ];
 };
