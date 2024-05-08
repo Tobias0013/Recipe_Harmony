@@ -25,10 +25,7 @@ export default function Explore() {
         setSkip((prevSkip) => prevSkip + 8);
     };
 
-    const fetchRecipes = async () => {
-        console.log("DEBUG e", skip);
-
-        // Fetch init data
+    const fetchRecipes = async (skip: number) => {
         const name = queryParameters.get("name");
         if (name) {
             const { error, recipes } = await recipeAPI.getByName(name, 8, skip);
@@ -63,7 +60,7 @@ export default function Explore() {
         setHasMore(true);
         setSkip(0);
         setRecipes([]);
-        fetchRecipes();
+        fetchRecipes(0);
     }, [queryParameters]);
 
     return (
@@ -82,7 +79,7 @@ export default function Explore() {
                 </section>
                 <InfiniteScroll
                     dataLength={recipes.length}
-                    next={fetchRecipes}
+                    next={() => fetchRecipes(skip)}
                     hasMore={hasMore}
                     loader={""}
                 >

@@ -22,13 +22,8 @@ async function get(query: Query): Promise<any> {
     
     if (tags && tags.length > 0) {
         tags.length > 1 ? queryParams.push(`tag=${tags.join(",")}`) : queryParams.push(`tag=${tags[0]}`)
-        console.log("DEBUG ", "test");
     }
-
     fetchURL += `?${queryParams.join("&")}`;
-
-    console.log("DEBUG f", fetchURL);
-    console.log("DEBUG f", skip);
     
     try {
         const res = await fetch(fetchURL);
