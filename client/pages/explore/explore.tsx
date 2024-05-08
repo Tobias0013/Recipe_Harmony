@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./explore.css";
-import RecipeCard from "../../component/recipe_card/recipeCard";
 import ExploreExample from "./exploreExample";
+import InfiniteScrollSection from "./InfiniteScrollSection";
 import recipeAPI from "../../controller/fetch/recipes";
 
 /**
@@ -22,13 +21,13 @@ export default function Explore() {
     const exploreExamples = getExploreExamples();
 
     const updateSkip = () => {
-        setSkip((prevSkip) => prevSkip + 8);
+        setSkip((prevSkip) => prevSkip + 12);
     };
 
     const fetchRecipes = async (skip: number) => {
         const name = queryParameters.get("name");
         if (name) {
-            const { error, recipes } = await recipeAPI.getByName(name, 8, skip);
+            const { error, recipes } = await recipeAPI.getByName(name, 12, skip);
             if (error) {
                 alert("Error: 500 server error");
                 return;
@@ -44,7 +43,7 @@ export default function Explore() {
         const { error, recipes } = await recipeAPI.get({
             cookTimeLess: cookTimeLess ? parseInt(cookTimeLess) : undefined,
             tags: tags ? tags : undefined,
-            limit: 8,
+            limit: 12,
             skip: skip,
         });
 
@@ -77,27 +76,13 @@ export default function Explore() {
                             />
                         ))}
                 </section>
-                <InfiniteScroll
-                    dataLength={recipes.length}
-                    next={() => fetchRecipes(skip)}
+
+                <InfiniteScrollSection
+                    recipes={recipes}
+                    skip={skip}
                     hasMore={hasMore}
-                    loader={""}
-                >
-                    <section>
-                        <div className="explore-section">
-                            {recipes.map((recipe) => (
-                                <RecipeCard
-                                    key={recipe._id}
-                                    title={recipe.name}
-                                    cookTime={recipe.cook_time}
-                                    prepTime={recipe.prep_time}
-                                    image={recipe.image.url}
-                                    rating={recipe.rating}
-                                />
-                            ))}
-                        </div>
-                    </section>
-                </InfiniteScroll>
+                    fetchRecipes={fetchRecipes}
+                />
             </main>
         )
     );
