@@ -14,10 +14,16 @@ export default function ListItem(prop: {
     location: string;
 }) {
     const { text, path, location } = prop;
+
+    const logout = () => {
+        sessionStorage.removeItem("jwt");
+    };
+
     return (
         <li>
             <Link
                 to={path}
+                onClick={text === "Logout" ? logout : undefined}
                 style={{
                     color: location == text ? "#509e2f" : "#3a3a3a",
                 }}

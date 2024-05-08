@@ -39,6 +39,7 @@ export default function Header() {
             link: loggedIn ? "/household" : "/login",
         },
     ];
+    loggedIn && navBarItems.push({text: "Logout", link: "/"});
 
     return (
         <header>
