@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import url from '../../controller/config';
 import './add_form.css';
 
 function AddRecipe() {
@@ -43,7 +44,7 @@ function AddRecipe() {
                 formData.append('review_image', recipeData.review_image);
             }
             
-            const response = await fetch('/api/recipes', {
+            const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
                 body: formData
             });
