@@ -1,0 +1,57 @@
+.recipe-first-section {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    margin-left: 50%;
+    transform: translate(-50%);
+    /* TODO background-color: #dee9e2; */
+    width: 70%;
+}
+
+.recipe-first-section > div {
+    width: 47.5%;
+}
+
+.recipe-first-section > div:first-child {
+    background-color: #dee9e2;
+}
+
+.recipe-first-section > div:first-child > * {
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.recipe-name {
+    margin-top: 3rem;
+    font-size: 4.2rem;
+    font-weight: 600;
+}
+
+.recipe-rating {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+}
+
+.recipe-rating > p {
+    margin-left: .75rem;
+    margin-top: .25rem;
+    font-size: 1.2rem;
+}
+
+.recipe-first-section > div:nth-child(2) {
+    margin-left: auto;
+}
+
+.recipe-info > div:not(:first-of-type) {
+    font-size: 2rem;
+}
+
+.recipe-info > div:last-of-type {
+    margin-top: auto;
+}
+
+.recipe-image {
+    max-width: 100%;
+    height: auto;
+}
