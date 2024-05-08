@@ -6,12 +6,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Represents the header component of the application.
- * @param {Object} prop - The props for the component.
- * @param {boolean} prop.loggedIn - Indicates whether the user is logged in.
  * @returns {JSX.Element} The header component.
  */
-export default function Header(prop: { loggedIn: boolean }) {
-    const { loggedIn } = prop;
+export default function Header() {
+    const loggedIn = sessionStorage.getItem("jwt") ? true : false;
     const navigate = useNavigate();
     const location = getLocation(useLocation().pathname.toLocaleLowerCase());
 
@@ -41,6 +39,7 @@ export default function Header(prop: { loggedIn: boolean }) {
             link: loggedIn ? "/household" : "/login",
         },
     ];
+    loggedIn && navBarItems.push({text: "Logout", link: "/"});
 
     return (
         <header>
