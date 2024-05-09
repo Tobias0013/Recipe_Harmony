@@ -62,7 +62,31 @@ async function getByName(name:string, limit: number, skip: number){
     }
 }
 
+/**
+ * Fetches a recipe by its ID.
+ * @param id - The ID of the recipe to fetch.
+ * @returns An object containing the error (if any) or the retrieved recipe.
+ */
+async function getById(id: string){
+    let fetchURL = url;
+    fetchURL += `/api/recipes/${id}`;
+
+    try {
+        const res = await fetch(fetchURL);
+        const data = await res.json();
+
+        if (res.status !== 200)
+            return {error: res.status, recipe: await data};
+
+        return {error: null, recipe: data};        
+    }
+    catch (e) {
+        return {error: e, recipe: null}
+    }
+}
+
 export default {
     get,
-    getByName
+    getByName,
+    getById
 }

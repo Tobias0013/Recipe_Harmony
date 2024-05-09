@@ -12,6 +12,7 @@ import AboutPage from "./pages/about/about";
 import AdminPag from "./pages/admin/admin";
 import Footer from "./component/footer/footer";
 import AdminPage from "./pages/admin/admin";
+import Recipe from "./pages/recipe/recipe";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -29,6 +30,7 @@ export default function Index() {
                 <Route path="/signup" element={<SignUpDesign />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/recipe" element={<Recipe />} />
             </Routes>
             <Footer />
         </BrowserRouter>

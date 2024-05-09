@@ -1,0 +1,249 @@
+/* First section */
+
+.recipe-section {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    margin-left: 50%;
+    transform: translate(-50%);
+    width: 70%;
+
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.recipe-section > div:nth-child(2) {
+    margin-left: auto;
+}
+
+.recipe-section > div {
+    width: 47.5%;
+    display: flex;
+    flex-direction: column;
+    background-color: #FAFAFA;
+}
+
+.recipe-section.first > div:first-child > * {
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.recipe-name {
+    margin-top: 3rem;
+    font-size: 4.2rem;
+    font-weight: 600;
+    border-bottom: 2px solid darkgray;
+}
+
+.recipe-author {
+    margin-top: .75rem;
+    font-size: 2.125rem;
+}
+
+.recipe-info-header {
+    margin-top: 3rem;
+    font-size: 2.75rem;
+    font-weight: 600;
+}
+
+.recipe-rating {
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+.recipe-rating span {
+    font-size: 3rem;
+}
+
+.recipe-star {
+    color: gold;
+}
+.recipe-star.e {
+    color: rgb(201, 201, 201);
+}
+
+.recipe-rating > p {
+    margin-left: .75rem;
+    margin-top: .25rem;
+    font-size: 1.2rem;
+}
+
+.recipe-info {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.recipe-info > span, .recipe-info > p{
+    margin-top: .5rem;
+    font-weight: 600;
+    font-size: 2.75rem;
+}
+
+.recipe-info > p{
+    margin-left: 1rem;
+}
+
+.recipe-btn {
+    appearance: none;
+    background-color: #509e2f;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.recipe-btn:last-of-type {
+margin-left: 2.5%;
+}
+
+.recipe-tags {
+    margin-top: auto;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.recipe-favorite {
+    margin-left: auto;
+    padding: .5rem;
+    color: red;
+    font-size: 6rem;
+    
+    transition: all 1000ms ease;
+}
+
+.recipe-favorite {
+    margin-left: auto;
+    padding: .5rem;
+    color: red;
+    font-size: 6rem;
+    user-select: none;
+}
+
+.recipe-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Second section */
+
+.recipe-section.second {
+    margin-bottom: 10rem;
+}
+
+.recipe-section.second > div > * {
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.recipe-header {
+    margin-top: 3rem;
+    font-size: 3.75rem;
+    font-weight: 600;
+    border-bottom: 2px solid darkgray;
+    padding-right: 3rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-flow: row wrap;
+}
+
+.recipe-serving {
+    margin-bottom: .25rem;
+    margin-left: auto;
+    color: #464646;
+    font-size: 2.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.recipe-section.second ul {
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+    list-style-type: none;
+}
+
+.recipe-section.second li:not(:first-of-type) {
+    margin-top: 1.5rem;
+}
+
+.recipe-section.second li {
+    margin-left: -5%;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: row;
+}
+
+li.recipe-ingredient > p:first-child {
+    font-weight: 600;
+    min-width: 25%;
+}
+
+li.recipe-instruction > p:first-child {
+    font-weight: 600;
+    min-width: 5%;
+}
+
+@media only screen and (orientation: portrait) {
+    /* Explore example search */
+    .recipe-section {
+        margin-top: 3rem;
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+        transform: translate(0);
+        width: 100%;
+    }
+
+    .recipe-section > div {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .recipe-section > div:nth-child(2) {
+        align-items: center;
+        padding: 1rem 0 1rem 0;
+    }
+
+    .recipe-image {
+        max-width: 80%;
+        height: auto;
+    }
+
+    .recipe-header {
+        display: flex;
+        flex-direction: column;
+        align-items: normal;
+    }
+
+    .recipe-header:last-of-type {
+        width: 80%;
+    }
+
+    .recipe-serving {
+        margin-left: 0;
+    }
+
+    li.recipe-instruction > p:first-child {
+        min-width: 10%;
+    }
+}
