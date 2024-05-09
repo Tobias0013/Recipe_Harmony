@@ -46,6 +46,7 @@ export default function Home() {
                         {recipes.map((recipe) => (
                             <RecipeCard
                                 key={recipe._id}
+                                id={recipe._id}
                                 title={recipe.name}
                                 cookTime={recipe.cook_time}
                                 prepTime={recipe.prep_time}
