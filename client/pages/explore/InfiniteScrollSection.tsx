@@ -5,7 +5,7 @@ import RecipeCard from "../../component/recipe_card/recipeCard";
 
 /**
  * ExploreExample component.
- * 
+ *
  * @param prop - The component props.
  * @param prop.recipes - An array of recipes.
  * @param prop.skip - The number of recipes to skip.
@@ -33,6 +33,7 @@ export default function ExploreExample(prop: {
                     {recipes.map((recipe) => (
                         <RecipeCard
                             key={recipe._id}
+                            id={recipe._id}
                             title={recipe.name}
                             cookTime={recipe.cook_time}
                             prepTime={recipe.prep_time}
