@@ -8,9 +8,8 @@ export default function Recipe() {
         const states: string[] = [];
 
         for (let i = 0; i < 5; i++) {
-            if (rating >= 0.9) states.push("star");
-            else if (rating >= 0.5) states.push("star_half");
-            else states.push("star_outline");
+            if (rating >= 0.5) states.push("recipe-star");
+            else states.push("recipe-star e");
             rating -= 1;
         }
         return states;
@@ -18,27 +17,49 @@ export default function Recipe() {
 
     return (
         <main>
-            <section className="recipe-first-section">
-                <div className="recipe-info">
+            <section className="recipe-section first">
+                <div>
                     <p className="recipe-name">{recipe.name}</p>
+                    <p className="recipe-author">Recipe by John Doe</p>
+
+                    <p className="recipe-info-header">Rating</p>
                     <div className="recipe-rating">
                         <div>
-                            {starStates.map((state) => (
-                                <span className="material-icons">{state}</span>
-                            ))}
+                            <div>
+                                {starStates.map((state, i) => (
+                                    <span
+                                        key={state + i}
+                                        className={`material-icons ${state}`}
+                                    >
+                                        star
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                         <p>{`${recipe.rating} of 5 (${recipe.review_count} votes)`}</p>
                     </div>
-                    <div>
+                    <div className="recipe-info">
                         <span className="material-icons">schedule</span>
-                        <p>45 min</p>
+                        <p>{`${recipe.cook_time + recipe.prep_time} min`}</p>
                     </div>
-                    <div>
-                        <span className="material-icons">signal_cellular_alt</span>
-                        <p>Medium</p>
+                    <div className="recipe-info">
+                        <span className="material-icons">
+                            signal_cellular_alt
+                        </span>
+                        <p>{recipe.difficulty}</p>
                     </div>
-                    <div>
-                        <p>Tags: Beef, Stir-fry, Asian</p>
+                    {recipe.calories && (
+                        <div className="recipe-info">
+                            <span className="material-icons">
+                                local_fire_department
+                            </span>
+                            <p>{`${
+                                recipe.calories
+                            } kcal`}</p>
+                        </div>
+                    )}
+                    <div className="recipe-tags">
+                        <p>Tags: {recipe.tags.join(", ")}</p>
                     </div>
                 </div>
                 <div>
@@ -49,7 +70,33 @@ export default function Recipe() {
                     />
                 </div>
             </section>
-            <section>{/* instruction and ingredients */}</section>
+            <section className="recipe-section second">
+                <div>
+                    <p className="recipe-header">
+                        Ingredients{" "}
+                        <p className="recipe-serving">{`(${recipe.servings} servings)`}</p>
+                    </p>
+                    <ul>
+                        {recipe.ingredients.map((ing) => (
+                            <li className="recipe-ingredient" key={ing._id}>
+                                <p>{`${ing.quantity} ${ing.quantity_type}`}</p>
+                                <p>{`${ing.name}`}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <p className="recipe-header">Instructions</p>
+                    <ul>
+                        {recipe.instructions.map((ins) => (
+                            <li className="recipe-instruction" key={ins._id}>
+                                <p>{`${ins.step}.`}</p>
+                                <p>{`${ins.text}`}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </section>
         </main>
     );
 }
@@ -64,63 +111,61 @@ const tempRecipe = {
     prep_time: 20,
     cook_time: 15,
     author: "662fcd37aa94785cbe8a847d",
-    servings: 4,
     tags: ["Beef", "Stir-fry", "Asian"],
-    calories: 380,
     ingredients: [
         {
             _id: "663b98fd0dd4b6cf2cc9db1c",
             name: "Beef sirloin, thinly sliced",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "pcs",
+            quantity: 4,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db1d",
             name: "Broccoli florets",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "grams",
+            quantity: 300,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db1e",
             name: "Soy sauce",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "tbsp",
+            quantity: 2,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db1f",
             name: "Oyster sauce",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "tsp",
+            quantity: 3,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db20",
             name: "Sesame oil",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "tbsp",
+            quantity: 1,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db21",
             name: "Garlic, minced",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "tbsp",
+            quantity: 2,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db22",
             name: "Ginger, minced",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "tsp",
+            quantity: 2,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db23",
             name: "Cornstarch",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "dl",
+            quantity: 1,
         },
         {
             _id: "663b98fd0dd4b6cf2cc9db24",
             name: "Cooked white rice for serving",
-            quantity_type: "",
-            quantity: 0,
+            quantity_type: "dl",
+            quantity: 5,
         },
     ],
     difficulty: "Medium",
@@ -156,6 +201,8 @@ const tempRecipe = {
             text: "Serve over cooked white rice.",
         },
     ],
-    rating: 4.7,
+    rating: 3.7,
     review_count: 18,
+    servings: 4,
+    calories: 380,
 };
