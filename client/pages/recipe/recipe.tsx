@@ -14,7 +14,7 @@ export default function Recipe() {
 
     const [recipe, setRecipe] = useState<any>();
     const [favorite, setFavorite] = useState(false); //TODO change if user favorite
-    const [isAuthor, setIsAuthor] = useState(true); //TODO change if user author
+    const [isAuthor, setIsAuthor] = useState(false); //TODO change if user author
 
     const fetchRecipe = async (recipeId) => {
         let { error: e, recipe } = await recipeAPI.getById(recipeId);
