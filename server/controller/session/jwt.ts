@@ -6,7 +6,8 @@ function createAndSignJWT(userId: any, fullName: any, email: any){
     interface IJwtPayload {
         user_id: any,
         full_name: string,
-        email: string
+        email: string,
+        role?: string
     };
 
     const jwtPayload: IJwtPayload = {
@@ -15,7 +16,11 @@ function createAndSignJWT(userId: any, fullName: any, email: any){
         email: email
     };
 
-    const secret: any = process.env.SECRET;
+    if(email === process.env.ADMIN){
+        jwtPayload.role = "admin";
+    }
+
+    const secret: any = process.env.SECRET;    
     const jwtToken: string = sign(jwtPayload, secret);
 
     return jwtToken;
