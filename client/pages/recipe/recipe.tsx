@@ -13,6 +13,8 @@ export default function Recipe() {
     const [queryParameters] = useSearchParams();
 
     const [recipe, setRecipe] = useState<any>();
+    const [favorite, setFavorite] = useState(false); //TODO change if user favorite
+    const [isAuthor, setIsAuthor] = useState(true); //TODO change if user author
 
     const fetchRecipe = async (recipeId) => {
         let { error: e, recipe } = await recipeAPI.getById(recipeId);
@@ -25,15 +27,34 @@ export default function Recipe() {
 
         recipe = formatRating(recipe);
         setRecipe(recipe);
+        //TODO set author/favorite
     };
 
     useEffect(() => {
         const recipeId = queryParameters.get("recipe");
-        console.log(recipeId);
         !recipeId && navigate("/explore");
 
         fetchRecipe(recipeId);
     }, []);
+
+    const handlePressFavorite = () => {
+        //TODO change if user favorite
+        setFavorite((prev) => !prev);
+    };
+
+    const handleBtnEdit = () => {
+        navigate("/add");
+        //TODO edit
+    };
+
+    const handleBtnDel = () => {
+        const input = window.prompt('Enter "delete"');
+        if (input !== "delete") {
+            console.log(":(");
+            return;
+        }
+        //TODO delete
+    };
 
     return (
         recipe && (
@@ -79,8 +100,31 @@ export default function Recipe() {
                                 <p>{`${recipe.calories} kcal`}</p>
                             </div>
                         )}
+
+                        {isAuthor && (
+                            <div className="recipe-info">
+                                <button
+                                    onClick={handleBtnEdit}
+                                    className="recipe-btn"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleBtnDel}
+                                    className="recipe-btn"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        )}
                         <div className="recipe-tags">
                             <p>Tags: {recipe.tags.join(", ")}</p>
+                            <span
+                                onClick={handlePressFavorite}
+                                className="material-icons recipe-favorite"
+                            >
+                                {`${favorite ? "favorite" : "favorite_border"}`}
+                            </span>
                         </div>
                     </div>
                     <div>
@@ -94,7 +138,7 @@ export default function Recipe() {
                 <section className="recipe-section second">
                     <div>
                         <div className="recipe-header">
-                            Ingredients{" "}
+                            Ingredients
                             <p className="recipe-serving">{`(${recipe.servings} servings)`}</p>
                         </div>
                         <ul>
@@ -107,7 +151,7 @@ export default function Recipe() {
                         </ul>
                     </div>
                     <div>
-                        <p className="recipe-header">Instructions</p>
+                        <div className="recipe-header">Instructions</div>
                         <ul>
                             {recipe.instructions.map((ins) => (
                                 <li
