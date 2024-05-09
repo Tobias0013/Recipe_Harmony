@@ -164,6 +164,7 @@ margin-left: 2.5%;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    flex-flow: row wrap;
 }
 
 .recipe-serving {
@@ -172,6 +173,7 @@ margin-left: 2.5%;
     color: #464646;
     font-size: 2.75rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .recipe-section.second ul {
