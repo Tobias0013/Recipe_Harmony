@@ -10,6 +10,10 @@ const AdminPage: React.FC = () => {
 
     const [users, setUsers] = useState<any>();
 
+    /*
+        TODO:
+        Move this function to each admin component instead of this page
+    */
     useEffect(() => {
         const getData = async () => {
             if (jwtExists) {
