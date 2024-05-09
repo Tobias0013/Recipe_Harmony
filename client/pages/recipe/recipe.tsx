@@ -4,6 +4,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import "./recipe.css";
 import recipeAPI from "../../controller/fetch/recipes";
 
+/**
+ * The Recipe component.
+ * @returns The Recipe component.
+ */
 export default function Recipe() {
     const navigate = useNavigate();
     const [queryParameters] = useSearchParams();
@@ -122,6 +126,11 @@ export default function Recipe() {
     );
 }
 
+/**
+ * Formats the rating of a recipe by assigning appropriate CSS classes to each star.
+ * @param {object} recipe - The recipe object containing the rating.
+ * @returns {object} - The updated recipe object with the rating states.
+ */
 const formatRating = (recipe) => {
     let { rating } = recipe;
     const states: string[] = [];
