@@ -35,7 +35,7 @@ export default function Home() {
                 <section className="home-banner">
                     <Banner
                         image={recipeToday.image.url}
-                        title={recipeToday.name}
+                        name={recipeToday.name}
                     />
                 </section>
                 <section>

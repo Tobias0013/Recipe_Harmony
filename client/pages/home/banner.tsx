@@ -5,14 +5,11 @@ import React from "react";
  *
  * @param prop - The props object containing the image, title, first name, and last name.
  * @param prop.image - The URL of the image to be displayed.
- * @param prop.title - The title of the recipe.
+ * @param prop.name - The name of the recipe.
  * @returns The rendered banner component.
  */
-export default function Banner(prop: {
-    image: string;
-    title: string;
-}) {
-    const { image, title } = prop;
+export default function Banner(prop: { image: string; name: string }) {
+    const { image, name } = prop;
     return (
         <div className={`home-banner-container`}>
             <img
@@ -22,7 +19,7 @@ export default function Banner(prop: {
             />
             <div className="home-banner-overlay">
                 <p className="home-banner-trending">Today's recipe</p>
-                <p className="home-banner-title">{title}</p>
+                <p className="home-banner-title">{name}</p>
             </div>
         </div>
     );
