@@ -68,7 +68,16 @@ export default function Header() {
                 </form>
             </div>
 
-            <div className={navbarShow ? "header-nav open" : "header-nav"}>
+            <div
+                style={
+                    navbarShow
+                        ? loggedIn
+                            ? { height: "27rem" }
+                            : { height: "23rem" }
+                        : {}
+                }
+                className="header-nav"
+            >
                 <ul className="header-navbar">
                     {navBarItems.map((item) => {
                         return (
