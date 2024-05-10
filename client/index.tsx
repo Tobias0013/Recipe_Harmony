@@ -12,6 +12,7 @@ import AboutPage from "./pages/about/about";
 import Footer from "./component/footer/footer";
 import AdminPage from "./pages/admin/admin";
 import Recipe from "./pages/recipe/recipe";
+import HouseHoldPage from "./pages/household/household";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -30,6 +31,7 @@ export default function Index() {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/recipe" element={<Recipe />} />
+                <Route path="/household" element={<HouseHoldPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>
