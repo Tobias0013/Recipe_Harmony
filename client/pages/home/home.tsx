@@ -21,8 +21,16 @@ export default function Home() {
         }
         setRecipes(recipes);
 
-        const rndNmr = Math.floor(Math.random() * recipes.length);
-        setRecipeToday(recipes[rndNmr]);
+        const { error: e, recipes: recipe } = await recipeAPI.get({
+            limit: 1,
+            skip: new Date().getDate(),
+        });
+
+        if (e) {
+            alert("Error: 500 server error");
+            return;
+        }
+        setRecipeToday(recipe[0]);
     };
 
     useEffect(() => {
@@ -30,12 +38,14 @@ export default function Home() {
     }, []);
 
     return (
-        recipes && (
+        recipes &&
+        recipeToday && (
             <main>
                 <section className="home-banner">
                     <Banner
+                        id={recipeToday._id}
                         image={recipeToday.image.url}
-                        title={recipeToday.name}
+                        name={recipeToday.name}
                     />
                 </section>
                 <section>
