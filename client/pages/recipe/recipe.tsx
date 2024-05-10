@@ -14,7 +14,7 @@ export default function Recipe() {
 
     const [recipe, setRecipe] = useState<any>();
     const [favorite, setFavorite] = useState(false); //TODO change if user favorite
-    const [isAuthor, setIsAuthor] = useState(false); //TODO change if user author
+    const [isAuthor, setIsAuthor] = useState(false);
 
     const fetchRecipe = async (recipeId) => {
         let { error: e, recipe } = await recipeAPI.getById(recipeId);
@@ -27,7 +27,15 @@ export default function Recipe() {
 
         recipe = formatRating(recipe);
         setRecipe(recipe);
-        //TODO set author/favorite
+        // Check if user is author
+        const token = sessionStorage.getItem("jwt");
+        if (!token){
+            return;
+        }
+        const userId = JSON.parse(atob(token.split(".")[1])).user_id;
+        userId === recipe.author && setIsAuthor(true);
+
+        //TODO set favorite
     };
 
     useEffect(() => {
