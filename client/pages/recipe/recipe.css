@@ -126,16 +126,10 @@ margin-left: 2.5%;
     padding: .5rem;
     color: red;
     font-size: 6rem;
+    user-select: none;
+    cursor: pointer;
     
     transition: all 1000ms ease;
-}
-
-.recipe-favorite {
-    margin-left: auto;
-    padding: .5rem;
-    color: red;
-    font-size: 6rem;
-    user-select: none;
 }
 
 .recipe-image {
