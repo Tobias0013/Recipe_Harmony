@@ -69,7 +69,7 @@ header{
 
 .header-input-box input {
     height: 100%;
-    width: 90%;
+    width: 135%;
     outline: none;
     font-size: 1.8rem;
     font-weight: 400;
@@ -130,6 +130,10 @@ header{
     .header-input-box {
         margin: 1rem 1rem 0 1rem;
         width: auto;
+    }
+
+    .header-input-box input {
+        width: 95%;
     }
     
     /* Navigation */

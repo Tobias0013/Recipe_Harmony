@@ -26,7 +26,9 @@ export default function Header() {
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate(`/explore?name=${query}`);
+        const url = query === "" ? "/explore" : `/explore?name=${query}`;
+        navigate(url);
+        setQuery("");
     };
 
     let navBarItems: { text: string; link: string }[] = [
@@ -39,7 +41,7 @@ export default function Header() {
             link: loggedIn ? "/household" : "/login",
         },
     ];
-    loggedIn && navBarItems.push({text: "Logout", link: "/"});
+    loggedIn && navBarItems.push({ text: "Logout", link: "/" });
 
     return (
         <header>
@@ -59,6 +61,7 @@ export default function Header() {
                     <i className="material-icons">search</i>
                     <input
                         type="text"
+                        value={query}
                         placeholder="Search here..."
                         onChange={handleQuery}
                     />
