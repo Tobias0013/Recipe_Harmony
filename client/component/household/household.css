@@ -1,0 +1,61 @@
+/* styles.css */
+.household-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    padding: 2rem 0;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-family: 'Monospace'
+}
+
+.section {
+    width: 80%;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 1rem;
+}
+
+.section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.user-details {
+    font-size: 1.4rem;
+}
+
+.list {
+    padding: 0;
+}
+
+.list li {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    list-style-type: disc;
+}
+
+.btn {
+    width: 100%;
+    max-width: 200px;
+    height: 4rem;
+    background-color: #509e2f;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+}
+
+.btn:hover {
+    background-color: #377e18;
+}
