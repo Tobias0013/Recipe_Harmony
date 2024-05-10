@@ -86,6 +86,7 @@ export default function Header() {
                                 text={item.text}
                                 path={item.link}
                                 location={location}
+                                setNavbarShow={setNavbarShow}
                             />
                         );
                     })}
