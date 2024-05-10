@@ -34,6 +34,7 @@ export default function Home() {
             <main>
                 <section className="home-banner">
                     <Banner
+                        id={recipeToday._id}
                         image={recipeToday.image.url}
                         name={recipeToday.name}
                     />
