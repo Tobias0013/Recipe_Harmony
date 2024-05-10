@@ -54,7 +54,7 @@ const sign_up_form: React.FC = () => {
                 <input type="password" placeholder="Re-enter password" className="input-field" onChange={(e) => setConfirmPassword(e.target.value)}/>
                 <button type="submit" className="submit-button" disabled={isSubmitDisabled}>Sign Up</button>
             </form>
-            <p className="login-msg">Already have an account? <a href="/login">Login here</a></p>
+            <p className="login-msg">Already have an account? <a href="/login" className = "login-link">Login here</a></p>
         </div>
     );
 };

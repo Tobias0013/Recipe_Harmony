@@ -42,7 +42,7 @@ const LoginForm: React.FC = () => {
                 <input type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}/>
                 <button type="submit" className="submit-button">Login</button>
             </form>
-            <p>Don't have an account? <a href="/signup">Sign up here</a></p>
+            <p>Don't have an account? <a href="/signup" className="signup-link">Sign up here</a></p>
         </div>
     );
 };
