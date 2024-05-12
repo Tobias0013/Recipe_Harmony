@@ -14,7 +14,7 @@ function AddRecipe() {
         ingredients: '',
         difficulty: '',
         instructions: '',
-        review_image: null 
+        image: { type: '', url: '', base64: '' }
     });
 
     const handleChange = (e) => {
@@ -27,15 +27,17 @@ function AddRecipe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(recipeData)
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
-                },    
+                },
                 body: JSON.stringify(recipeData)
+
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
@@ -47,16 +49,23 @@ function AddRecipe() {
             console.error('Error adding recipe:', error.message);
         }
     };
-    
+
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        setRecipeData(prevState => ({
-            ...prevState,
-            review_image: file // Update review_image state with the selected file
-        }));
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setRecipeData(prevState => ({
+                ...prevState,
+                image: {
+                    type: file.type,
+                    url: '', 
+                    base64: reader.result as string 
+                }
+            }));
+        };
+        reader.readAsDataURL(file);
     };
-    
     return (
         <div className="add-recipe-form">
             <h2>Add Recipe</h2>
