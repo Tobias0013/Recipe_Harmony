@@ -19,6 +19,16 @@ function AddRecipe() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+    
+        // Validate if the value is an integer
+        if (["prep_time", "cook_time", "servings", "calories", "quantity", "step"].includes(name)) {
+            if (!/^\d+$/.test(value)) {
+                // If the value is not an integer, show an error message to the user
+                alert(`Please enter a valid number for ${name.replace('_', ' ')}.`);
+                return;
+            }
+        }
+    
         setRecipeData(prevState => ({
             ...prevState,
             [name]: value
@@ -60,7 +70,7 @@ function AddRecipe() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
-                window.location.reload();
+                //window.location.reload();
                 // Redirect to another page or show a success message
             } else {
                 console.error('Failed to add recipe:', response.statusText);
@@ -128,8 +138,12 @@ function AddRecipe() {
         </label>
         <label>
             Difficulty:
-            <input type="text" name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field" />
-        </label>
+            <select name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field">
+        <option value="easy">Easy</option>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
+    </select>
+    </label>
         <label>
             Image:
             <input type="file" accept="image/*" onChange={handleImageChange} />
