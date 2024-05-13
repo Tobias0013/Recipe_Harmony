@@ -77,10 +77,23 @@ async function getUserById(id: any){
     }
 }
 
+async function getAllUsers(){
+    try{
+        const res = await User.find();
+        return({
+            "error": null,
+            "users": res
+        })
+    }catch(e){
+        return{error: e}
+    }
+}
+
 export default {
     user: {
         add: addUser,
         login: verifyUserCredentials,
-        getUserData: getUserById
+        getUserData: getUserById,
+        getAllUsers: getAllUsers
     }
 }

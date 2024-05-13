@@ -1,5 +1,7 @@
 import express, {Router, Request, Response} from "express";
 import userDB from "../controller/database/userDB";
+import veriyAdminJWT from "./middleware/admin_middle";
+import verifyAdminJWT from "./middleware/admin_middle";
 
 const usersRouter: Router = express.Router();
 
@@ -34,6 +36,19 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
             res.status(200).json(result);
         }else if(result.error === 404){
             res.status(404).json({"Error" : "404 User Not Found"});
+        }else{
+            res.status(500).json({"Error" : "500 Internal Server Error"});
+        }
+    }catch(e){
+        res.status(500).json({"Error" : "500 Internal Server Error"});
+    }
+})
+
+usersRouter.get("/", verifyAdminJWT, async (req: Request, res: Response) => {
+    try{
+        const result = await userDB.user.getAllUsers();
+        if(result.error === null){
+            res.status(200).json(result.users);
         }else{
             res.status(500).json({"Error" : "500 Internal Server Error"});
         }

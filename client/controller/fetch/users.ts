@@ -41,9 +41,26 @@ async function login(email: string, password: string): Promise<Response> {
     }
 }
 
+async function fetchAll(jwtToken: string){
+    try{
+        const response = await fetch(`${url}/api/users`, {
+            method: "GET",
+            headers: {
+                "Authorization": jwtToken
+            }
+        });
+
+        return response;
+    }catch(err){
+        console.log(err);
+        throw err;
+    }
+}
+
 export default {
     user: {
         signup: signup,
-        login: login
+        login: login,
+        getAll: fetchAll
     }
 }

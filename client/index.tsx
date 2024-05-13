@@ -11,6 +11,9 @@ import SignUpDesign from "./pages/sign_up/sign_up";
 import AddRecipeDesign from "./pages/add_recipe/add_recipe";
 import AboutPage from "./pages/about/about";
 import Footer from "./component/footer/footer";
+import AdminPage from "./pages/admin/admin";
+import Recipe from "./pages/recipe/recipe";
+import HouseHoldPage from "./pages/household/household";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -20,7 +23,7 @@ if (!rootElem) {
 export default function Index() {
     return (
         <BrowserRouter>
-            <Header loggedIn={false} />
+            <Header />
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="/explore" element={<Explore />} />
@@ -28,6 +31,9 @@ export default function Index() {
                 <Route path="/signup" element={<SignUpDesign />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/add" element={<AddRecipeDesign />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/recipe" element={<Recipe />} />
+                <Route path="/household" element={<HouseHoldPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>

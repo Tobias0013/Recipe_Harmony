@@ -43,7 +43,9 @@
 .recipe-card-title{
     font-size: 2rem;
     font-weight: 600;
-    width: 70%;
+    width: 100%;
+    white-space: pre-wrap;
+    overflow: hidden;
 }
 
 .recipe-card-rating-container{

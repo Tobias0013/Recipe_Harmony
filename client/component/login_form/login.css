@@ -36,3 +36,9 @@
 .submit-button:hover {
     background-color: #377e18;
 }
+.signup-link {
+    color: blue;
+}
+.signup-link:hover {
+    color: rgb(104, 104, 228); 
+}

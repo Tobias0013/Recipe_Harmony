@@ -6,12 +6,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Represents the header component of the application.
- * @param {Object} prop - The props for the component.
- * @param {boolean} prop.loggedIn - Indicates whether the user is logged in.
  * @returns {JSX.Element} The header component.
  */
-export default function Header(prop: { loggedIn: boolean }) {
-    const { loggedIn } = prop;
+export default function Header() {
+    const loggedIn = sessionStorage.getItem("jwt") ? true : false;
     const navigate = useNavigate();
     const location = getLocation(useLocation().pathname.toLocaleLowerCase());
 
@@ -28,7 +26,9 @@ export default function Header(prop: { loggedIn: boolean }) {
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate(`/explore?name=${query}`);
+        const url = query === "" ? "/explore" : `/explore?name=${query}`;
+        navigate(url);
+        setQuery("");
     };
 
     let navBarItems: { text: string; link: string }[] = [
@@ -41,6 +41,7 @@ export default function Header(prop: { loggedIn: boolean }) {
             link: loggedIn ? "/household" : "/login",
         },
     ];
+    loggedIn && navBarItems.push({ text: "Logout", link: "/" });
 
     return (
         <header>
@@ -60,13 +61,23 @@ export default function Header(prop: { loggedIn: boolean }) {
                     <i className="material-icons">search</i>
                     <input
                         type="text"
+                        value={query}
                         placeholder="Search here..."
                         onChange={handleQuery}
                     />
                 </form>
             </div>
 
-            <div className={navbarShow ? "header-nav open" : "header-nav"}>
+            <div
+                style={
+                    navbarShow
+                        ? loggedIn
+                            ? { height: "27rem" }
+                            : { height: "23rem" }
+                        : {}
+                }
+                className="header-nav"
+            >
                 <ul className="header-navbar">
                     {navBarItems.map((item) => {
                         return (
@@ -75,6 +86,7 @@ export default function Header(prop: { loggedIn: boolean }) {
                                 text={item.text}
                                 path={item.link}
                                 location={location}
+                                setNavbarShow={setNavbarShow}
                             />
                         );
                     })}

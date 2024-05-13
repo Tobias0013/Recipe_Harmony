@@ -1,0 +1,23 @@
+h1 {
+    color: #377e18;
+    border-bottom: 2px solid #377e18;
+    transition: border-bottom-color 0.3s ease-in-out;
+}
+
+.description {
+    font-style: italic;
+    padding: 20px;
+    border-radius: 10px;
+}
+.project-info{
+    font-style: normal;
+}
+.about-heading {
+    font-size: 24px;
+    font-style: normal;
+    margin-top: 25px;
+}
+.team-info{
+    font-style: normal;
+    margin-bottom: 10px;
+}

@@ -49,7 +49,10 @@ form {
     padding: 1rem;
 }
 
-.login-msg{
-    margin-top: 1rem;
-    font-size: 1.6rem;
+.login-link {
+    color: blue;
+}
+
+.login-link:hover {
+    color: rgb(104, 104, 228); 
 }

@@ -6,14 +6,11 @@ import "./about.css";
 const AboutPage: React.FC = () => {
     return (
         <div className="about-container">
-            <h1 className="about-heading">About Us</h1>
-            <p className="product-info">{productInfo}</p>
-            <h2 className="about-heading">Our Team</h2>
+            <div className="product-info">{productInfo}</div>
             {team.map((member: TeamMember, index: number) => (
                 <div className="team-member" key={index}>
                     <h3>{member.name}</h3>
                     <p>{member.role}</p>
-                    <p className="bio">{member.bio}</p>
                 </div>
             ))}
         </div>
