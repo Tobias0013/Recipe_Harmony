@@ -76,8 +76,6 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
             ingredients,
             difficulty,
             instructions,
-            rating,
-            review_count,
             image
         } = req.body;
 
@@ -93,12 +91,9 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
             ingredients,
             difficulty,
             instructions,
-            rating,
-            review_count,
             image
         });
 
-       
         const savedRecipe = await newRecipe.save();
 
         res.status(201).json(savedRecipe); 
