@@ -44,7 +44,11 @@ export default function Home() {
                 <section className="home-banner">
                     <Banner
                         id={recipeToday._id}
-                        image={recipeToday.image.url}
+                        image={
+                            recipeToday.image.url
+                                ? recipeToday.image.url
+                                : recipeToday.image.base64
+                        }
                         name={recipeToday.name}
                     />
                 </section>
@@ -60,7 +64,11 @@ export default function Home() {
                                 title={recipe.name}
                                 cookTime={recipe.cook_time}
                                 prepTime={recipe.prep_time}
-                                image={recipe.image.url}
+                                image={
+                                    recipe.image.url
+                                        ? recipe.image.url
+                                        : recipe.image.base64
+                                }
                                 rating={recipe.rating}
                             />
                         ))}
