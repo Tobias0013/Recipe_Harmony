@@ -37,7 +37,11 @@ export default function ExploreExample(prop: {
                             title={recipe.name}
                             cookTime={recipe.cook_time}
                             prepTime={recipe.prep_time}
-                            image={recipe.image.url}
+                            image={
+                                recipe.image.url
+                                    ? recipe.image.url
+                                    : recipe.image.base64
+                            }
                             rating={recipe.rating}
                         />
                     ))}
