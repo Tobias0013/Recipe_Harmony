@@ -138,7 +138,7 @@ export default function Recipe() {
                     <div>
                         <img
                             className="recipe-image"
-                            src={recipe.image.url}
+                            src={recipe.image.url ? recipe.image.url : recipe.image.base64}
                             alt="Cover image for recipe"
                         />
                     </div>
