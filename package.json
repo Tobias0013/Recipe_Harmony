@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
-    "build-client": "webpack --mode production",
-    "server": "nodemon server/server.ts",
+    "start": "concurrently \"npm start-client\" \"npm start-server\"",
+    "start-client": "npx webpack-dev-server --mode development --open",
+    "start-server": "nodemon server/server.ts",
+    "build": "concurrently \"npm build-client\" \"npm build-server\"",
+    "build-client": "npx webpack --mode production",
     "build-server": "npx tsc",
-    "build": "webpack --mode production && npx tsc",
     "start-build": "start http://localhost:3000 && node dist-server/server.js",
-    "remove": "rm -r ./node_modules"
+    "clean": "rm -r dist && rm -r dist-server",
+    "clean-node": "rm -r node_modules",
+    "clean-all": "concurrently \"make clean-build\" \"make clean-node\""
   },
   "keywords": [],
   "author": "",
