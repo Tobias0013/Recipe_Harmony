@@ -36,6 +36,10 @@
     margin-top: 1rem;
 }
 
+.recipe-card-row.three {
+    margin-top: .5rem;
+}
+
 .recipe-card-title-container{
     height: 4.6rem;
 }
@@ -67,7 +71,7 @@
     align-self: flex-end;
 }
 
-.recipe-card-cook-time{
+.recipe-card-time{
     color: #DC582A;
     font-size: 1.7rem;
     font-weight: 600;
