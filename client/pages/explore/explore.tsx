@@ -96,15 +96,15 @@ const getExploreExamples = (): { text: string; url: string }[] => {
     return [
         //TODO redo based on recipes in DB
         {
-            text: "Less than 10 min",
+            text: "Cook time under 10 min",
             url: `/explore?cookTimeLess=10`,
         },
         {
-            text: "Less than 20 min",
+            text: "Cook time under 20 min",
             url: "/explore?cookTimeLess=20",
         },
         {
-            text: "Less than 30 min",
+            text: "Cook time under 30 min",
             url: "/explore?cookTimeLess=30",
         },
         {
