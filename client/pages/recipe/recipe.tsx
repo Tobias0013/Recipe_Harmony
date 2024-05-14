@@ -25,11 +25,10 @@ export default function Recipe() {
             return;
         }
 
-        recipe = formatRating(recipe);
         setRecipe(recipe);
         // Check if user is author
         const token = sessionStorage.getItem("jwt");
-        if (!token){
+        if (!token) {
             return;
         }
         const userId = JSON.parse(atob(token.split(".")[1])).user_id;
@@ -70,29 +69,21 @@ export default function Recipe() {
                 <section className="recipe-section first">
                     <div>
                         <p className="recipe-name">{recipe.name}</p>
-                        <p className="recipe-author">Recipe by John Doe</p>
+                        <p className="recipe-author">
+                            Recipe by {recipe.author.full_name}
+                        </p>
 
-                        <p className="recipe-info-header">Rating</p>
-                        <div className="recipe-rating">
-                            <div>
-                                <div>
-                                    {recipe.ratingStates.map((state, i) => (
-                                        <span
-                                            key={state + i}
-                                            className={`material-icons ${state}`}
-                                        >
-                                            star
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <p>{`${recipe.rating} of 5 (${recipe.review_count} votes)`}</p>
+                        <div className="recipe-info recipe-rating">
+                            <span className={`material-icons`}>favorite</span>
+                            <p>{`${recipe.review_count} Favorites`}</p>
                         </div>
                         <div className="recipe-info">
                             <span className="material-icons">schedule</span>
-                            <p>{`${
-                                recipe.cook_time + recipe.prep_time
-                            } min`}</p>
+                            <p>{`${recipe.prep_time} min prep time`}</p>
+                        </div>
+                        <div className="recipe-info">
+                            <span className="material-icons">schedule</span>
+                            <p>{`${recipe.cook_time} min cook time`}</p>
                         </div>
                         <div className="recipe-info">
                             <span className="material-icons">
@@ -138,7 +129,11 @@ export default function Recipe() {
                     <div>
                         <img
                             className="recipe-image"
-                            src={recipe.image.url ? recipe.image.url : recipe.image.base64}
+                            src={
+                                recipe.image.url
+                                    ? recipe.image.url
+                                    : recipe.image.base64
+                            }
                             alt="Cover image for recipe"
                         />
                     </div>
@@ -177,21 +172,3 @@ export default function Recipe() {
         )
     );
 }
-
-/**
- * Formats the rating of a recipe by assigning appropriate CSS classes to each star.
- * @param {object} recipe - The recipe object containing the rating.
- * @returns {object} - The updated recipe object with the rating states.
- */
-const formatRating = (recipe) => {
-    let { rating } = recipe;
-    const states: string[] = [];
-
-    for (let i = 0; i < 5; i++) {
-        if (rating >= 0.5) states.push("recipe-star");
-        else states.push("recipe-star e");
-        rating -= 1;
-    }
-    recipe.ratingStates = states;
-    return recipe;
-};
