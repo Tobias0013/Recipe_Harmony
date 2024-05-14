@@ -30,23 +30,20 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!isValidObjectId(id)) {
-      res.status(400).json({Error: "400 parm not valid id"})
-      return;
+      return res.status(400).json({Error: "400 parm not valid id"})
     }
     const { error, recipe } = await recipeDB.getById(id);
 
-    if (error === -1) {
-      res.status(400).json({Error: "400 user does not exist"});
-      return;
+    if (error === 404) {
+      return res.status(404).json({Error: "400 recipe does not exist"});
     }
     else if (error) {
-      res.status(500).json({Error: "500 internal server error"});
-      return;
+      return res.status(500).json({Error: "500 internal server error"});
     }
     res.json(recipe);
   });
 
-RecipeRouter.delete('/recipes/:id', async (req: Request, res: Response) => {
+RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
       const recipeId = req.params.id;
       if (!recipeId) {
