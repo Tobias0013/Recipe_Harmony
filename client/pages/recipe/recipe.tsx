@@ -29,7 +29,7 @@ export default function Recipe() {
         setRecipe(recipe);
         // Check if user is author
         const token = sessionStorage.getItem("jwt");
-        if (!token){
+        if (!token) {
             return;
         }
         const userId = JSON.parse(atob(token.split(".")[1])).user_id;
@@ -70,7 +70,9 @@ export default function Recipe() {
                 <section className="recipe-section first">
                     <div>
                         <p className="recipe-name">{recipe.name}</p>
-                        <p className="recipe-author">Recipe by John Doe</p>
+                        <p className="recipe-author">
+                            Recipe by {recipe.author.full_name}
+                        </p>
 
                         <p className="recipe-info-header">Rating</p>
                         <div className="recipe-rating">
@@ -138,7 +140,11 @@ export default function Recipe() {
                     <div>
                         <img
                             className="recipe-image"
-                            src={recipe.image.url ? recipe.image.url : recipe.image.base64}
+                            src={
+                                recipe.image.url
+                                    ? recipe.image.url
+                                    : recipe.image.base64
+                            }
                             alt="Cover image for recipe"
                         />
                     </div>
