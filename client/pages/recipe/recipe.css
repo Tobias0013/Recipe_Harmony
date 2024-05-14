@@ -53,19 +53,13 @@
 
 .recipe-rating span {
     font-size: 3rem;
-}
-
-.recipe-star {
-    color: gold;
-}
-.recipe-star.e {
-    color: rgb(201, 201, 201);
+    color: red;
 }
 
 .recipe-rating > p {
     margin-left: .75rem;
     margin-top: .25rem;
-    font-size: 1.2rem;
+    font-size: 1.75rem;
 }
 
 .recipe-info {
