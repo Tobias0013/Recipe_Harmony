@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run start-client\" \"npm run start-server\"",
-    "start-client": "npx webpack-dev-server --mode development --open",
-    "start-server": "nodemon server/server.ts",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
+    "client": "npx webpack-dev-server --mode development --open",
+    "server": "nodemon server/server.ts",
     "build": "concurrently \"npm run build-client\" \"npm run build-server\"",
     "build-client": "npx webpack --mode production",
     "build-server": "npx tsc",
