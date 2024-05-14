@@ -39,33 +39,16 @@
     font-size: 2.125rem;
 }
 
-.recipe-info-header {
-    margin-top: 3rem;
-    font-size: 2.75rem;
-    font-weight: 600;
-}
-
-.recipe-rating {
-    margin-top: .5rem;
-    display: flex;
-    align-items: center;
-}
-
 .recipe-rating span {
     font-size: 3rem;
     color: red;
-}
-
-.recipe-rating > p {
-    margin-left: .75rem;
-    margin-top: .25rem;
-    font-size: 1.75rem;
 }
 
 .recipe-info {
     margin-top: 2.5rem;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .recipe-info > span, .recipe-info > p{

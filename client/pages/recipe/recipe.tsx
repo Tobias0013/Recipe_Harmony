@@ -73,13 +73,8 @@ export default function Recipe() {
                             Recipe by {recipe.author.full_name}
                         </p>
 
-                        <p className="recipe-info-header">Rating</p>
-                        <div className="recipe-rating">
-                            <div>
-                                <span className={`material-icons`}>
-                                    favorite
-                                </span>
-                            </div>
+                        <div className="recipe-info recipe-rating">
+                            <span className={`material-icons`}>favorite</span>
                             <p>{`${recipe.review_count} Favorites`}</p>
                         </div>
                         <div className="recipe-info">
