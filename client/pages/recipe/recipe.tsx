@@ -84,9 +84,11 @@ export default function Recipe() {
                         </div>
                         <div className="recipe-info">
                             <span className="material-icons">schedule</span>
-                            <p>{`${
-                                recipe.cook_time + recipe.prep_time
-                            } min`}</p>
+                            <p>{`${recipe.prep_time} min prep time`}</p>
+                        </div>
+                        <div className="recipe-info">
+                            <span className="material-icons">schedule</span>
+                            <p>{`${recipe.cook_time} min cook time`}</p>
                         </div>
                         <div className="recipe-info">
                             <span className="material-icons">
