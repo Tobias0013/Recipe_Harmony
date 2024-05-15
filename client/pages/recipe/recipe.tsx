@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./recipe.css";
 import recipeAPI from "../../controller/fetch/recipes";
+import householdAPI from "../../controller/fetch/household";
 
 /**
  * The Recipe component.
@@ -54,25 +55,48 @@ export default function Recipe() {
     };
 
     const handleBtnDel = () => {
-        const input = window.prompt(`Enter "${recipe.name}" to delete the recipe`);
+        const input = window.prompt(
+            `Enter "${recipe.name}" to delete the recipe`
+        );
         if (input !== recipe.name) {
             console.log(":(");
             return;
         }
         const token = sessionStorage.getItem("jwt");
         if (!token) {
-            alert("Error, user not logged in")
+            alert("Error, user not logged in");
             return;
         }
-        (async () =>{
-            const { error, res } = await recipeAPI.deleteById(recipe._id, token);
+        (async () => {
+            const { error, res } = await recipeAPI.deleteById(
+                recipe._id,
+                token
+            );
             if (error) {
-                alert(res ? res.Error : "Internal server error")
+                alert(res ? res.Error : "Internal server error");
                 return;
             }
             navigate("/explore");
-            alert("Recipe has been deleted")
-        })()
+            alert("Recipe has been deleted");
+        })();
+    };
+
+    const handleBtnIngredients = () => {
+        console.log(recipe.ingredients);
+
+        (async () => {
+            const { error, shoppingList } =
+                await householdAPI.appendShoppingList(recipe.ingredients);
+            console.log(error);
+
+            if (error) {
+                alert(error.Error);
+                return;
+            }
+            console.log(shoppingList);
+
+            alert("Shopping list have been updated. [TEMPORARY]"); //TODO once able redirect to household shopping list
+        })();
     };
 
     return (
@@ -164,6 +188,14 @@ export default function Recipe() {
                                 </li>
                             ))}
                         </ul>
+                        {sessionStorage.getItem("jwt") && (
+                            <button
+                                onClick={handleBtnIngredients}
+                                className="recipe-btn"
+                            >
+                                Add to shopping list
+                            </button>
+                        )}
                     </div>
                     <div>
                         <div className="recipe-header">Instructions</div>
