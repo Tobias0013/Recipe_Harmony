@@ -8,23 +8,22 @@ const HouseholdRouter: Router = Router();
 
 
 HouseholdRouter.get('/', async (req: Request, res: Response) => {
-    try {
-        const { limit, skip, tag, name, memberCountLess } = req.query;
-        const query: any = {};
-        if (tag) query.tags = { $in: Array.isArray(tag) ? tag : [tag] };
-        if (typeof name === 'string') query.name = { $regex: new RegExp(name, 'i') }; 
-        if (memberCountLess) query.member_count = { $lte: parseInt(memberCountLess as string) };
-        
-        const households = await HouseholdModel.find(query)
-            .select('_id name tags member_count rating review_count image')
-            .limit(limit ? parseInt(limit as string) : 10)
-            .skip(skip ? parseInt(skip as string) : 0);
-        
-        res.json(households);
-    } catch (error) {
-        console.error('Error fetching households:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+    const { user_id: userId } = req.body;
+    
+    if (!userId || !isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Incorrect request body" })
     }
+
+    const { error, household } = await householdDB.getByUserId(userId)
+
+    if (error === 404){
+        return res.status(404).json({ Error: "Household not found" });
+    }
+    else if (error){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    return res.json(household);
 });
 
 HouseholdRouter.get("/:id", async (req: Request, res: Response) => {
@@ -47,14 +46,61 @@ HouseholdRouter.get("/:id", async (req: Request, res: Response) => {
     res.json(household);
 });
 
-HouseholdRouter.post("/", async (req: Request, res: Response) => {
-    try {
-        const newHousehold = await HouseholdModel.create(req.body);
-        res.status(201).json(newHousehold);
-    } catch (error) {
-        console.error('Error creating household:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+HouseholdRouter.get("/:id/ingredients", async (req: Request, res: Response) =>{
+    const { id: householdId } = req.params;
+    
+    if (!householdId || !isValidObjectId(householdId)) {
+        return res.status(400).json({ Error: "Incorrect request params" })
     }
+
+    const { error, household } = await householdDB.getById(householdId);
+
+    if (error === 404){
+        return res.status(404).json({ Error: "Household not found" });
+    }
+    else if (error || !household){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    return res.json(household.ingredients);
+});
+
+HouseholdRouter.get("/:id/shopping-list", async (req: Request, res: Response) =>{
+    const { id: householdId } = req.params;
+    
+    if (!householdId || !isValidObjectId(householdId)) {
+        return res.status(400).json({ Error: "Incorrect request params" })
+    }
+
+    const { error, household } = await householdDB.getById(householdId);
+
+    if (error === 404){
+        return res.status(404).json({ Error: "Household not found" });
+    }
+    else if (error || !household){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    return res.json(household.shopping_list);
+});
+
+HouseholdRouter.post("/", async (req: Request, res: Response) => {
+    const { user_id: userId } = req.body;
+    
+    if (!userId || !isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Incorrect request body" })
+    }
+
+    const { error, household } = await householdDB.add(userId);
+
+    if (error === 409){
+        return res.status(409).json({ Error: "user_id already in a household" });
+    }
+    else if (error){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    return res.json(household);
 });
 
 HouseholdRouter.patch("/:id", async (req: Request, res: Response) => {
