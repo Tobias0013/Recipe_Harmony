@@ -1,0 +1,16 @@
+.item-container{
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.item-container p{
+    font-size: 2rem;
+}
+
+.item-container p:nth-child(1){
+    margin-right: 3rem;
+}
+
+.item-container p:nth-child(2){
+    margin-right: .5rem;
+}
