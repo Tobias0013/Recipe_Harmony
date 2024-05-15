@@ -1,19 +1,21 @@
 import { sign, verify} from "jsonwebtoken";
 import "dotenv";
 
-function createAndSignJWT(userId: any, fullName: any, email: any){
+function createAndSignJWT(userId: any, fullName: any, email: any, householdId: string){
 
     interface IJwtPayload {
         user_id: any,
         full_name: string,
         email: string,
+        household_id: string,
         role?: string
     };
 
     const jwtPayload: IJwtPayload = {
         user_id: userId,
         full_name: fullName,
-        email: email
+        email: email,
+        household_id: householdId,
     };
 
     if(email === process.env.ADMIN){

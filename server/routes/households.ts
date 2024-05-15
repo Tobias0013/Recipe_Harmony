@@ -103,25 +103,41 @@ HouseholdRouter.post("/", async (req: Request, res: Response) => {
     return res.json(household);
 });
 
-HouseholdRouter.patch("/:id", async (req: Request, res: Response) => {
+HouseholdRouter.patch("/:id/shopping-list", async (req: Request, res: Response) => {
     const { id } = req.params;
+    let { shopping_list } = req.body;
 
-    try {
-        if (!isValidObjectId(id)) {
-            res.status(400).json({Error: "400 param not valid id"})
-            return;
-        }
-        const updatedHousehold = await HouseholdModel.findByIdAndUpdate(id, req.body, { new: true });
-
-        if (!updatedHousehold) {
-            res.status(404).json({ Error: "404 household not found" });
-            return;
-        }
-        res.json(updatedHousehold);
-    } catch (error) {
-        console.error('Error updating household:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+    if (!id || !isValidObjectId(id)) {
+        return res.status(400).json({Error: "400 param not valid id"})
     }
+    
+    if (!Array.isArray(shopping_list)) {
+        return res.status(400).json({ Error: "Incorrect request body" });
+    }
+
+    for (const item of shopping_list) {
+        if (
+            typeof item.name !== "string" ||
+            typeof item.quantity_type !== "string" ||
+            typeof item.quantity !== "number"
+        ) {
+            return res.status(400).json({ Error: "Incorrect request body" });
+        }
+    }
+
+    shopping_list = shopping_list.map(item => {
+        return {name: item.name, quantity_type: item.quantity_type, quantity: item.quantity};
+    })
+    const { error, household } = await householdDB.updateShoppingList(id, shopping_list);
+
+    if (error === 404){
+        return res.status(404).json({ Error: "Household not found" });
+    }
+    else if (error || !household) {
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    res.json({ shopping_list: household.shopping_list });
 });
 
 HouseholdRouter.delete('/:id', async (req: Request, res: Response) => {
