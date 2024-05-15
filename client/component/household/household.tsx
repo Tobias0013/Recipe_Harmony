@@ -17,7 +17,7 @@ function Household() {
             <section className="section">
                 <h2>Members</h2>
                 <div className="households">
-                    <div key={sampleHousehold._id} className="user">
+                    <div key={sampleHousehold._id} className="members">
                         <div className="user-details">
                             <h3>Id: {sampleHousehold._id}</h3>
                             <p>Name: {sampleHousehold.name}</p>
@@ -25,10 +25,11 @@ function Household() {
                         </div>
                     </div>
                 </div>
+                <button className="btn">Add member to Household</button>
             </section>
             <section className="section">
                 <h2>Shopping List</h2>
-                <ul className="list">
+                <ul className="shopping_list">
                     {sampleHousehold.shopping_list.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
@@ -37,7 +38,7 @@ function Household() {
             </section>
             <section className="section">
                 <h2>Ingredients</h2>
-                <ul className="list">
+                <ul className="ingredients_list">
                     {sampleHousehold.ingredients.map((ingredient, index) => (
                         <li key={index}>{ingredient}</li>
                     ))}
