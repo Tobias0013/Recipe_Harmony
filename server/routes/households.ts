@@ -46,6 +46,25 @@ HouseholdRouter.get("/:id", async (req: Request, res: Response) => {
     res.json(household);
 });
 
+HouseholdRouter.get("/:id/ingredients", async (req: Request, res: Response) =>{
+    const { id: householdId } = req.params;
+    
+    if (!householdId || !isValidObjectId(householdId)) {
+        return res.status(400).json({ Error: "Incorrect request params" })
+    }
+
+    const { error, household } = await householdDB.getById(householdId);
+
+    if (error === 404){
+        return res.status(404).json({ Error: "Household not found" });
+    }
+    else if (error || !household){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+
+    return res.json(household.ingredients);
+});
+
 
 
 HouseholdRouter.post("/", async (req: Request, res: Response) => {

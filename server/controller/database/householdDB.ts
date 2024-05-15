@@ -1,3 +1,4 @@
+import household from '../../mongoose/household';
 import HouseholdModel from '../../mongoose/household';
 
 async function addHousehold(userId: string) {
@@ -39,20 +40,12 @@ async function getHouseholdById(id: any) {
     try {
         const res = await HouseholdModel.findById(id);
         if (res) {
-            return {
-                error: null,
-                household: {
-                    _id: res._id,
-                    name: res.name,
-                    members: res.members,
-                    // fler om de behövs
-                }
-            };
+            return { error: null, household: res };
         } else {
-            return { error: 404 };
+            return { error: 404, household: null };
         }
     } catch (e) {
-        return { error: e };
+        return { error: e, household: null };
     }
 }
 
