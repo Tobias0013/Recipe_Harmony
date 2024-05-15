@@ -3,7 +3,6 @@ import HouseholdModel from '../../mongoose/household';
 
 /**
  * Adds a new household to the database.
- * 
  * @param {string} userId - The ID of the user creating the household.
  * @returns {Promise<{ error: number | null, household: any }>} - A promise that resolves to an object containing the error code (if any) and the newly created household.
  */
