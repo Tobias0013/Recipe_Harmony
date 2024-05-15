@@ -25,24 +25,17 @@ async function getHouseholdById(id: any) {
         if (res) {
             return {
                 error: null,
-                household: {
-                    _id: res._id,
-                    name: res.name,
-                    members: res.members,
-                    // fler om de behövs
-                }
+                household: res
             };
         } else {
-            return { error: 404 };
+            return { error: 404, household: null };
         }
     } catch (e) {
-        return { error: e };
+        return { error: e, household: null};
     }
 }
 
 export default {
-    household: {
-        add: addHousehold,
-        getById: getHouseholdById
-    }
+    add: addHousehold,
+    getById: getHouseholdById
 };

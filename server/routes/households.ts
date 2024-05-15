@@ -81,9 +81,25 @@ HouseholdRouter.patch("/:id", async (req: Request, res: Response) => {
 HouseholdRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
         const householdId = req.params.id;
+        const { newHousegholdId, userId } = req.body;
+
+        if (!newHousegholdId || !userId) {
+            return res.status(400).json({ error: "request body incorrect" });
+        }
         if (!householdId) {
             return res.status(400).json({ error: 'Household ID is required' });
         }
+        //find new household
+        const { error, household } = await householdDB.getById(newHousegholdId);
+        if (error || !household) {
+            return res.status(error === 404 ? 404 : 500)
+            .json({ error: error === 404 ? "newHousehold not found" : "server error"});
+        }
+        // append new household with user id
+        household.members.push(userId);
+        household.save();
+
+        // delete
         const deletedHousehold = await HouseholdModel.findByIdAndDelete(householdId);
         if (!deletedHousehold) {
             return res.status(404).json({ error: 'Household not found' });
