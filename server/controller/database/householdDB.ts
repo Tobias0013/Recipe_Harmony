@@ -87,9 +87,32 @@ async function getOrCreateHousehold (userId: string){
     return { error: null, household: newHousehold };
 }
 
+/**
+ * Updates the shopping list of a household.
+ * @param id - The ID of the household.
+ * @param shoppingList - The updated shopping list.
+ * @returns An object containing the error (if any) and the updated household.
+ */
+async function updateShoppingList(id: string, shoppingList: any[]) {
+    try {
+        const household = await HouseholdModel.findById(id);
+        if (!household) {
+            return { error: 404, household };
+        }
+        household.shopping_list = shoppingList;
+        household.save();
+
+        return { error: null, household}
+    } 
+    catch (e) {
+        return { error: e, household: null };
+    }
+}
+
 export default {
     add: addHousehold,
     getById: getHouseholdById,
     getByUserId: getHouseholdByUserId,
-    getOrCreate: getOrCreateHousehold
+    getOrCreate: getOrCreateHousehold,
+    updateShoppingList
 };
