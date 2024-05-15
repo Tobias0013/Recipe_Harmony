@@ -1,6 +1,12 @@
 import household from '../../mongoose/household';
 import HouseholdModel from '../../mongoose/household';
 
+/**
+ * Adds a new household to the database.
+ * 
+ * @param {string} userId - The ID of the user creating the household.
+ * @returns {Promise<{ error: number | null, household: any }>} - A promise that resolves to an object containing the error code (if any) and the newly created household.
+ */
 async function addHousehold(userId: string) {
     try {
         const res = await HouseholdModel.find().or([{owner: userId}, {members: [userId]}]);
@@ -23,6 +29,11 @@ async function addHousehold(userId: string) {
     } 
 }
 
+/**
+ * Retrieves a household by user ID.
+ * @param userId - The ID of the user.
+ * @returns {Promise<{ error: number | null, household: any }>} - An object containing the error (if any) and the retrieved household.
+ */
 async function getHouseholdByUserId(userId: string){
     try {
         const household = await HouseholdModel.findOne().or([{owner: userId}, {members: [userId]}]);
@@ -36,6 +47,11 @@ async function getHouseholdByUserId(userId: string){
     } 
 }
 
+/**
+ * Retrieves a household by its ID.
+ * @param id - The ID of the household to retrieve.
+ * @returns {Promise<{ error: number | null, household: any }>} - An object containing the error (if any) and the retrieved household.
+ */
 async function getHouseholdById(id: any) {
     try {
         const res = await HouseholdModel.findById(id);
@@ -49,6 +65,11 @@ async function getHouseholdById(id: any) {
     }
 }
 
+/**
+ * Retrieves an existing household for the given user ID or creates a new one if it doesn't exist.
+ * @param userId The ID of the user.
+ * @returns {Promise<{ error: number | null, household: any }>} - An object containing the error status and the household.
+ */
 async function getOrCreateHousehold (userId: string){
     const { error, household } = await getHouseholdByUserId(userId);
     
