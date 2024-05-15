@@ -89,11 +89,23 @@ async function getAllUsers(){
     }
 }
 
+async function updateUser(this: any, id: string, updateData: Partial<User>): Promise<{ user: User | null, error: number | null }> {
+    const user = this.users.get(id);
+    if (!user) {
+        return { user: null, error: 404 };
+    }
+    const updatedUser = { ...user, ...updateData };
+    this.users.set(id, updatedUser);
+    return { user: updatedUser, error: null };
+}
+
+
 export default {
     user: {
         add: addUser,
         login: verifyUserCredentials,
         getUserData: getUserById,
-        getAllUsers: getAllUsers
+        getAllUsers: getAllUsers,
+        updateUser: updateUser,
     }
 }

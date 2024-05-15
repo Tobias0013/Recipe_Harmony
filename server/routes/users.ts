@@ -57,4 +57,28 @@ usersRouter.get("/", verifyAdminJWT, async (req: Request, res: Response) => {
     }
 })
 
+usersRouter.patch("/:id", async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const { full_name, password, email } = req.body;
+
+    if (!full_name && !password && !email) {
+        res.status(400).json({ "Error": "400 Body Missing Required Data" });
+        return;
+    }
+
+    try {
+        const result = await userDB.user.updateUser(id, { full_name, password, email });
+        if (result.error === 404) {
+            res.status(404).json({ "Error": "404 User Not Found" });
+        } else if (result.error === null) {
+            res.status(200).json({ "Updated": result.user });
+        } else {
+            res.status(500).json({ "Error": "500 Internal Server Error" });
+        }
+    } catch (err) {
+        res.status(500).json({ "Error": "500 Internal Server Error" });
+    }
+});
+
+
 export default usersRouter;
