@@ -103,7 +103,7 @@ HouseholdRouter.post("/", async (req: Request, res: Response) => {
     return res.json(household);
 });
 
-HouseholdRouter.patch("/:id/ingredients", async (req: Request, res: Response) => {
+HouseholdRouter.patch("/:id/shopping-list", async (req: Request, res: Response) => {
     const { id } = req.params;
     let { shopping_list } = req.body;
 
