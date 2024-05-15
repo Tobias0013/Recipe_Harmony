@@ -1,5 +1,6 @@
 import express, {Router, Request, Response} from "express";
 import userDB from "../controller/database/userDB";
+import householdDB from '../controller/database/householdDB';
 import jwt from "../controller/session/jwt";
 
 const sessionRouter: Router = express.Router();
@@ -18,8 +19,15 @@ sessionRouter.post("/", async(req: Request, res: Response) => {
             const result = await userDB.user.login(req.body.email, req.body.password);
             if(result.error === 401){
                 res.status(401).json({"Error" : "401 Incorrect email or password"})
-            }else if (result.error === null){
-                const jwtToken = jwt.session.createJWT(result.userId, result.fullName, result.email);
+            }else if (result.error === null && result.userId){
+                
+                const { error, household } = await householdDB.getOrCreate(result.userId.toString());
+                
+                if (error || !household){
+                    return res.status(500).json({"Error" : "500 Internal Server Error"});
+                }
+
+                const jwtToken = jwt.session.createJWT(result.userId, result.fullName, result.email, household._id.toString());
                 res.status(200).json({"jwt":jwtToken});
             }else{
                 res.status(500).json({"Error" : "500 Internal Server Error"});
