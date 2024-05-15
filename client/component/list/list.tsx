@@ -51,6 +51,11 @@ export default function List({ listTitle="List", itemCheckbox=false}){
     return (
         <div className="list-container">
             <h2>{listTitle}</h2>
+            <div className="list-headers">
+                <h3>Item</h3>
+                <h3>Quantity</h3>
+                <h3>Unit</h3>
+            </div>
             {listItems.map((item, index) => (
                 <ListItem
                     key={index}
