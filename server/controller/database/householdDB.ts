@@ -49,8 +49,27 @@ async function getHouseholdById(id: any) {
     }
 }
 
+async function getOrCreateHousehold (userId: string){
+    const { error, household } = await getHouseholdByUserId(userId);
+    
+    if (!error && household) {
+        return { error: null, household };
+    }
+
+    if (error !== 404) {
+        return { error: 500, household: null };
+    }
+    const { error: newError, household: newHousehold } = await addHousehold(userId);
+    
+    if (newError || !newHousehold) {
+        return { error: 500, household: null };
+    }
+    return { error: null, household: newHousehold };
+}
+
 export default {
     add: addHousehold,
     getById: getHouseholdById,
-    getByUserId: getHouseholdByUserId
+    getByUserId: getHouseholdByUserId,
+    getOrCreate: getOrCreateHousehold
 };
