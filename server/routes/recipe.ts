@@ -22,7 +22,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
         res.json(recipes);
     } catch (error) {
       console.error('Error fetching recipes:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ Error: 'Internal Server Error' });
     }
   });
 
@@ -47,16 +47,16 @@ RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
       const recipeId = req.params.id;
       if (!recipeId) {
-        return res.status(400).json({ error: 'Recipe ID is required' });
+        return res.status(400).json({ Error: 'Recipe ID is required' });
       }
       const deletedRecipe = await RecipeModel.findByIdAndDelete(recipeId);
       if (!deletedRecipe) {
-        return res.status(404).json({ error: 'Recipe not found' });
+        return res.status(404).json({ Error: 'Recipe not found' });
       }
       res.json({ message: 'Recipe deleted successfully' });
     } catch (error) {
       console.error('Error deleting recipe:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ Error: 'Internal Server Error' });
     }
   });
 
@@ -96,7 +96,7 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
         res.status(201).json(savedRecipe); 
     } catch (error) {
         console.error('Error creating recipe:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ Error: 'Internal Server Error' });
     }
 });
 
@@ -105,7 +105,7 @@ RecipeRouter.put('/:id', async (req: Request, res: Response) => {
       const { id } = req.params;
 
       if (!isValidObjectId(id)) {
-          return res.status(400).json({ error: "Invalid recipe ID" });
+          return res.status(400).json({ Error: "Invalid recipe ID" });
       }
 
       const {
@@ -126,7 +126,7 @@ RecipeRouter.put('/:id', async (req: Request, res: Response) => {
 
       const existingRecipe = await RecipeModel.findById(id);
       if (!existingRecipe) {
-          return res.status(404).json({ error: "Recipe not found" });
+          return res.status(404).json({ Error: "Recipe not found" });
       }
 
       existingRecipe.name = name;
@@ -148,7 +148,7 @@ RecipeRouter.put('/:id', async (req: Request, res: Response) => {
       res.json(updatedRecipe);
   } catch (error) {
       console.error('Error updating recipe:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ Error: 'Internal Server Error' });
   }
 });
 

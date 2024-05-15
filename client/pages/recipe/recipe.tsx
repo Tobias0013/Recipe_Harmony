@@ -32,8 +32,7 @@ export default function Recipe() {
             return;
         }
         const userId = JSON.parse(atob(token.split(".")[1])).user_id;
-        userId === recipe.author && setIsAuthor(true);
-
+        userId === recipe.author._id && setIsAuthor(true);
         //TODO set favorite
     };
 
@@ -55,12 +54,25 @@ export default function Recipe() {
     };
 
     const handleBtnDel = () => {
-        const input = window.prompt('Enter "delete"');
-        if (input !== "delete") {
+        const input = window.prompt(`Enter "${recipe.name}" to delete the recipe`);
+        if (input !== recipe.name) {
             console.log(":(");
             return;
         }
-        //TODO delete
+        const token = sessionStorage.getItem("jwt");
+        if (!token) {
+            alert("Error, user not logged in")
+            return;
+        }
+        (async () =>{
+            const { error, res } = await recipeAPI.deleteById(recipe._id, token);
+            if (error) {
+                alert(res ? res.Error : "Internal server error")
+                return;
+            }
+            navigate("/explore");
+            alert("Recipe has been deleted")
+        })()
     };
 
     return (

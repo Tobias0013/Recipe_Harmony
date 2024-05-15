@@ -85,8 +85,31 @@ async function getById(id: string){
     }
 }
 
+async function deleteById(id: string, jwtToken: string){
+    let fetchURL = url;
+    fetchURL += `/api/recipes/${id}`;
+
+    try {
+        const res = await fetch(fetchURL, {
+            method: "DELETE",
+            headers: {
+                Authorization: jwtToken
+            }
+        });
+
+        if (res.status !== 200)
+            return {error: res.status, res: await res.json()};
+        
+        return {error: null, res: await res.json()};        
+    }
+    catch (e) {
+        return {error: e, res: null}
+    }
+}
+
 export default {
     get,
     getByName,
-    getById
+    getById,
+    deleteById
 }
