@@ -5,7 +5,6 @@ import RecipeModel from "../mongoose/recipe";
 import recipeDB from '../controller/database/recipeDB';
 import session from '../../server/controller/session/jwt';
 import recipe from "../mongoose/recipe";
-import jwt from 'jsonwebtoken';
 require('dotenv').config();
 
 const RecipeRouter: Router = Router();
