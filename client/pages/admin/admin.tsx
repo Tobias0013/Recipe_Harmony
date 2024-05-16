@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import User from "../../component/admin/user";
 import Recipe from "../../component/admin/recipe";
-import Households from "../../component/admin/households";
+import Household from "../../component/admin/household";
 import userAPI from "../../controller/fetch/users";
 import recipeAPI from "../../controller/fetch/recipes";
+import householdAPI from "../../controller/fetch/household";
 
 const AdminPage: React.FC = () => {
     const jwtExists = sessionStorage.getItem("jwt");
@@ -57,6 +58,20 @@ const AdminPage: React.FC = () => {
                 setErrorRecipes((prev) => prev + "Internal error\n");
             }
         })();
+
+        const fetchHouseholds = (async () => {
+            try {
+                const { error, households } = await householdAPI.getAll();
+
+                if (error) {
+                    return setErrorHouseholds((prev) => prev + `${error}\n`);
+                }
+                setHouseholds(households);
+            } catch (e) {
+                console.log(e);
+                setErrorHouseholds((prev) => prev + "Internal error\n");
+            }
+        })();
     }, []);
 
     return (
@@ -75,7 +90,7 @@ const AdminPage: React.FC = () => {
                     )}
                 </section>
                 <section>
-                    <h1>RECIPES</h1>
+                    <h1 style={{ fontSize: "2rem" }}>RECIPES</h1>
                     {errorRecipes || !recipes ? (
                         <div>Error: {errorRecipes}</div>
                     ) : (
@@ -84,8 +99,21 @@ const AdminPage: React.FC = () => {
                         })
                     )}
                 </section>
-
-                <Households />
+                <section>
+                    <h1 style={{ fontSize: "2rem" }}>HOUSEHOLDS</h1>
+                    {errorHouseholds || !households ? (
+                        <div>Error: {errorHouseholds}</div>
+                    ) : (
+                        households.map((household) => {
+                            return (
+                                <Household
+                                    key={household._id}
+                                    household={household}
+                                />
+                            );
+                        })
+                    )}
+                </section>
             </div>
         )
     );
