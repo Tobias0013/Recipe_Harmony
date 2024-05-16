@@ -9,6 +9,12 @@ interface Recipe {
     rating: number;
 }
 
+/**
+ * Represents single recipe component for admin page.
+ * @param {Object} props - The component props.
+ * @param {Object} props.recipe - The recipe object to be rendered.
+ * @returns {JSX.Element} The single recipe component.
+ */
 const Recipe = (props: { recipe: any }) => {
     const { recipe } = props;
 
