@@ -18,10 +18,19 @@ function AddRecipe() {
         review_count: null,
         image: { type: '', url: '', base64: '' }
     });
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+        if (name === "tags") {
+            const tagsArray = value.split(",").map(tag => tag.trim());
+            setRecipeData(prevState => ({
+                ...prevState,
+                [name]: tagsArray
+            }));
+            return;
+        }
+
         // Validate if the value is an integer
         if (["prep_time", "cook_time", "servings", "calories", "quantity", "step"].includes(name)) {
             if (!/^\d+$/.test(value)) {
@@ -67,7 +76,7 @@ function AddRecipe() {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token?.toString}`
+                    "Authorization": `${token}`
                 },
                 body: JSON.stringify(recipeData)
             });
@@ -75,6 +84,7 @@ function AddRecipe() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
+                setIsSubmitted(true);
                 //window.location.reload();
                 // Redirect to another page or show a success message
             } else {
@@ -115,7 +125,10 @@ function AddRecipe() {
         }));
     };
 
+    
+
     return (
+        <div>
         <form className="add-recipe-form" onSubmit={handleSubmit}>
         <label>
             Name:
@@ -133,6 +146,10 @@ function AddRecipe() {
             Servings:
             <input type="text" name="servings" value={recipeData.servings} onChange={handleChange} className="input-field" />
         </label>
+        <label>
+                Tags (separated by comma):
+                <input type="text" name="tags" value={recipeData.tags.join(", ")} onChange={handleChange} className="input-field" />
+            </label>
         <label>
             Calories:
             <input type="text" name="calories" value={recipeData.calories} onChange={handleChange} className="input-field" />
@@ -176,6 +193,13 @@ function AddRecipe() {
 </label>
         <button type="submit" className="submit-button">Submit</button>
     </form>
+    {isSubmitted && (
+            <div className="success-message">
+                Recipe added successfully! {/* Display success message */}
+            </div>
+        )}
+    </div>
+    
 );
 }
 
