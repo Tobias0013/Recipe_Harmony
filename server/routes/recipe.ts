@@ -3,6 +3,9 @@ import { isValidObjectId } from "mongoose";
 
 import RecipeModel from "../mongoose/recipe";
 import recipeDB from '../controller/database/recipeDB';
+import session from '../../server/controller/session/jwt';
+import recipe from "../mongoose/recipe";
+require('dotenv').config();
 
 const RecipeRouter: Router = Router();
 
@@ -66,17 +69,25 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
             name,
             prep_time,
             cook_time,
-            author,
             servings,
             tags,
             calories,
             ingredients,
             difficulty,
             instructions,
+            review_count,
             image
         } = req.body;
 
-    
+        const token = req.headers.authorization;
+        console.log(recipe)
+        if (!token) {
+          return res.status(401).json({ message: 'Authorization token not provided' });
+      }
+      const decodedToken = session.session.verifyJWT(token);
+      console.log(decodedToken)
+      const author = decodedToken.user_id;
+
         const newRecipe = new RecipeModel({
             name,
             prep_time,
@@ -88,12 +99,15 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
             ingredients,
             difficulty,
             instructions,
+            review_count,
             image
         });
 
         const savedRecipe = await newRecipe.save();
 
         res.status(201).json(savedRecipe); 
+        console.log("recieved")
+        console.log(savedRecipe)
     } catch (error) {
         console.error('Error creating recipe:', error);
         res.status(500).json({ Error: 'Internal Server Error' });

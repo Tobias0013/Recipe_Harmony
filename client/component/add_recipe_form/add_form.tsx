@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import url from '../../controller/config';
+import url from '../../controller/config';  
 import './add_form.css';
 
 function AddRecipe() {
@@ -7,19 +7,28 @@ function AddRecipe() {
         name: '',
         prep_time: '',
         cook_time: '',
-        author: '',
         servings: '',
         tags: [],
         calories: '',
         ingredients: [{ name: '', quantity: '', quantity_type: '' }],
         difficulty: '',
         instructions: [{ step: '', text: ''}],
+        review_count: null,
         image: { type: '', url: '', base64: '' }
     });
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+        if (name === "tags") {
+            const tagsArray = value.split(",").map(tag => tag.trim());
+            setRecipeData(prevState => ({
+                ...prevState,
+                [name]: tagsArray
+            }));
+            return;
+        }
+
         // Validate if the value is an integer
         if (["prep_time", "cook_time", "servings", "calories", "quantity", "step"].includes(name)) {
             if (!/^\d+$/.test(value)) {
@@ -57,12 +66,15 @@ function AddRecipe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = sessionStorage.getItem('jwt');
         console.log(recipeData)
+        console.log(token)
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `${token}`
                 },
                 body: JSON.stringify(recipeData)
             });
@@ -70,7 +82,7 @@ function AddRecipe() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
-                //window.location.reload();
+                setIsSubmitted(true);
                 // Redirect to another page or show a success message
             } else {
                 console.error('Failed to add recipe:', response.statusText);
@@ -110,7 +122,10 @@ function AddRecipe() {
         }));
     };
 
+    
+
     return (
+        <div>
         <form className="add-recipe-form" onSubmit={handleSubmit}>
         <label>
             Name:
@@ -125,13 +140,13 @@ function AddRecipe() {
             <input type="text" name="cook_time" value={recipeData.cook_time} onChange={handleChange} className="input-field" />
         </label>
         <label>
-            Author:
-            <input type="text" name="author" value={recipeData.author} onChange={handleChange} className="input-field" />
-        </label>
-        <label>
             Servings:
             <input type="text" name="servings" value={recipeData.servings} onChange={handleChange} className="input-field" />
         </label>
+        <label>
+                Tags (separated by comma):
+                <input type="text" name="tags" value={recipeData.tags.join(", ")} onChange={handleChange} className="input-field" />
+            </label>
         <label>
             Calories:
             <input type="text" name="calories" value={recipeData.calories} onChange={handleChange} className="input-field" />
@@ -175,6 +190,13 @@ function AddRecipe() {
 </label>
         <button type="submit" className="submit-button">Submit</button>
     </form>
+    {isSubmitted && (
+            <div className="success-message">
+                Recipe added successfully! {/* Display success message */}
+            </div>
+        )}
+    </div>
+    
 );
 }
 
