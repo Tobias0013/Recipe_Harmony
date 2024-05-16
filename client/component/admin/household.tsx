@@ -1,14 +1,20 @@
 import React from "react";
 import "./household.css";
 
+/**
+ * Represents single household component for admin page.
+ * @param {Object} props - The component props.
+ * @param {Object} props.household - The household object.
+ * @returns {JSX.Element} The household component.
+ */
 const Household = (props: { household: any }) => {
     const { household } = props;
 
-    const handleEditHousehold = (id) => {
+    const handleEditHousehold = (id: string) => {
         // Implement logic to edit household with the specified id
     };
 
-    const handleRemoveHousehold = (id) => {
+    const handleRemoveHousehold = (id: string) => {
         // Implement logic to remove household with the specified id
     };
 
