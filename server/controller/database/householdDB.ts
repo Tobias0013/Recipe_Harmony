@@ -109,10 +109,25 @@ async function updateShoppingList(id: string, shoppingList: any[]) {
     }
 }
 
+/**
+ * Retrieves all existing households.
+ * @returns {Promise<{ error: number | null, households: any }>} - An object containing the error status and the households.
+ */
+async function getAll() {
+    try {
+        const households = await HouseholdModel.find();
+        return { error: null, households };
+    } 
+    catch (e) {
+        return { error: e, households: null };
+    }
+}
+
 export default {
     add: addHousehold,
     getById: getHouseholdById,
     getByUserId: getHouseholdByUserId,
     getOrCreate: getOrCreateHousehold,
-    updateShoppingList
+    updateShoppingList,
+    getAll
 };
