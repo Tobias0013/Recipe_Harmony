@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import url from '../../controller/config';  
 import './add_form.css';
-import session from '../../../server/controller/session/jwt';
-
 
 function AddRecipe() {
     const [recipeData, setRecipeData] = useState({
