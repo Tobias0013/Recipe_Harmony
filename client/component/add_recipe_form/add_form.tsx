@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import url from '../../controller/config';
+import url from '../../controller/config';  
 import './add_form.css';
+import session from '../../../server/controller/session/jwt';
+
 
 function AddRecipe() {
     const [recipeData, setRecipeData] = useState({
@@ -13,6 +15,7 @@ function AddRecipe() {
         ingredients: [{ name: '', quantity: '', quantity_type: '' }],
         difficulty: '',
         instructions: [{ step: '', text: ''}],
+        review_count: null,
         image: { type: '', url: '', base64: '' }
     });
 
@@ -56,12 +59,15 @@ function AddRecipe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = sessionStorage.getItem('jwt');
         console.log(recipeData)
+        console.log(token)
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token?.toString}`
                 },
                 body: JSON.stringify(recipeData)
             });
