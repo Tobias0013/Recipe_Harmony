@@ -3,11 +3,12 @@ import { isValidObjectId } from "mongoose";
 
 import HouseholdModel from "../mongoose/household";
 import householdDB from '../controller/database/householdDB';
+import verifyJWT from "./middleware/jwt_middle";
 
 const HouseholdRouter: Router = Router();
 
 
-HouseholdRouter.get('/', async (req: Request, res: Response) => {
+HouseholdRouter.get('/', verifyJWT, async (req: Request, res: Response) => {
     const { user_id: userId } = req.body;
     
     if (!userId || !isValidObjectId(userId)) {
@@ -26,7 +27,7 @@ HouseholdRouter.get('/', async (req: Request, res: Response) => {
     return res.json(household);
 });
 
-HouseholdRouter.get("/:id", async (req: Request, res: Response) => {
+HouseholdRouter.get("/:id", verifyJWT, async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!isValidObjectId(id)) {
@@ -46,7 +47,7 @@ HouseholdRouter.get("/:id", async (req: Request, res: Response) => {
     res.json(household);
 });
 
-HouseholdRouter.get("/:id/ingredients", async (req: Request, res: Response) =>{
+HouseholdRouter.get("/:id/ingredients", verifyJWT, async (req: Request, res: Response) =>{
     const { id: householdId } = req.params;
     
     if (!householdId || !isValidObjectId(householdId)) {
@@ -65,7 +66,7 @@ HouseholdRouter.get("/:id/ingredients", async (req: Request, res: Response) =>{
     return res.json(household.ingredients);
 });
 
-HouseholdRouter.get("/:id/shopping-list", async (req: Request, res: Response) =>{
+HouseholdRouter.get("/:id/shopping-list", verifyJWT, async (req: Request, res: Response) =>{
     const { id: householdId } = req.params;
     
     if (!householdId || !isValidObjectId(householdId)) {
@@ -84,7 +85,7 @@ HouseholdRouter.get("/:id/shopping-list", async (req: Request, res: Response) =>
     return res.json(household.shopping_list);
 });
 
-HouseholdRouter.post("/", async (req: Request, res: Response) => {
+HouseholdRouter.post("/", verifyJWT, async (req: Request, res: Response) => {
     const { user_id: userId } = req.body;
     
     if (!userId || !isValidObjectId(userId)) {
@@ -103,7 +104,7 @@ HouseholdRouter.post("/", async (req: Request, res: Response) => {
     return res.json(household);
 });
 
-HouseholdRouter.patch("/:id/shopping-list", async (req: Request, res: Response) => {
+HouseholdRouter.patch("/:id/shopping-list", verifyJWT, async (req: Request, res: Response) => {
     const { id } = req.params;
     let { shopping_list } = req.body;
 
@@ -140,7 +141,7 @@ HouseholdRouter.patch("/:id/shopping-list", async (req: Request, res: Response) 
     res.json({ shopping_list: household.shopping_list });
 });
 
-HouseholdRouter.delete('/:id', async (req: Request, res: Response) => {
+HouseholdRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
     try {
         const householdId = req.params.id;
         if (!householdId) {
