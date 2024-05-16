@@ -1,0 +1,33 @@
+.item-container{
+    display: flex;
+    border-bottom: 1px solid black;
+    padding: .3dvh;
+    margin-bottom: .5dvh;
+    width: 30dvw;
+}
+
+.item-container input{
+    font-size: 1.8rem;
+    border: none;
+    
+}
+
+.item-container input:nth-child(1){
+    width: 2dvw;
+    accent-color: #509e2f;
+}
+
+.item-container input:nth-child(2){
+    margin-left: 1rem;
+    border-right: 1px solid black;
+    width: 10dvw;
+}
+
+.item-container input:nth-child(3){
+    border-right: 1px solid black;
+    width: 5dvw;
+}
+
+.item-container input:nth-child(4){
+    width: 10dvw;
+}
