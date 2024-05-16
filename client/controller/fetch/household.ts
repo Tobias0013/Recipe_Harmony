@@ -1,5 +1,9 @@
 import url from "../config"
 
+/**
+ * Retrieves the shopping list for the user's household.
+ * @returns {Promise<{ error: any, shoppingList: any }>} A promise that resolves to an object containing the error (if any) and the shopping list.
+ */
 async function getShoppingList() {
     const token = sessionStorage.getItem("jwt");
     if (!token) {
@@ -23,6 +27,11 @@ async function getShoppingList() {
     return { error: null, shoppingList: await res.json() };
 }
 
+/**
+ * Appends the given ingredients to the shopping list of the user's household.
+ * @param ingredients - An array of ingredients to be added to the shopping list.
+ * @returns An object containing the error status and the updated shopping list.
+ */
 async function appendShoppingList(ingredients: any[]) {
     const token = sessionStorage.getItem("jwt");
     if (!token) {
@@ -56,6 +65,10 @@ async function appendShoppingList(ingredients: any[]) {
     return { error: null, shoppingList: await res.json() };
 }
 
+/**
+ * Retrieves all households from the server.
+ * @returns {Promise<{ error: any, households: any[] }>} A promise that resolves to an object containing the error (if any) and the array of households.
+ */
 async function getAll() {
     const token = sessionStorage.getItem("jwt");
     if (!token) {
