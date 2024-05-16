@@ -3,9 +3,19 @@ import { isValidObjectId } from "mongoose";
 
 import HouseholdModel from "../mongoose/household";
 import householdDB from '../controller/database/householdDB';
+import verifyAdminJWT from "./middleware/admin_middle";
 
 const HouseholdRouter: Router = Router();
 
+
+HouseholdRouter.get('/all', verifyAdminJWT, async (req: Request, res: Response) => {
+    const { error, households } = await householdDB.getAll();
+    
+    if (error){
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+    return res.json(households);
+});
 
 HouseholdRouter.get('/', async (req: Request, res: Response) => {
     const { user_id: userId } = req.body;
