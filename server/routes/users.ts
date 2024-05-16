@@ -1,6 +1,6 @@
 import express, {Router, Request, Response} from "express";
 import userDB from "../controller/database/userDB";
-import veriyAdminJWT from "./middleware/admin_middle";
+import verifyJWT from "./middleware/jwt_middle";
 import verifyAdminJWT from "./middleware/admin_middle";
 
 const usersRouter: Router = express.Router();
@@ -28,7 +28,7 @@ usersRouter.post("/", async(req: Request, res: Response) => {
     Endpoint to get user data from id
     Protected using JWT
 */
-usersRouter.get("/:id", async (req: Request, res: Response) => {
+usersRouter.get("/:id", verifyJWT, async (req: Request, res: Response) => {
     const id: string = req.params.id;
     try{
         const result = await userDB.user.getUserData(id);

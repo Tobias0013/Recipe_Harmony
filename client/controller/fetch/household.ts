@@ -17,7 +17,12 @@ async function getShoppingList() {
     const fetchURL = `${url}/api/households/${householdId}/shopping-list`;
     console.log("DEBUG", fetchURL);
 
-    const res = await fetch(fetchURL);
+    const res = await fetch(fetchURL, {
+        method: "GET",
+        headers:{
+            "Authorization": token
+        }
+    });
 
     console.log("DEBUG", res);
 
