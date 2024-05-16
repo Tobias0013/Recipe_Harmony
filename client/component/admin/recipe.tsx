@@ -45,7 +45,7 @@ const Recipe = (props: { recipe: any }) => {
                 <div className="recipe-details">
                     <h2>{recipe.name}</h2>
                     <p>Cook Time: {recipe.cookTimeMinutes} minutes</p>
-                    <p>Rating: {recipe.rating}</p>
+                    <p>Favorite count: {recipe.review_count}</p>
                 </div>
             </div>
         </div>
