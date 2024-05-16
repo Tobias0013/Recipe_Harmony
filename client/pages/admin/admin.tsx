@@ -36,9 +36,9 @@ const AdminPage: React.FC = () => {
     return (
         users && (
             <div>
-                <h1>ADMIN PAGE</h1>
+                <h1 style={{ fontSize: "3rem" }} >ADMIN PAGE</h1>
                 <section>
-                    <h1>USER DETAILS</h1>
+                    <h1 style={{ fontSize: "2rem" }}>USER DETAILS</h1>
 
                     {userError ? (
                         <div>Error: {userError}</div>
