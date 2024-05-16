@@ -8,6 +8,10 @@ import userAPI from "../../controller/fetch/users";
 import recipeAPI from "../../controller/fetch/recipes";
 import householdAPI from "../../controller/fetch/household";
 
+/**
+ * Renders the Admin page component.
+ * @returns The rendered Admin page component.
+ */
 const AdminPage: React.FC = () => {
     const jwtExists = sessionStorage.getItem("jwt");
     const navigate = useNavigate();
