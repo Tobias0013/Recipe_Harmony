@@ -32,7 +32,10 @@ export default function List({ listTitle="List", shoppingList=false}){
     }
     
     useEffect(() => {
-        retrieveShoppingList();
+        //retrieve shopping list from database on page load
+        if(shoppingList){
+            retrieveShoppingList();
+        }
     }, [])
 
     const updateShoppingList = async () => {
@@ -43,16 +46,17 @@ export default function List({ listTitle="List", shoppingList=false}){
                 quantity_type: item.unit
             })
         });
-        console.log("FORMATATION")
         formatedShoppingListForDB.splice(formatedShoppingListForDB.length-1, 1) //remove last item which is always empty
-        console.log(formatedShoppingListForDB);
-        const resposne = await householdAPI.replaceShoppingList(formatedShoppingListForDB);
-        console.log(resposne)
+        const response = await householdAPI.replaceShoppingList(formatedShoppingListForDB);
+        console.log(response)
     }
 
     useEffect(() => {
-        const timerId = setTimeout(updateShoppingList, 1000);
-        return () => clearTimeout(timerId);
+        //auto save changes to shopping list. triggered on listItems changed
+        if(shoppingList){
+            const timerId = setTimeout(updateShoppingList, 1000);
+            return () => clearTimeout(timerId);
+        }
     }, [listItems])
 
     
