@@ -56,7 +56,27 @@ async function appendShoppingList(ingredients: any[]) {
     return { error: null, shoppingList: await res.json() };
 }
 
+async function getAll() {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1, households: null};
+    }
+    const fetchURL = `${url}/api/households/all`;
+
+    const res = await fetch(fetchURL, {
+        headers: {
+            "Authorization": token,
+        },
+    });
+
+    if (res.status !== 200) {
+        return { error: await res.json(), households: null};
+    }
+    return { error: null, households: await res.json() };
+}
+
 export default {
     getShoppingList,
-    appendShoppingList
+    appendShoppingList,
+    getAll
 }
