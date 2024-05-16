@@ -5,6 +5,7 @@ import RecipeModel from "../mongoose/recipe";
 import recipeDB from '../controller/database/recipeDB';
 import session from '../../server/controller/session/jwt';
 import recipe from "../mongoose/recipe";
+import verifyJWT from "./middleware/jwt_middle";
 require('dotenv').config();
 
 const RecipeRouter: Router = Router();
@@ -46,7 +47,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
     res.json(recipe);
   });
 
-RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
+RecipeRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
     try {
       const recipeId = req.params.id;
       if (!recipeId) {
@@ -63,7 +64,7 @@ RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
     }
   });
 
-RecipeRouter.post('/', async (req: Request, res: Response) => {
+RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
     try {
         const {
             name,
@@ -114,7 +115,7 @@ RecipeRouter.post('/', async (req: Request, res: Response) => {
     }
 });
 
-RecipeRouter.put('/:id', async (req: Request, res: Response) => {
+RecipeRouter.put('/:id', verifyJWT, async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
 

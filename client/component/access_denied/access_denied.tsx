@@ -7,9 +7,9 @@ interface AccessDeniedProps {
     reason?: string
 }
 
-export default function AccessDenied<AccessDeniedProps>({ redirectTo="/", reason="ACCESS DENIED"}) {
+export default function AccessDenied<AccessDeniedProps>({ redirectTo="/", reason="ACCESS DENIED", redirectTimer=3}) {
     const nav: NavigateFunction = useNavigate();
-    const [counter, setCounter] = useState<number>(3);
+    const [counter, setCounter] = useState<number>(redirectTimer);
 
     useEffect(() => {
         setTimeout(() => {
