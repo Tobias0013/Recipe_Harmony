@@ -1,7 +1,12 @@
 import React from "react";
 import "./users.css"; // Import the CSS file
 
-// TODO: Remove this and fetch from API
+/**
+ * Represents single user component for admin page.
+ * @param {Object} props - The component props.
+ * @param {Object} props.user - The user object to be rendered.
+ * @returns {JSX.Element} The single user component.
+ */
 const User = (props: { user: any }) => {
     const { user } = props;
 
