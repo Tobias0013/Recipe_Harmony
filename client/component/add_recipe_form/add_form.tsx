@@ -83,7 +83,6 @@ function AddRecipe() {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
                 setIsSubmitted(true);
-                //window.location.reload();
                 // Redirect to another page or show a success message
             } else {
                 console.error('Failed to add recipe:', response.statusText);
