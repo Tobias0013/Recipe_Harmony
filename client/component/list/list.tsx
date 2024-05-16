@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import ListItem from "../list_item/list_item";
 import "./list.css";
 
-export default function List({ listTitle="List", itemCheckbox=false}){
+export default function List({ listTitle="List", shoppingList=false}){
     const emptyListItem = {
         itemName: "",
         quantity: "",
         unit: "",
-        checkBox: itemCheckbox,
+        checkBox: shoppingList,
         checkBoxValue: false,
         onChange: undefined
     }
