@@ -7,7 +7,6 @@ function AddRecipe() {
         name: '',
         prep_time: '',
         cook_time: '',
-        author: '',
         servings: '',
         tags: [],
         calories: '',
@@ -123,10 +122,6 @@ function AddRecipe() {
         <label>
             Cook Time:
             <input type="text" name="cook_time" value={recipeData.cook_time} onChange={handleChange} className="input-field" />
-        </label>
-        <label>
-            Author:
-            <input type="text" name="author" value={recipeData.author} onChange={handleChange} className="input-field" />
         </label>
         <label>
             Servings:
