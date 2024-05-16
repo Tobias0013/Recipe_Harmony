@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ListItem from "../list_item/list_item";
+import householdAPI from "../../controller/fetch/household";
 import "./list.css";
 
 export default function List({ listTitle="List", shoppingList=false}){
@@ -13,6 +14,27 @@ export default function List({ listTitle="List", shoppingList=false}){
     }
 
     const [listItems, setListItems] = useState([{...emptyListItem}]);
+
+    const retrieveShoppingList = async () => {
+        const shoppingListResponse = await householdAPI.getShoppingList();
+        const formatedShoppingList = shoppingListResponse.shoppingList.map(item => {
+            return ({
+                itemName: item.name,
+                quantity: item.quantity === 0 ? "" : item.quantiy,
+                unit: item.quantity_type,
+                checkBox: true,
+                checkBoxValue: false,
+                onChange: handleInputChange
+            })
+        });
+
+        setListItems([...formatedShoppingList, {...emptyListItem}]);
+    }
+    
+    useEffect(() => {
+        retrieveShoppingList();
+    }, [])
+
     
     const handleInputChange = (index: number, inputId: string, newValue: any) => {
         const newListItems = [...listItems];
