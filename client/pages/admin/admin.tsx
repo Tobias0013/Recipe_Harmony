@@ -1,5 +1,5 @@
 import React from "react";
-import Users from "../../component/admin/users";
+import User from "../../component/admin/user";
 import Receips from "../../component/admin/recipes";
 import Households from "../../component/admin/households";
 import userAPI from "../../controller/fetch/users";
@@ -9,41 +9,50 @@ const AdminPage: React.FC = () => {
     const jwtExists = sessionStorage.getItem("jwt");
 
     const [users, setUsers] = useState<any>();
-
+    const [userError, setUserError] = useState<any>();
     /*
         TODO:
         Move this function to each admin component instead of this page
     */
     useEffect(() => {
-        const getData = async () => {
+        (async () => {
             if (jwtExists) {
                 try {
-                    const response: Response = await userAPI.user.getAll(jwtExists)
+                    const response: Response = await userAPI.user.getAll(
+                        jwtExists
+                    );
                     const data = await response.json();
-                    if(!data.error){
-                        setUsers(data)
+                    if (!data.error) {
+                        setUsers(data);
                     }
                 } catch (e) {
-                    console.log(e)
+                    console.log(e);
+                    setUserError(e);
                 }
             }
-        }
-        getData();
-
-    }, [])
+        })();
+    }, []);
 
     return (
-        users && (<div>
-            <h1>ADMIN PAGE</h1>
+        users && (
             <div>
-                <Users />
+                <h1>ADMIN PAGE</h1>
+                <section>
+                    <h1>USER DETAILS</h1>
+
+                    {userError ? (
+                        <div>Error: {userError}</div>
+                    ) : (
+                        users.map((user) => {
+                            return <User key={user._id} user={user} />;
+                        })
+                    )}
+                </section>
+                <Receips />
+                <Households />
             </div>
-            <Receips />
-            <Households />
-        </div>
         )
     );
-
 };
 
 export default AdminPage;
