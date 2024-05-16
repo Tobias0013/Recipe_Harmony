@@ -61,7 +61,34 @@ async function appendShoppingList(ingredients: any[]) {
     return { error: null, shoppingList: await res.json() };
 }
 
+async function replaceShoppingList(shoppingList: any[]) {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 };
+    }
+    const householdId = JSON.parse(atob(token.split(".")[1])).household_id;
+    
+    const fetchURL = `${url}/api/households/${householdId}/shopping-list`;
+
+    const res = await fetch(fetchURL, {
+        method: "PATCH",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            shopping_list: shoppingList
+        })
+    });
+
+    if (res.status !== 200) {
+        return { error: await res.json(), shoppingList: null};
+    }
+    return { error: null, shoppingList: await res.json() };
+}
+
 export default {
     getShoppingList,
-    appendShoppingList
+    appendShoppingList,
+    replaceShoppingList
 }

@@ -20,7 +20,7 @@ export default function List({ listTitle="List", shoppingList=false}){
         const formatedShoppingList = shoppingListResponse.shoppingList.map(item => {
             return ({
                 itemName: item.name,
-                quantity: item.quantity === 0 ? "" : item.quantiy,
+                quantity: item.quantity === 0 ? "" : item.quantity,
                 unit: item.quantity_type,
                 checkBox: true,
                 checkBoxValue: false,
@@ -34,6 +34,26 @@ export default function List({ listTitle="List", shoppingList=false}){
     useEffect(() => {
         retrieveShoppingList();
     }, [])
+
+    const updateShoppingList = async () => {
+        const formatedShoppingListForDB = listItems.map(item => {
+            return ({
+                name: item.itemName,
+                quantity: item.quantity === "" ? 0 : parseInt(item.quantity, 10),
+                quantity_type: item.unit
+            })
+        });
+        console.log("FORMATATION")
+        formatedShoppingListForDB.splice(formatedShoppingListForDB.length-1, 1) //remove last item which is always empty
+        console.log(formatedShoppingListForDB);
+        const resposne = await householdAPI.replaceShoppingList(formatedShoppingListForDB);
+        console.log(resposne)
+    }
+
+    useEffect(() => {
+        const timerId = setTimeout(updateShoppingList, 1000);
+        return () => clearTimeout(timerId);
+    }, [listItems])
 
     
     const handleInputChange = (index: number, inputId: string, newValue: any) => {
