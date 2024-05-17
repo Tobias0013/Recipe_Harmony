@@ -127,7 +127,7 @@ export default function Recipe() {
                             </span>
                             <p>{recipe.difficulty}</p>
                         </div>
-                        {recipe.calories && (
+                        {recipe.calories > 0 && (
                             <div className="recipe-info">
                                 <span className="material-icons">
                                     local_fire_department
