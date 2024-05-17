@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import url from '../../controller/config';  
 import './add_form.css';
+
+import url from '../../controller/config';  
+import errorHandling from './errorHandling';
 
 function AddRecipe() {
     const [recipeData, setRecipeData] = useState({
@@ -11,13 +13,14 @@ function AddRecipe() {
         tags: [],
         calories: '',
         ingredients: [{ name: '', quantity: '', quantity_type: '' }],
-        difficulty: '',
+        difficulty: 'easy',
         instructions: [{ step: '1', text: ''}],
         review_count: null,
         image: { type: '', url: '', base64: '' }
     });
     const [instructionStep, setInstructionStep] = useState(1);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState<string[]>([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,9 +61,19 @@ function AddRecipe() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = sessionStorage.getItem('jwt');
-        console.log(recipeData)
+        if (!token) {
+            return alert("User not signed in");
+        }
+        //Error handling recipeData
+        const { errors, data } = errorHandling(recipeData);
+
+        if (errors) {
+            return setError(errors);
+        }
+        setError([]); //TODO mby remove
         
-        return
+        data.author = JSON.parse(atob(token.split(".")[1])).user_id;
+
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
@@ -68,14 +81,14 @@ function AddRecipe() {
                     "Content-Type": "application/json",
                     "Authorization": `${token}`
                 },
-                body: JSON.stringify(recipeData)
+                body: JSON.stringify(data)
             });
 
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
                 setIsSubmitted(true);
-                // Redirect to another page or show a success message
+                //TODO Redirect to another page or show a success message
             } else {
                 console.error('Failed to add recipe:', response.statusText);
             }
@@ -148,11 +161,11 @@ function AddRecipe() {
             <input type="text" name="servings" value={recipeData.servings} onChange={handleChange} className="input-field" />
         </label>
         <label>
-                Tags (separated by comma):
+                Tags (separated by comma): (optional)
                 <input type="text" name="tags" value={recipeData.tags.join(", ")} onChange={handleChange} className="input-field" />
             </label>
         <label>
-            Calories:
+            Calories: (optional)
             <input type="text" name="calories" value={recipeData.calories} onChange={handleChange} className="input-field" />
         </label>
         <label>
@@ -163,11 +176,11 @@ function AddRecipe() {
         <option value="hard">Hard</option>
     </select>
     </label>
-        <label>
-            Image:
-            <input className='add-recipe-image-input' type="file" accept="image/*" onChange={handleImageChange} />
-        </label>
-        <label>
+    <label>
+        Image:
+        <input className='add-recipe-image-input' type="file" accept="image/*" onChange={handleImageChange} />
+    </label>
+    <label>
     Ingredients:
     {recipeData.ingredients.map((ingredient, index) => (
         <div key={index}>
@@ -179,21 +192,26 @@ function AddRecipe() {
             )}
         </div>
     ))}
-</label>
-<label>
-    Instructions:
-    {recipeData.instructions.map((instruction, index) => (
-        <div key={index}>
-            <input readOnly type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
-            <textarea name="text" placeholder="Instruction" value={instruction.text} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
-            {index === recipeData.instructions.length - 1 && (
-                <button onClick={() => handleAddInstruction()} className="add-button">+</button>
-            )}
-        </div>
-    ))}
-</label>
+    </label>
+    <label>
+        Instructions:
+        {recipeData.instructions.map((instruction, index) => (
+            <div key={index}>
+                <input readOnly type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
+                <textarea name="text" placeholder="Instruction" value={instruction.text} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
+                {index === recipeData.instructions.length - 1 && (
+                    <button onClick={() => handleAddInstruction()} className="add-button">+</button>
+                )}
+            </div>
+        ))}
+    </label>
+        {error.map(e =>{
+            return <p className="error-msg">{e}</p>
+        })}
+
         <button type="submit" className="submit-button">Submit</button>
     </form>
+
     {isSubmitted && (
             <div className="success-message">
                 Recipe added successfully! {/* Display success message */}
