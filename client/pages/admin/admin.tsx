@@ -82,6 +82,12 @@ const AdminPage: React.FC = () => {
         users && (
             <div>
                 <h1 style={{ fontSize: "3rem" }}>ADMIN PAGE</h1>
+                {users && recipes && households && (
+                    <h1 style={{ fontSize: "2.5rem" }}>
+                        STATISTICS: user count: {users.length}, recipe count{" "}
+                        {recipes.length}, household count {households.length}
+                    </h1>
+                )}
                 <section>
                     <h1 style={{ fontSize: "2rem" }}>USER DETAILS</h1>
 
