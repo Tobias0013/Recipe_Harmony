@@ -6,12 +6,15 @@
 .not-found-heading {
     font-size: 3rem;
     color: #333;
+    text-decoration: none;
+    border-bottom: none;
 }
 
 .not-found-message {
     font-size: 1.8rem; 
-    color: #666;
+    color: #333;
     margin-bottom: 20px;
+    font-weight: 600; /* Thicker text */
 }
 
 .not-found-message a {
