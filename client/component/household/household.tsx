@@ -1,28 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './household.css';
-import  getAll  from '../../controller/fetch/household';
 
 function Household() {
-
-
-    const [households, setHouseholds] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchHouseholds = async () => {
-            const { error, households: fetchedHouseholds } = await getAll();
-            if (error) {
-                setError(error);
-            } else {
-                setHouseholds(fetchedHouseholds);
-            }
-        };
-
-        fetchHouseholds();
-    }, []);
-
-
     const sampleHousehold = {
         _id: "663a27521f8b65134101798b",
         name: "Kristoffers home",

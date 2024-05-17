@@ -1,3 +1,7 @@
+.household-page, .household-page * {
+    font-family: 'Roboto', sans-serif;
+}
+
 .household-page {
     display: flex;
     flex-direction: column;
@@ -17,9 +21,7 @@
     margin-bottom: 2rem;
 }
 
-
 .header {
-    font-family: 'Roboto', sans-serif;
     color: rgb(58, 57, 57);
     border-bottom: 2px solid #030303;
     transition: border-bottom-color 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
@@ -28,19 +30,20 @@
     font-weight: 700; 
     letter-spacing: 0.1rem;
 }
+
 .go-to-list {
     font-size: 1.4rem;
-    color: #007bff; /* Default link color */
+    color: #007bff; 
     text-decoration: none;
     position: absolute;
     bottom: 0;
     left: 0;
     margin-left: 1rem;
-    transition: color 0.3s; /* Add transition for smooth color change */
+    transition: color 0.3s;
 }
 
 .go-to-list:hover {
-    color: #0056b3; /* Color when hovering */
+    color: #0056b3; 
 }
 
 .join-btn {
