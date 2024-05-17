@@ -105,7 +105,7 @@ const AdminPage: React.FC = () => {
                         <div>Error: {errorRecipes}</div>
                     ) : (
                         recipes.map((recipe) => {
-                            return <Recipe key={recipe._id} recipe={recipe} />;
+                            return <Recipe key={recipe._id} recipe={recipe} token={jwtExists} />;
                         })
                     )}
                 </section>
