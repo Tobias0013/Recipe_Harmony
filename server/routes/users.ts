@@ -62,8 +62,7 @@ usersRouter.patch("/:id", async (req: Request, res: Response) => {
     const { full_name, password, email } = req.body;
 
     if (!full_name && !password && !email) {
-        res.status(400).json({ "Error": "400 Body Missing Required Data" });
-        return;
+        return res.status(400).json({ "Error": "400 Body Missing Required Data" });
     }
 
     try {
