@@ -36,6 +36,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({Error: "400 parm not valid id"})
     }
+    try{
     const { error, recipe } = await recipeDB.getById(id);
 
     if (error === 404) {
@@ -45,9 +46,13 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
       return res.status(500).json({Error: "500 internal server error"});
     }
     res.json(recipe);
-  });
+  } catch (error) {
+    console.error('Error fetching recipe:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+});
 
-RecipeRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
+RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
     try {
       const recipeId = req.params.id;
       if (!recipeId) {
@@ -80,13 +85,15 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
             image
         } = req.body;
 
+        if (!name || !prep_time || !cook_time || !servings || !tags || !calories || !ingredients || !difficulty || !instructions || !image) {
+          return res.status(400).json({ error: 'All fields are required' });
+      }
+
         const token = req.headers.authorization;
-        console.log(recipe)
         if (!token) {
           return res.status(401).json({ message: 'Authorization token not provided' });
       }
       const decodedToken = session.session.verifyJWT(token);
-      console.log(decodedToken)
       const author = decodedToken.user_id;
 
         const newRecipe = new RecipeModel({
@@ -115,7 +122,7 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
     }
 });
 
-RecipeRouter.put('/:id', verifyJWT, async (req: Request, res: Response) => {
+RecipeRouter.put('/:id', async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
 
