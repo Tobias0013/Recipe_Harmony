@@ -68,7 +68,8 @@ function AddRecipe() {
         e.preventDefault();
         const token = sessionStorage.getItem('jwt');
         console.log(recipeData)
-        console.log(token)
+        
+        return
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
@@ -94,13 +95,18 @@ function AddRecipe() {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        if (!file) {
+            return setRecipeData(prevState => ({
+                ...prevState,
+                image: {
+                    type: "",
+                    url: '', 
+                    base64: "" 
+                }
+            }));
+        }
         const reader = new FileReader();
         console.log(file);
-        if (!file){
-            console.log(recipeData.image);
-            
-            return;
-        }
         reader.onloadend = () => {
             setRecipeData(prevState => ({
                 ...prevState,
