@@ -16,6 +16,7 @@ export default function Recipe() {
     const [recipe, setRecipe] = useState<any>();
     const [favorite, setFavorite] = useState(false); //TODO change if user favorite
     const [isAuthor, setIsAuthor] = useState(false);
+    const [isNew, setIsNew] = useState(false);
 
     const fetchRecipe = async (recipeId) => {
         let { error: e, recipe } = await recipeAPI.getById(recipeId);
@@ -42,6 +43,8 @@ export default function Recipe() {
         !recipeId && navigate("/explore");
 
         fetchRecipe(recipeId);
+
+        queryParameters.get("new") && setIsNew(true);
     }, []);
 
     const handlePressFavorite = () => {
@@ -102,6 +105,13 @@ export default function Recipe() {
     return (
         recipe && (
             <main>
+                {isNew && (
+                    <div className="recipe-new-container">
+                        <p className="recipe-new">
+                            New recipe successfully created!
+                        </p>
+                    </div>
+                )}
                 <section className="recipe-section first">
                     <div>
                         <p className="recipe-name">{recipe.name}</p>
