@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./recipe.css";
 
+import recipeAPI from '../../controller/fetch/recipes';
 interface Recipe {
     id: string;
     name: string;
@@ -15,16 +16,28 @@ interface Recipe {
  * @param {Object} props.recipe - The recipe object to be rendered.
  * @returns {JSX.Element} The single recipe component.
  */
-const Recipe = (props: { recipe: any }) => {
-    const { recipe } = props;
+const Recipe = (props: { recipe: any, token: string }) => {
+    const { recipe: recipeData, token } = props;
 
-    const handleRemoveRecipe = (id: string) => {
-        // Implement logic to remove recipe with the specified id
+    const [recipe, setRecipe] = useState(recipeData);
+
+    const handleRemoveRecipe = async () => {
+        const { error, res } = await recipeAPI.deleteById(recipe._id, token);
+
+        if (error) {
+            alert(error);
+        }
+        alert("Recipe successfully removed");
+        setRecipe(-1);
     };
 
-    const handleEditRecipe = (id: string) => {
+    const handleEditRecipe = () => {
         // Implement logic to edit recipe with the specified id
     };
+
+    if (recipe === -1) {
+        return;
+    }
 
     return (
         <div className="recipes">
@@ -32,11 +45,11 @@ const Recipe = (props: { recipe: any }) => {
                 <div className="recipe-actions">
                     <button
                         className="remove-button"
-                        onClick={() => handleRemoveRecipe(recipe.id)}
+                        onClick={handleRemoveRecipe}
                     >
                         X
                     </button>
-                    <button onClick={() => handleEditRecipe(recipe.id)}>
+                    <button onClick={handleEditRecipe}>
                         Edit
                     </button>
                 </div>

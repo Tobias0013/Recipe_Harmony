@@ -79,7 +79,7 @@ const AdminPage: React.FC = () => {
     }, []);
 
     return (
-        users && (
+        (users && jwtExists) && (
             <div>
                 <h1 style={{ fontSize: "3rem" }}>ADMIN PAGE</h1>
                 {users && recipes && households && (
@@ -105,7 +105,7 @@ const AdminPage: React.FC = () => {
                         <div>Error: {errorRecipes}</div>
                     ) : (
                         recipes.map((recipe) => {
-                            return <Recipe key={recipe._id} recipe={recipe} />;
+                            return <Recipe key={recipe._id} recipe={recipe} token={jwtExists} />;
                         })
                     )}
                 </section>
