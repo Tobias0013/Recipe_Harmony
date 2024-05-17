@@ -89,7 +89,7 @@ async function getAllUsers(){
     }
 }
 
-async function updateUser(this: any, id: string, updateData: Partial<User>): Promise<{ user: User | null, error: number | null }> {
+async function updateUser(this: any, id: string, updateData: Partial<typeof user>): Promise<{ user: typeof user | null, error: number | null }> {
     const user = this.users.get(id);
     if (!user) {
         return { user: null, error: 404 };
