@@ -16,7 +16,7 @@ function AddRecipe() {
         review_count: null,
         image: { type: '', url: '', base64: '' }
     });
-    let instructionStep = 1;
+    const [instructionStep, setInstructionStep] = useState(1);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
@@ -29,16 +29,6 @@ function AddRecipe() {
             }));
             return;
         }
-
-        // Validate if the value is an integer
-        if (["prep_time", "cook_time", "servings", "calories", "quantity", "step"].includes(name)) {
-            if (!/^\d+$/.test(value)) {
-                // If the value is not an integer, show an error message to the user
-                alert(`Please enter a valid number for ${name.replace('_', ' ')}.`);
-                return;
-            }
-        }
-    
         setRecipeData(prevState => ({
             ...prevState,
             [name]: value
@@ -124,8 +114,9 @@ function AddRecipe() {
     const handleAddInstruction = () => {
         setRecipeData(prevState => ({
             ...prevState,
-            instructions: [...prevState.instructions, { step: '', text: '' }]
+            instructions: [...prevState.instructions, { step: `${instructionStep + 1}`, text: '' }]
         }));
+        setInstructionStep(prev => prev + 1);
     };
 
     const handleAddIngredient = () => {
