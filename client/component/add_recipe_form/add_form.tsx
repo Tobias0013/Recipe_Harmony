@@ -12,10 +12,11 @@ function AddRecipe() {
         calories: '',
         ingredients: [{ name: '', quantity: '', quantity_type: '' }],
         difficulty: '',
-        instructions: [{ step: '', text: ''}],
+        instructions: [{ step: '1', text: ''}],
         review_count: null,
         image: { type: '', url: '', base64: '' }
     });
+    let instructionStep = 1;
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
@@ -165,7 +166,7 @@ function AddRecipe() {
         </label>
         <label>
             Difficulty:
-            <select name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field">
+            <select name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field add-recipe-difficulty">
         <option value="easy">Easy</option>
         <option value="normal">Normal</option>
         <option value="hard">Hard</option>
@@ -173,7 +174,7 @@ function AddRecipe() {
     </label>
         <label>
             Image:
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input className='add-recipe-image-input' type="file" accept="image/*" onChange={handleImageChange} />
         </label>
         <label>
     Ingredients:
@@ -192,7 +193,7 @@ function AddRecipe() {
     Instructions:
     {recipeData.instructions.map((instruction, index) => (
         <div key={index}>
-            <input type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
+            <input readOnly type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
             <textarea name="text" placeholder="Instruction" value={instruction.text} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
             {index === recipeData.instructions.length - 1 && (
                 <button onClick={() => handleAddInstruction()} className="add-button">+</button>
