@@ -1,6 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './household.css';
+import  getAll  from '../../controller/fetch/household';
+
 function Household() {
+
+
+    const [households, setHouseholds] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchHouseholds = async () => {
+            const { error, households: fetchedHouseholds } = await getAll();
+            if (error) {
+                setError(error);
+            } else {
+                setHouseholds(fetchedHouseholds);
+            }
+        };
+
+        fetchHouseholds();
+    }, []);
+
+
     const sampleHousehold = {
         _id: "663a27521f8b65134101798b",
         name: "Kristoffers home",
@@ -11,39 +33,42 @@ function Household() {
 
     return (
         <div className="household-page">
-            <header className="header">
-                <h1>Household: {sampleHousehold.name}</h1>
-            </header>
+            <div className="header-container">
+                <h1 className="header">Household: {sampleHousehold.name}</h1>
+            </div>
+            <p className="household-id">
+            <span className="id-label">ID:</span>
+            <span className="id-value">{sampleHousehold._id}</span>
+            </p>
+            <button className="btn join-btn">Join Household</button>
             <section className="section">
-                <h2>Members</h2>
-                <div className="households">
-                    <div key={sampleHousehold._id} className="members">
-                        <div className="user-details">
-                            <h3>Id: {sampleHousehold._id}</h3>
-                            <p>Name: {sampleHousehold.name}</p>
-                            <p>Members: {sampleHousehold.members.join(", ")}</p>
-                        </div>
-                    </div>
+                <div className="members">
+                    <h2>Members</h2>
+                    <ul className="list">
+                        {sampleHousehold.members.map((member, index) => (
+                            <li key={index}>{member}</li>
+                        ))}
+                    </ul>
+                    <Link to="/members" className="go-to-list">Go to Member List</Link>
                 </div>
-                <button className="btn">Add member to Household</button>
             </section>
             <section className="section">
                 <h2>Shopping List</h2>
-                <ul className="shopping_list">
+                <ul className="list">
                     {sampleHousehold.shopping_list.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
                 </ul>
-                <button className="btn">Add Item to Shopping List</button>
+                <Link to="/shopping-list" className="go-to-list">Go to Shopping List</Link>
             </section>
             <section className="section">
                 <h2>Ingredients</h2>
-                <ul className="ingredients_list">
+                <ul className="list">
                     {sampleHousehold.ingredients.map((ingredient, index) => (
                         <li key={index}>{ingredient}</li>
                     ))}
                 </ul>
-                <button className="btn">Add Ingredient</button>
+                <Link to="/ingredients" className="go-to-list">Go to Ingredients List</Link>
             </section>
         </div>
     );
