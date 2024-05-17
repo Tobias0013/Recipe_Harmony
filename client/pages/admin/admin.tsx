@@ -79,7 +79,7 @@ const AdminPage: React.FC = () => {
     }, []);
 
     return (
-        users && (
+        (users && jwtExists) && (
             <div>
                 <h1 style={{ fontSize: "3rem" }}>ADMIN PAGE</h1>
                 {users && recipes && households && (
