@@ -70,32 +70,40 @@ RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
   });
 
 RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
-    try {
-        const {
-            name,
-            prep_time,
-            cook_time,
-            servings,
-            tags,
-            calories,
-            ingredients,
-            difficulty,
-            instructions,
-            review_count,
-            image
-        } = req.body;
+  const {
+    name,
+    prep_time,
+    cook_time,
+    servings,
+    ingredients,
+    difficulty,
+    instructions,
+    image,
+    author
+  } = req.body;
+  let { tags, calories } = req.body;
+  const token = req.headers.authorization;
 
-        if (!name || !prep_time || !cook_time || !servings || !tags || !calories || !ingredients || !difficulty || !instructions || !image) {
-          return res.status(400).json({ error: 'All fields are required' });
-      }
+  if (!name ||
+      !prep_time ||
+      !cook_time ||
+      !servings ||
+      !ingredients ||
+      !difficulty ||
+      !instructions ||
+      !image ||
+      !author) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
 
-        const token = req.headers.authorization;
-        if (!token) {
-          return res.status(401).json({ message: 'Authorization token not provided' });
-      }
-      const decodedToken = session.session.verifyJWT(token);
-      const author = decodedToken.user_id;
+  if (!tags) {
+    tags = [];
+  }
+  if (!calories) {
+    calories = -1
+  }
 
+  try {   
         const newRecipe = new RecipeModel({
             name,
             prep_time,
@@ -107,15 +115,13 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
             ingredients,
             difficulty,
             instructions,
-            review_count,
+            review_count: 0,
             image
         });
 
         const savedRecipe = await newRecipe.save();
 
         res.status(201).json(savedRecipe); 
-        console.log("recieved")
-        console.log(savedRecipe)
     } catch (error) {
         console.error('Error creating recipe:', error);
         res.status(500).json({ Error: 'Internal Server Error' });

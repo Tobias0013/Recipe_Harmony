@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import url from '../../controller/config';  
 import './add_form.css';
 
+import url from '../../controller/config';  
+import errorHandling from './errorHandling';
+import { useNavigate } from 'react-router-dom';
+
 function AddRecipe() {
+    const navigate = useNavigate()
     const [recipeData, setRecipeData] = useState({
         name: '',
         prep_time: '',
@@ -11,12 +15,13 @@ function AddRecipe() {
         tags: [],
         calories: '',
         ingredients: [{ name: '', quantity: '', quantity_type: '' }],
-        difficulty: '',
-        instructions: [{ step: '', text: ''}],
+        difficulty: 'easy',
+        instructions: [{ step: '1', text: ''}],
         review_count: null,
         image: { type: '', url: '', base64: '' }
     });
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [instructionStep, setInstructionStep] = useState(1);
+    const [error, setError] = useState<string[]>([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,16 +33,6 @@ function AddRecipe() {
             }));
             return;
         }
-
-        // Validate if the value is an integer
-        if (["prep_time", "cook_time", "servings", "calories", "quantity", "step"].includes(name)) {
-            if (!/^\d+$/.test(value)) {
-                // If the value is not an integer, show an error message to the user
-                alert(`Please enter a valid number for ${name.replace('_', ' ')}.`);
-                return;
-            }
-        }
-    
         setRecipeData(prevState => ({
             ...prevState,
             [name]: value
@@ -67,8 +62,19 @@ function AddRecipe() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = sessionStorage.getItem('jwt');
-        console.log(recipeData)
-        console.log(token)
+        if (!token) {
+            return alert("User not signed in");
+        }
+        //Error handling recipeData
+        const { errors, data } = errorHandling(recipeData);
+
+        if (errors) {
+            return setError(errors);
+        }
+        setError([]);
+        
+        data.author = JSON.parse(atob(token.split(".")[1])).user_id;
+
         try {
             const response = await fetch(`${url}/api/recipes`, {
                 method: 'POST',
@@ -76,14 +82,13 @@ function AddRecipe() {
                     "Content-Type": "application/json",
                     "Authorization": `${token}`
                 },
-                body: JSON.stringify(recipeData)
+                body: JSON.stringify(data)
             });
 
             if (response.ok) {
                 const data = await response.json();
                 console.log('Recipe added successfully:', data);
-                setIsSubmitted(true);
-                // Redirect to another page or show a success message
+                navigate(`/recipe?recipe=${data._id}&new=n`)
             } else {
                 console.error('Failed to add recipe:', response.statusText);
             }
@@ -94,7 +99,18 @@ function AddRecipe() {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        if (!file) {
+            return setRecipeData(prevState => ({
+                ...prevState,
+                image: {
+                    type: "",
+                    url: '', 
+                    base64: "" 
+                }
+            }));
+        }
         const reader = new FileReader();
+        console.log(file);
         reader.onloadend = () => {
             setRecipeData(prevState => ({
                 ...prevState,
@@ -111,8 +127,9 @@ function AddRecipe() {
     const handleAddInstruction = () => {
         setRecipeData(prevState => ({
             ...prevState,
-            instructions: [...prevState.instructions, { step: '', text: '' }]
+            instructions: [...prevState.instructions, { step: `${instructionStep + 1}`, text: '' }]
         }));
+        setInstructionStep(prev => prev + 1);
     };
 
     const handleAddIngredient = () => {
@@ -121,8 +138,6 @@ function AddRecipe() {
             ingredients: [...prevState.ingredients, { name: '', quantity: '', quantity_type: '' }]
         }));
     };
-
-    
 
     return (
         <div>
@@ -144,26 +159,26 @@ function AddRecipe() {
             <input type="text" name="servings" value={recipeData.servings} onChange={handleChange} className="input-field" />
         </label>
         <label>
-                Tags (separated by comma):
+                Tags (separated by comma): (optional)
                 <input type="text" name="tags" value={recipeData.tags.join(", ")} onChange={handleChange} className="input-field" />
             </label>
         <label>
-            Calories:
+            Calories: (optional)
             <input type="text" name="calories" value={recipeData.calories} onChange={handleChange} className="input-field" />
         </label>
         <label>
             Difficulty:
-            <select name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field">
+            <select name="difficulty" value={recipeData.difficulty} onChange={handleChange} className="input-field add-recipe-difficulty">
         <option value="easy">Easy</option>
         <option value="normal">Normal</option>
         <option value="hard">Hard</option>
     </select>
     </label>
-        <label>
-            Image:
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-        </label>
-        <label>
+    <label>
+        Image:
+        <input className='add-recipe-image-input' type="file" accept="image/*" onChange={handleImageChange} />
+    </label>
+    <label>
     Ingredients:
     {recipeData.ingredients.map((ingredient, index) => (
         <div key={index}>
@@ -175,26 +190,25 @@ function AddRecipe() {
             )}
         </div>
     ))}
-</label>
-<label>
-    Instructions:
-    {recipeData.instructions.map((instruction, index) => (
-        <div key={index}>
-            <input type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
-            <textarea name="text" placeholder="Instruction" value={instruction.text} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
-            {index === recipeData.instructions.length - 1 && (
-                <button onClick={() => handleAddInstruction()} className="add-button">+</button>
-            )}
-        </div>
-    ))}
-</label>
-        <button type="submit" className="submit-button">Submit</button>
-    </form>
-    {isSubmitted && (
-            <div className="success-message">
-                Recipe added successfully! {/* Display success message */}
+    </label>
+    <label>
+        Instructions:
+        {recipeData.instructions.map((instruction, index) => (
+            <div key={index}>
+                <input readOnly type="text" name="step" placeholder="Step" value={instruction.step} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
+                <textarea name="text" placeholder="Instruction" value={instruction.text} onChange={(e) => handleInstructionsChange(index, e)} className="input-field" />
+                {index === recipeData.instructions.length - 1 && (
+                    <button onClick={() => handleAddInstruction()} className="add-button">+</button>
+                )}
             </div>
-        )}
+        ))}
+    </label>
+        {error.map(e =>{
+            return <p className="error-msg">{e}</p>
+        })}
+
+        <button type="submit" className="add-recipe-submit-button">Add new recipe</button>
+    </form>
     </div>
     
 );
