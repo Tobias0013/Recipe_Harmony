@@ -104,7 +104,7 @@ HouseholdRouter.delete('/:id', async (req: Request, res: Response) => {
         if (!deletedHousehold) {
             return res.status(404).json({ error: 'Household not found' });
         }
-        res.json({ message: 'Household deleted successfully' });
+        res.json({ message: 'Household deleted successfully, new household', household });
     } catch (error) {
         console.error('Error deleting household:', error);
         res.status(500).json({ error: 'Internal Server Error' });
