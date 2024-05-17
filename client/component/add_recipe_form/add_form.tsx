@@ -95,6 +95,12 @@ function AddRecipe() {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
+        console.log(file);
+        if (!file){
+            console.log(recipeData.image);
+            
+            return;
+        }
         reader.onloadend = () => {
             setRecipeData(prevState => ({
                 ...prevState,
