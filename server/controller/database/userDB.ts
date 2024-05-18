@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
+
 import User from '../../mongoose/user';
+import recipeDB from './recipeDB';
 
 async function addUser(full_name: string, password: string, email: string){
     try{
@@ -89,11 +91,44 @@ async function getAllUsers(){
     }
 }
 
+async function updateFavorites(id: string, favorite_recipes: string[]) {
+    try{
+        const favorites = await User.findById(id).select("favorite_recipes");
+        
+        if (!favorites) {
+            return { error: 404, favorites: null };
+        }
+
+        favorites.favorite_recipes.forEach(f => {
+            if (!favorite_recipes.includes(f)){
+                //Dec
+                recipeDB.decrementReviewCount(f);
+            }
+        });
+
+        favorite_recipes.forEach(f => {
+            if (!favorites.favorite_recipes.includes(f)){
+                //Inc
+                recipeDB.incrementReviewCount(f);
+            }
+        });
+
+        favorites.favorite_recipes = favorite_recipes;
+        const updatedFavorites = await favorites.save();
+
+        return { error: null, favorites: updatedFavorites.favorite_recipes }
+    }
+    catch(e){
+        return { error: e, favorites: null }
+    }
+}
+
 export default {
     user: {
         add: addUser,
         login: verifyUserCredentials,
         getUserData: getUserById,
         getAllUsers: getAllUsers
-    }
+    },
+    updateFavorites
 }
