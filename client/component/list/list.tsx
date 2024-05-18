@@ -9,7 +9,7 @@ export default function List({ listTitle="List", shoppingList=false}){
         itemName: "",
         quantity: "",
         unit: "",
-        checkBox: shoppingList,
+        checkBox: true,
         checkBoxValue: false,
         onChange: undefined
     }
@@ -17,9 +17,16 @@ export default function List({ listTitle="List", shoppingList=false}){
     const [listItems, setListItems, listItemsRef] = useState([{...emptyListItem}]);
     const [itemsToDelete, setItemsToDelete, itemsToDeleteRef] = useState<number[]>([]);
 
-    const retrieveShoppingList = async () => {
-        const shoppingListResponse = await householdAPI.getShoppingList();
-        const formatedShoppingList = shoppingListResponse.shoppingList.map(item => {
+    const retrieveList = async () => {
+        let list;
+        if(shoppingList){
+            const listResponse = await householdAPI.getShoppingList();
+            list = listResponse.shoppingList;
+        }else{
+            //const listResponse = await householdAPI.getIngredientsList();
+            //list = listResponse.ingredientsList;
+        }
+        const formatedList = list.map(item => {
             return ({
                 itemName: item.name,
                 quantity: item.quantity === 0 ? "" : item.quantity,
@@ -30,33 +37,35 @@ export default function List({ listTitle="List", shoppingList=false}){
             })
         });
 
-        setListItems([...formatedShoppingList, {...emptyListItem}]);
+        setListItems([...formatedList, {...emptyListItem}]);
     }
     
     useEffect(() => {
-        //retrieve shopping list from database on page load
-        if(shoppingList){
-            retrieveShoppingList();
-        }
+        //retrieve list from database on page load
+        retrieveList();
     }, [])
 
-    const updateShoppingList = async () => {
-        console.log(listItemsRef.current)
-        const formatedShoppingListForDB = listItemsRef.current.map(item => {
+    const updateList = async () => {
+        const formatedListForDB = listItemsRef.current.map(item => {
             return ({
                 name: item.itemName,
                 quantity: item.quantity === "" ? 0 : parseInt(item.quantity, 10),
                 quantity_type: item.unit
             })
         });
-        formatedShoppingListForDB.splice(formatedShoppingListForDB.length-1, 1) //remove last item which is always empty
-        const response = await householdAPI.replaceShoppingList(formatedShoppingListForDB);
+        formatedListForDB.splice(formatedListForDB.length-1, 1) //remove last item which is always empty
+        if(shoppingList){
+            const response = await householdAPI.replaceShoppingList(formatedListForDB);
+        }else{
+            //const response = await householdAPI.replaceIngredientsList(formatedListForDB);
+        }
+        
     }
 
     useEffect(() => {
         //auto save changes to shopping list. triggered on listItems changed
         if(shoppingList){
-            const timerId = setTimeout(updateShoppingList, 1000);
+            const timerId = setTimeout(updateList, 1000);
             setItemsToDelete([]); //reset and check each item if checkbox is checked
             for(let index in listItems){
                 if(listItems[parseInt(index, 10)].checkBoxValue === true){
@@ -135,7 +144,7 @@ export default function List({ listTitle="List", shoppingList=false}){
     return (
         <div className="list-container">
             <h2>{listTitle}</h2>
-            {shoppingList && (itemsToDelete.length > 0 ? <button onClick={deleteCheckedItems} disabled={false}>Remove checked items</button> : <button onClick={deleteCheckedItems} disabled={true}>Remove checked items</button>)}
+            {(itemsToDelete.length > 0 ? <button onClick={deleteCheckedItems} disabled={false}>Remove checked items</button> : <button onClick={deleteCheckedItems} disabled={true}>Remove checked items</button>)}
             <div className="list-headers">
                 <h3>Item</h3>
                 <h3>Quantity</h3>
