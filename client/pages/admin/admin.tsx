@@ -79,7 +79,8 @@ const AdminPage: React.FC = () => {
     }, []);
 
     return (
-        (users && jwtExists) && (
+        users &&
+        jwtExists && (
             <div>
                 <h1 style={{ fontSize: "3rem" }}>ADMIN PAGE</h1>
                 {users && recipes && households && (
@@ -89,6 +90,22 @@ const AdminPage: React.FC = () => {
                     </h1>
                 )}
                 <section>
+                    <h1 style={{ fontSize: "2rem" }}>RECIPES</h1>
+                    {errorRecipes || !recipes ? (
+                        <div>Error: {errorRecipes}</div>
+                    ) : (
+                        recipes.map((recipe) => {
+                            return (
+                                <Recipe
+                                    key={recipe._id}
+                                    recipe={recipe}
+                                    token={jwtExists}
+                                />
+                            );
+                        })
+                    )}
+                </section>
+                {/* <section> //TODO remove?
                     <h1 style={{ fontSize: "2rem" }}>USER DETAILS</h1>
 
                     {errorUser ? (
@@ -96,16 +113,6 @@ const AdminPage: React.FC = () => {
                     ) : (
                         users.map((user) => {
                             return <User key={user._id} user={user} />;
-                        })
-                    )}
-                </section>
-                <section>
-                    <h1 style={{ fontSize: "2rem" }}>RECIPES</h1>
-                    {errorRecipes || !recipes ? (
-                        <div>Error: {errorRecipes}</div>
-                    ) : (
-                        recipes.map((recipe) => {
-                            return <Recipe key={recipe._id} recipe={recipe} token={jwtExists} />;
                         })
                     )}
                 </section>
@@ -123,7 +130,7 @@ const AdminPage: React.FC = () => {
                             );
                         })
                     )}
-                </section>
+                </section> */}
             </div>
         )
     );
