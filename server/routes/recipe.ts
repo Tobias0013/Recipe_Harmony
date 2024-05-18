@@ -52,7 +52,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
 }
 });
 
-RecipeRouter.delete('/:id', async (req: Request, res: Response) => {
+RecipeRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
     try {
       const recipeId = req.params.id;
       if (!recipeId) {
@@ -128,7 +128,7 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
     }
 });
 
-RecipeRouter.patch('/:id', async (req: Request, res: Response) => {
+RecipeRouter.patch('/:id', verifyJWT, async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
 
