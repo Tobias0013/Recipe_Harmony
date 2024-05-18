@@ -34,3 +34,15 @@
 .list-headers h3:nth-child(3){
     width: 10dvw;
 }
+
+.list-container button{
+    border: 1px solid black;
+    padding: 2rem;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.list-container button:hover:enabled{
+    cursor: pointer;
+}

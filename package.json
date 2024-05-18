@@ -54,6 +54,7 @@
     "react-dom": "^18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.23.0",
+    "react-usestateref": "^1.0.8",
     "style-loader": "^4.0.0"
   }
 }
