@@ -128,7 +128,7 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
     }
 });
 
-RecipeRouter.put('/:id', async (req: Request, res: Response) => {
+RecipeRouter.patch('/:id', async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
 
@@ -140,7 +140,6 @@ RecipeRouter.put('/:id', async (req: Request, res: Response) => {
           name,
           prep_time,
           cook_time,
-          author,
           servings,
           tags,
           calories,
@@ -157,19 +156,18 @@ RecipeRouter.put('/:id', async (req: Request, res: Response) => {
           return res.status(404).json({ Error: "Recipe not found" });
       }
 
-      existingRecipe.name = name;
-      existingRecipe.prep_time = prep_time;
-      existingRecipe.cook_time = cook_time;
-      existingRecipe.author = author;
-      existingRecipe.servings = servings;
-      existingRecipe.tags = tags;
-      existingRecipe.calories = calories;
-      existingRecipe.ingredients = ingredients;
-      existingRecipe.difficulty = difficulty;
-      existingRecipe.instructions = instructions;
-      existingRecipe.rating = rating;
-      existingRecipe.review_count = review_count;
-      existingRecipe.image = image;
+      name && (existingRecipe.name = name);
+      prep_time && (existingRecipe.prep_time = prep_time);
+      cook_time && (existingRecipe.cook_time = cook_time);
+      servings && (existingRecipe.servings = servings);
+      tags && (existingRecipe.tags = tags);
+      calories && (existingRecipe.calories = calories);
+      ingredients && (existingRecipe.ingredients = ingredients);
+      difficulty && (existingRecipe.difficulty = difficulty);
+      instructions && (existingRecipe.instructions = instructions);
+      rating && (existingRecipe.rating = rating);
+      review_count && (existingRecipe.review_count = review_count);
+      image && (existingRecipe.image = image);
 
       const updatedRecipe = await existingRecipe.save();
 
