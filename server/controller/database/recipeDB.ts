@@ -24,6 +24,39 @@ async function getById(Id: string): Promise<{ error: any; recipe: any; }> {
     }
 }
 
+async function incrementReviewCount(Id: string) {
+    try {
+        const reviewCount = await Recipe.findById(Id).select("review_count");
+        if (!reviewCount) return {error: 404, reviewCount: null};
+
+        reviewCount.review_count += 1;
+        reviewCount.save();
+
+        return { error: null, reviewCount: reviewCount.review_count };
+    } 
+    catch (e) {
+        return {error: e, reviewCount: null}    
+    }
+}
+
+async function decrementReviewCount(Id: string) {
+    try {
+        const reviewCount = await Recipe.findById(Id).select("review_count");
+        if (!reviewCount) return {error: 404, reviewCount: null};
+
+        reviewCount.review_count -= 1;
+        reviewCount.save();
+
+        return { error: null, reviewCount: reviewCount.review_count };
+    } 
+    catch (e) {
+        return {error: e, reviewCount: null}    
+    }
+}
+
+
 export default {
-    getById
+    getById,
+    incrementReviewCount,
+    decrementReviewCount
 }

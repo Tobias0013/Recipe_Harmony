@@ -1,0 +1,33 @@
+.not-found-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.not-found-heading {
+    font-size: 3rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.not-found-message {
+    font-size: 1.8rem; 
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.not-found-message a {
+    font-size: 2rem; 
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease; 
+}
+
+.not-found-message a:hover {
+    color: #0056b3; 
+}
+
+.not-found-message a:active {
+    color: #0056b3;
+}

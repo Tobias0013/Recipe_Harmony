@@ -36,6 +36,7 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({Error: "400 parm not valid id"})
     }
+    try{
     const { error, recipe } = await recipeDB.getById(id);
 
     if (error === 404) {
@@ -45,7 +46,11 @@ RecipeRouter.get('/', async (req: Request, res: Response) => {
       return res.status(500).json({Error: "500 internal server error"});
     }
     res.json(recipe);
-  });
+  } catch (error) {
+    console.error('Error fetching recipe:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+});
 
 RecipeRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
     try {
@@ -65,30 +70,40 @@ RecipeRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
   });
 
 RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
-    try {
-        const {
-            name,
-            prep_time,
-            cook_time,
-            servings,
-            tags,
-            calories,
-            ingredients,
-            difficulty,
-            instructions,
-            review_count,
-            image
-        } = req.body;
+  const {
+    name,
+    prep_time,
+    cook_time,
+    servings,
+    ingredients,
+    difficulty,
+    instructions,
+    image,
+    author
+  } = req.body;
+  let { tags, calories } = req.body;
+  const token = req.headers.authorization;
 
-        const token = req.headers.authorization;
-        console.log(recipe)
-        if (!token) {
-          return res.status(401).json({ message: 'Authorization token not provided' });
-      }
-      const decodedToken = session.session.verifyJWT(token);
-      console.log(decodedToken)
-      const author = decodedToken.user_id;
+  if (!name ||
+      !prep_time ||
+      !cook_time ||
+      !servings ||
+      !ingredients ||
+      !difficulty ||
+      !instructions ||
+      !image ||
+      !author) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
 
+  if (!tags) {
+    tags = [];
+  }
+  if (!calories) {
+    calories = -1
+  }
+
+  try {   
         const newRecipe = new RecipeModel({
             name,
             prep_time,
@@ -100,22 +115,20 @@ RecipeRouter.post('/', verifyJWT, async (req: Request, res: Response) => {
             ingredients,
             difficulty,
             instructions,
-            review_count,
+            review_count: 0,
             image
         });
 
         const savedRecipe = await newRecipe.save();
 
         res.status(201).json(savedRecipe); 
-        console.log("recieved")
-        console.log(savedRecipe)
     } catch (error) {
         console.error('Error creating recipe:', error);
         res.status(500).json({ Error: 'Internal Server Error' });
     }
 });
 
-RecipeRouter.put('/:id', verifyJWT, async (req: Request, res: Response) => {
+RecipeRouter.patch('/:id', verifyJWT, async (req: Request, res: Response) => {
   try {
       const { id } = req.params;
 
@@ -127,7 +140,6 @@ RecipeRouter.put('/:id', verifyJWT, async (req: Request, res: Response) => {
           name,
           prep_time,
           cook_time,
-          author,
           servings,
           tags,
           calories,
@@ -144,19 +156,18 @@ RecipeRouter.put('/:id', verifyJWT, async (req: Request, res: Response) => {
           return res.status(404).json({ Error: "Recipe not found" });
       }
 
-      existingRecipe.name = name;
-      existingRecipe.prep_time = prep_time;
-      existingRecipe.cook_time = cook_time;
-      existingRecipe.author = author;
-      existingRecipe.servings = servings;
-      existingRecipe.tags = tags;
-      existingRecipe.calories = calories;
-      existingRecipe.ingredients = ingredients;
-      existingRecipe.difficulty = difficulty;
-      existingRecipe.instructions = instructions;
-      existingRecipe.rating = rating;
-      existingRecipe.review_count = review_count;
-      existingRecipe.image = image;
+      name && (existingRecipe.name = name);
+      prep_time && (existingRecipe.prep_time = prep_time);
+      cook_time && (existingRecipe.cook_time = cook_time);
+      servings && (existingRecipe.servings = servings);
+      tags && (existingRecipe.tags = tags);
+      calories && (existingRecipe.calories = calories);
+      ingredients && (existingRecipe.ingredients = ingredients);
+      difficulty && (existingRecipe.difficulty = difficulty);
+      instructions && (existingRecipe.instructions = instructions);
+      rating && (existingRecipe.rating = rating);
+      review_count && (existingRecipe.review_count = review_count);
+      image && (existingRecipe.image = image);
 
       const updatedRecipe = await existingRecipe.save();
 
