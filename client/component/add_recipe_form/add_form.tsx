@@ -5,8 +5,8 @@ import errorHandling from "./errorHandling";
 import { useNavigate } from "react-router-dom";
 import recipeAPI from '../../controller/fetch/recipes';
 
-function AddRecipe(props: { edit?: boolean; recipe?: any, recipeId?: string }) {
-    const { edit, recipe, recipeId } = props;
+function AddRecipe(props: { edit?: boolean; recipe?: any, recipeId?: string, fromAdminPage?: boolean }) {
+    const { edit, recipe, recipeId, fromAdminPage } = props;
     const navigate = useNavigate();
     const [recipeData, setRecipeData] = useState({
         name: "",
@@ -29,6 +29,9 @@ function AddRecipe(props: { edit?: boolean; recipe?: any, recipeId?: string }) {
             return;
         }
         setRecipeData(recipe)
+        if (recipe.calories === -1){
+            setRecipeData((prev) => ({...prev, calories: ""}))
+        }
     }, []);
 
     const handleChange = (e) => {
@@ -95,6 +98,9 @@ function AddRecipe(props: { edit?: boolean; recipe?: any, recipeId?: string }) {
             const { error, recipe: recipeResp } = await recipeAPI.patch(recipeId, data, token);
             if (error) {
                 return alert(error.Error);
+            }
+            if (fromAdminPage){
+                return navigate(0);
             }
             navigate(`/recipe?recipe=${recipeResp._id}&edit=n`);
             navigate(0);

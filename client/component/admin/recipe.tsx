@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./recipe.css";
 
 import recipeAPI from '../../controller/fetch/recipes';
+import AddRecipeForm from "../../component/add_recipe_form/add_form";
+
 interface Recipe {
     id: string;
     name: string;
@@ -20,8 +22,12 @@ const Recipe = (props: { recipe: any, token: string }) => {
     const { recipe: recipeData, token } = props;
 
     const [recipe, setRecipe] = useState(recipeData);
+    const [edit, setEdit] = useState(false);
 
     const handleRemoveRecipe = async () => {
+        const conf = confirm(`Do you want to delete recipe "${recipe.name}"`)
+        if (!conf)
+            return
         const { error, res } = await recipeAPI.deleteById(recipe._id, token);
 
         if (error) {
@@ -31,12 +37,24 @@ const Recipe = (props: { recipe: any, token: string }) => {
         setRecipe(-1);
     };
 
-    const handleEditRecipe = () => {
-        // Implement logic to edit recipe with the specified id
+    const handleEditRecipe = async () => {
+        const { error, recipe: fullRecipe } = await recipeAPI.getById(recipe._id);
+        if (error){
+            alert(`Cannot fetch full recipe. Status code:${error}`);
+            return;
+        }
+        console.log(fullRecipe);
+        
+        setRecipe(fullRecipe);
+        setEdit(true);
     };
 
     if (recipe === -1) {
         return;
+    }
+
+    if (edit) {        
+        return <AddRecipeForm edit={true} recipe={recipe} recipeId={recipe._id} fromAdminPage={true} />
     }
 
     return (
