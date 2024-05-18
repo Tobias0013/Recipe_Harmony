@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import "./recipe.css";
 import recipeAPI from "../../controller/fetch/recipes";
 import householdAPI from "../../controller/fetch/household";
+import AddRecipeForm from "../../component/add_recipe_form/add_form";
 
 /**
  * The Recipe component.
@@ -17,6 +18,8 @@ export default function Recipe() {
     const [favorite, setFavorite] = useState(false); //TODO change if user favorite
     const [isAuthor, setIsAuthor] = useState(false);
     const [isNew, setIsNew] = useState(false);
+    const [isEdited, setIsEdited] = useState(false);
+    const [edit, setEdit] = useState(false);
 
     const fetchRecipe = async (recipeId) => {
         let { error: e, recipe } = await recipeAPI.getById(recipeId);
@@ -45,6 +48,7 @@ export default function Recipe() {
         fetchRecipe(recipeId);
 
         queryParameters.get("new") && setIsNew(true);
+        queryParameters.get("edit") && setIsEdited(true);
     }, []);
 
     const handlePressFavorite = () => {
@@ -53,8 +57,7 @@ export default function Recipe() {
     };
 
     const handleBtnEdit = () => {
-        navigate("/add");
-        //TODO edit
+        isAuthor && setEdit(true);
     };
 
     const handleBtnDel = () => {
@@ -102,13 +105,21 @@ export default function Recipe() {
         })();
     };
 
+    if (edit) {
+        return (
+            <div>
+                <AddRecipeForm edit={true} recipe={recipe} recipeId={recipe._id} />
+            </div>
+        );
+    }
+
     return (
         recipe && (
             <main>
-                {isNew && (
+                {(isNew || isEdited) && (
                     <div className="recipe-new-container">
                         <p className="recipe-new">
-                            New recipe successfully created!
+                            {isNew ? "New recipe successfully created!" : "Recipe successfully edited!"}
                         </p>
                     </div>
                 )}
