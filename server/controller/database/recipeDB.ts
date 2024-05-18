@@ -24,6 +24,11 @@ async function getById(Id: string): Promise<{ error: any; recipe: any; }> {
     }
 }
 
+/**
+ * Increments the review count of a recipe by 1.
+ * @param {string} Id - The ID of the recipe.
+ * @returns {Promise<{ error: number | null, reviewCount: number | null }>} - An object containing the error status and the updated review count.
+ */
 async function incrementReviewCount(Id: string) {
     try {
         const reviewCount = await Recipe.findById(Id).select("review_count");
@@ -39,6 +44,11 @@ async function incrementReviewCount(Id: string) {
     }
 }
 
+/**
+ * Decrement the review count of a recipe by 1.
+ * @param {string} Id - The ID of the recipe.
+ * @returns {Promise<{ error: number | null, reviewCount: number | null }>} - An object containing the error status and the updated review count.
+ */
 async function decrementReviewCount(Id: string) {
     try {
         const reviewCount = await Recipe.findById(Id).select("review_count");

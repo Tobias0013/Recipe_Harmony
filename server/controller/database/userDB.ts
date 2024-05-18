@@ -123,6 +123,25 @@ async function updateFavorites(id: string, favorite_recipes: string[]) {
     }
 }
 
+/**
+ * Retrieves the favorite recipes of a user by their ID.
+ * @param id - The ID of the user.
+ * @returns An object containing the error status and the user's favorite recipes.
+ */
+async function getFavorites(id: string) {
+    try{
+        const favorites = await User.findById(id).select("favorite_recipes");
+
+        if (!favorites) {
+            return { error: 404, favorites: null };
+        }
+        return { error: null, favorites: favorites.favorite_recipes };
+    }
+    catch(e){
+        return { error: e, favorites: null };
+    }
+}
+
 export default {
     user: {
         add: addUser,
@@ -130,5 +149,6 @@ export default {
         getUserData: getUserById,
         getAllUsers: getAllUsers
     },
-    updateFavorites
+    updateFavorites,
+    getFavorites
 }

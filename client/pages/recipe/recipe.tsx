@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./recipe.css";
 import recipeAPI from "../../controller/fetch/recipes";
+import userAPI from "../../controller/fetch/users";
 import householdAPI from "../../controller/fetch/household";
 import AddRecipeForm from "../../component/add_recipe_form/add_form";
 
@@ -15,7 +16,7 @@ export default function Recipe() {
     const [queryParameters] = useSearchParams();
 
     const [recipe, setRecipe] = useState<any>();
-    const [favorite, setFavorite] = useState(false); //TODO change if user favorite
+    const [favorite, setFavorite] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
     const [isNew, setIsNew] = useState(false);
     const [isEdited, setIsEdited] = useState(false);
@@ -38,7 +39,16 @@ export default function Recipe() {
         }
         const userId = JSON.parse(atob(token.split(".")[1])).user_id;
         userId === recipe.author._id && setIsAuthor(true);
-        //TODO set favorite
+
+        let favorites = sessionStorage.getItem("favorites");
+        if (!favorites) {
+            return;
+        }
+        favorites = JSON.parse(favorites)
+        
+        if (favorites?.includes(recipe._id)) {
+            setFavorite(true);
+        }
     };
 
     useEffect(() => {
@@ -51,8 +61,31 @@ export default function Recipe() {
         queryParameters.get("edit") && setIsEdited(true);
     }, []);
 
-    const handlePressFavorite = () => {
-        //TODO change if user favorite
+    const handlePressFavorite = async () => {
+
+        let favorites = sessionStorage.getItem("favorites");
+        if (!favorites) {
+            return;
+        }
+        favorites = JSON.parse(favorites)
+
+        if (!Array.isArray(favorites)){
+            return
+        }
+        if (favorite) {
+            const index = favorites.indexOf(recipe._id);
+            favorites.splice(index, 1);
+        }
+        else {
+            favorites.push(recipe._id)
+        }
+        console.log("DEBUG", favorites);
+        const { error, favorite_recipes: newFavorites } = await userAPI.updateFavorites(favorites);
+
+        if (error) {
+            return alert("ERROR\nUnable to update favorites\n" + error.Error);
+        }
+        sessionStorage.setItem("favorites", JSON.stringify(newFavorites))
         setFavorite((prev) => !prev);
     };
 
