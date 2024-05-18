@@ -1,4 +1,6 @@
 import express, {Router, Request, Response} from "express";
+import { isValidObjectId } from "mongoose";
+
 import userDB from "../controller/database/userDB";
 import verifyJWT from "./middleware/jwt_middle";
 import verifyAdminJWT from "./middleware/admin_middle";
@@ -55,6 +57,33 @@ usersRouter.get("/", verifyAdminJWT, async (req: Request, res: Response) => {
     }catch(e){
         res.status(500).json({"Error" : "500 Internal Server Error"});
     }
+})
+
+usersRouter.patch("/:userId/favorites", verifyJWT, async (req: Request, res: Response) =>{
+    const { userId } = req.params;
+    const { favorite_recipes } = req.body;
+
+    if (!isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Invalid user id parameter" })
+    }
+
+    if (!Array.isArray(favorite_recipes)) {
+        return res.status(400).json({ Error: "Incorrect request body 1" });
+    }
+
+    for (const item of favorite_recipes) {
+        if (!isValidObjectId(item)) {
+            return res.status(400).json({ Error: "Incorrect request body 2" });
+        }
+    }
+
+    const { error, favorites } = await userDB.updateFavorites("663b815e27b29c8a124f8ab9", favorite_recipes);
+
+    if (error){
+        return res.status(error === 404 ? 404 : 500)
+        .json({ Error: error === 404 ? "User not found" : "Internal server error" });
+    }
+    return res.json(favorites);
 })
 
 export default usersRouter;
