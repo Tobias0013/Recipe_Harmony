@@ -11,9 +11,6 @@ async function getShoppingList() {
     }
     const householdId = JSON.parse(atob(token.split(".")[1])).household_id;
 
-    console.log("DEBUG", householdId);
-    
-
     const fetchURL = `${url}/api/households/${householdId}/shopping-list`;
     console.log("DEBUG", fetchURL);
 
