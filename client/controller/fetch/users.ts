@@ -57,6 +57,12 @@ async function fetchAll(jwtToken: string){
     }
 }
 
+/**
+ * Retrieves the favorite recipes for a user.
+ * @param id - The ID of the user.
+ * @param token - The authorization token.
+ * @returns An object containing the error (if any) and the favorite recipes.
+ */
 async function getRecipes(id: string, token: string) {
     try{
         const response = await fetch(`${url}/api/users/${id}/favorites`, {
@@ -77,6 +83,11 @@ async function getRecipes(id: string, token: string) {
     }
 }
 
+/**
+ * Updates the favorite recipes of a user.
+ * @param favorite_recipes - An array of strings representing the favorite recipes.
+ * @returns A promise that resolves to an object containing the error and the updated favorite recipes.
+ */
 async function updateFavorites(favorite_recipes: string[]) {
     console.log("DEBUG-a", favorite_recipes);
     
