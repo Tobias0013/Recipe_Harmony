@@ -65,6 +65,8 @@ function AddRecipe(props: { edit?: boolean; recipe?: any, recipeId?: string }) {
             ...prevState,
             instructions,
         }));
+        e.target.style.height = 'inherit';
+        e.target.style.height = `${e.target.scrollHeight}px`;
     };
 
     const handleSubmit = async (e) => {
