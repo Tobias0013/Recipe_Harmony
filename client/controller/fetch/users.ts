@@ -57,10 +57,31 @@ async function fetchAll(jwtToken: string){
     }
 }
 
+async function getRecipes(id: string, token: string) {
+    try{
+        const response = await fetch(`${url}/api/users/${id}/favorites`, {
+            headers: {
+                "Authorization": token
+            }
+        });
+
+        if (response.status !== 200) {
+            return { error: await response.json(), favorite_recipes: null };
+        }
+
+        return { error: null, favorite_recipes: await response.json() };
+    }
+    catch(e){
+        console.log(e);
+        return { error: e, favorite_recipes: null };
+    }
+}
+
 export default {
     user: {
         signup: signup,
         login: login,
         getAll: fetchAll
-    }
+    },
+    getRecipes
 }
