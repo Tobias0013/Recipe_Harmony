@@ -38,7 +38,16 @@ export default function Recipe() {
         }
         const userId = JSON.parse(atob(token.split(".")[1])).user_id;
         userId === recipe.author._id && setIsAuthor(true);
-        //TODO set favorite
+
+        let favorites = sessionStorage.getItem("favorites");
+        if (!favorites) {
+            return;
+        }
+        favorites = JSON.parse(favorites)
+        
+        if (favorites?.includes(recipe._id)) {
+            setFavorite(true);
+        }
     };
 
     useEffect(() => {
