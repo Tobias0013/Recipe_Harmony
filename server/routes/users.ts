@@ -57,4 +57,8 @@ usersRouter.get("/", verifyAdminJWT, async (req: Request, res: Response) => {
     }
 })
 
+usersRouter.patch("/", verifyAdminJWT, async (req: Request, res: Response)=> {
+    
+})
+
 export default usersRouter;
