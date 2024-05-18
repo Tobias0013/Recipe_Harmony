@@ -123,6 +123,20 @@ async function updateFavorites(id: string, favorite_recipes: string[]) {
     }
 }
 
+async function getFavorites(id: string) {
+    try{
+        const favorites = await User.findById(id).select("favorite_recipes");
+
+        if (!favorites) {
+            return { error: 404, favorites: null };
+        }
+        return { error: null, favorites: favorites.favorite_recipes };
+    }
+    catch(e){
+        return { error: e, favorites: null };
+    }
+}
+
 export default {
     user: {
         add: addUser,
@@ -130,5 +144,6 @@ export default {
         getUserData: getUserById,
         getAllUsers: getAllUsers
     },
-    updateFavorites
+    updateFavorites,
+    getFavorites
 }
