@@ -138,10 +138,57 @@ async function getById() {
     return {error: null, household: await res.json()};
 }
 
+async function joinById(newHouseholdId: string){
+    const token = sessionStorage.getItem("jwt");
+    if(!token){
+        return { error: -1, household: null};
+    }
+    const oldHouseholdId = JSON.parse(atob(token.split(".")[1])).household_id;
+    const userId = JSON.parse(atob(token.split(".")[1])).user_id;
+    const fetchURL = `${url}/api/households/${oldHouseholdId}`;
+
+    const res = await fetch(fetchURL, {
+        method: "DELETE",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            newHousegholdId: newHouseholdId,
+            userId: userId
+        })
+    });
+
+    if(res.status !== 200){
+        return {error: await res.json(), household: null, newJWT: null};
+    }
+
+    //update user JWT after change of household
+    const jwtFetchURL = `${url}/api/session/`;
+    const jwtRes = await fetch(jwtFetchURL, {
+        method: "PATCH",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            jwt: token
+        })
+    });
+    if(jwtRes.status !== 200){
+        return {error: await jwtRes.json(), household: null, newJWT: null};
+    }
+    const newJWT = await jwtRes.json();
+    
+
+    return {error: null, household: await res.json(), newJWT: newJWT}
+}
+
 export default {
     getShoppingList,
     appendShoppingList,
     replaceShoppingList,
     getAll,
-    getById
+    getById,
+    joinById
 }
