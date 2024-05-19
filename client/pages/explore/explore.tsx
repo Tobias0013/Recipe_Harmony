@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import "./explore.css";
 import ExploreExample from "./exploreExample";
-import InfiniteScrollSection from "./InfiniteScrollSection";
+import InfiniteScrollSection from "../../component/infiniteScroll/InfiniteScrollSection";
 import recipeAPI from "../../controller/fetch/recipes";
 
 /**

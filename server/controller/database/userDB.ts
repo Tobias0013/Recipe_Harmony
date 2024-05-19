@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 
 import User from '../../mongoose/user';
 import recipeDB from './recipeDB';
+import Recipe from '../../mongoose/recipe';
 
 async function addUser(full_name: string, password: string, email: string){
     try{
@@ -142,6 +143,22 @@ async function getFavorites(id: string) {
     }
 }
 
+/**
+ * Retrieves the created recipes of a user by their ID.
+ * @param id - The ID of the user.
+ * @returns An object containing the error status and the user's created recipes.
+ */
+async function getCreated(id: string) {
+    try{
+        const recipes = await Recipe.find({author: id});
+        
+        return { error: null, recipes };
+    }
+    catch(e){
+        return { error: e, recipes: null };
+    }
+}
+
 export default {
     user: {
         add: addUser,
@@ -150,5 +167,6 @@ export default {
         getAllUsers: getAllUsers
     },
     updateFavorites,
-    getFavorites
+    getFavorites,
+    getCreated
 }

@@ -64,9 +64,22 @@ async function decrementReviewCount(Id: string) {
     }
 }
 
+async function getSeveralById(recipeIDs: string[]) {
+    try {
+        const recipes = await Recipe.find({
+            "_id": { $in: recipeIDs}
+        });
+        return { error: null, recipes };
+    } 
+    catch (e) {
+        return {error: e, recipes: null}    
+    }
+}
+
 
 export default {
     getById,
     incrementReviewCount,
-    decrementReviewCount
+    decrementReviewCount,
+    getSeveralById
 }

@@ -77,12 +77,39 @@
     align-items: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 2rem;
+    flex-direction: column;
 }
 
-.household-id span {
+.household-id p {
     margin-right: 0.5rem;
+    display: inline-block;
 }
 
 .household-id .id-label {
     font-weight: bold;
+}
+
+.household-id div input{
+    font-size: 1.7rem;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+
+.household-id div button{
+    font-size: 1.7rem;
+    padding: 5px 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    
+    
+}
+
+.household-id div button:hover{
+    cursor: pointer;
+    background-color: #509e2f;
+    color: white;
 }

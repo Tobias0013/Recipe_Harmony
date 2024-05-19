@@ -47,7 +47,7 @@ const sign_up_form: React.FC = () => {
     return (
         <div className="signup-form">
             <p className="error-msg">{error}</p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="sign-up-form">
                 <input type="text" placeholder="Full Name" className="input-field" onChange={(e) => setFullName(e.target.value)}/>
                 <input type="text" placeholder="Email" className="input-field" onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}/>

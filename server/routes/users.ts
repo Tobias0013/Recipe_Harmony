@@ -4,6 +4,7 @@ import { isValidObjectId } from "mongoose";
 import userDB from "../controller/database/userDB";
 import verifyJWT from "./middleware/jwt_middle";
 import verifyAdminJWT from "./middleware/admin_middle";
+import recipeDB from "../controller/database/recipeDB";
 
 const usersRouter: Router = express.Router();
 
@@ -74,6 +75,25 @@ usersRouter.get("/:userId/favorites", verifyJWT, async (req: Request, res: Respo
     return res.json(favorites);
 })
 
+usersRouter.get("/:userId/favorites/recipes", verifyJWT, async (req: Request, res: Response) =>{
+    const { userId } = req.params;
+    
+    if (!isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Invalid user id parameter" })
+    }
+    const { error, favorites } = await userDB.getFavorites(userId);
+
+    if (error || !favorites){
+        return res.status(error === 404 ? 404 : 500)
+        .json({ Error: error === 404 ? "User not found" : "Internal server error" });
+    }
+    const { error: recipeError, recipes } = await recipeDB.getSeveralById(favorites);
+    if (recipeError){
+        return res.status(500).json({ Error: "Internal server error" });
+    }
+    res.json(recipes)
+})
+
 usersRouter.patch("/:userId/favorites", verifyJWT, async (req: Request, res: Response) =>{
     const { userId } = req.params;
     const { favorite_recipes } = req.body;
@@ -99,6 +119,20 @@ usersRouter.patch("/:userId/favorites", verifyJWT, async (req: Request, res: Res
         .json({ Error: error === 404 ? "User not found" : "Internal server error" });
     }
     return res.json(favorites);
+})
+
+usersRouter.get("/:userId/recipes", verifyJWT, async (req: Request, res: Response) =>{
+    const { userId } = req.params;
+    
+    if (!isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Invalid user id parameter" })
+    }
+    const { error, recipes } = await userDB.getCreated(userId);
+
+    if (error){
+        return res.status(500).json({ Error: "Internal server error" });
+    }
+    res.json(recipes)
 })
 
 export default usersRouter;
