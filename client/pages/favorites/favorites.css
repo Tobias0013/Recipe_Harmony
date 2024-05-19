@@ -6,3 +6,9 @@
     transform: translate(-50%, 80%);
     border-bottom: 0;
 }
+
+@media only screen and (orientation: portrait) {
+    .favorites-title {
+        transform: translate(-50%, 40%);
+    }
+}
