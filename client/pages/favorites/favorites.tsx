@@ -12,7 +12,7 @@ export default function Favorites() {
     if (!token) {
         return <Page404 />;
     }
-    const [recipes, setRecipes] = useState<any[]>([]);
+    const [recipes, setRecipes] = useState<any>(null);
 
     const fetchRecipes = async () => {
         const { error, recipes } = await usersAPI.getFavoriteRecipes();
