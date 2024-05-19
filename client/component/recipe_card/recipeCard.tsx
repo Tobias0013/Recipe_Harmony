@@ -10,7 +10,7 @@ import "./recipeCard.css";
  * @param prop.cookTime - The cooking time of the recipe in minutes.
  * @param prop.prepTime - The preparation time of the recipe in minutes.
  * @param prop.image - The URL of the recipe image.
- * @param prop.rating - The rating of the recipe.
+ * @param prop.ratingCount - The ratingCount of the recipe.
  * @returns The recipe card component.
  */
 export default function RecipeCard(prop: {
@@ -19,9 +19,9 @@ export default function RecipeCard(prop: {
     cookTime: number;
     prepTime: number;
     image: string;
-    rating: number;
+    ratingCount: number;
 }) {
-    const { id, title, cookTime, prepTime, image, rating } = prop;
+    const { id, title, cookTime, prepTime, image, ratingCount } = prop;
     return (
         <Link to={`/recipe?recipe=${id}`}>
             <div className="recipe-card">
@@ -39,10 +39,10 @@ export default function RecipeCard(prop: {
                             <p className="recipe-card-title">{title}</p>
                         </div>
                         <div className="recipe-card-rating-container">
-                            <span className="material-icons recipe-card-star">
-                                star
+                            <span className="material-icons recipe-card-heart">
+                                favorite
                             </span>
-                            <p className="recipe-card-rating">{rating}</p>
+                            <p className="recipe-card-rating">{ratingCount}</p>
                         </div>
                     </div>
                     <div className="recipe-card-row two">
