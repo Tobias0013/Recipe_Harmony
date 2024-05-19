@@ -89,8 +89,6 @@ async function getRecipes(id: string, token: string) {
  * @returns A promise that resolves to an object containing the error and the updated favorite recipes.
  */
 async function updateFavorites(favorite_recipes: string[]) {
-    console.log("DEBUG-a", favorite_recipes);
-    
     const token = sessionStorage.getItem("jwt");
     if (!token) {
         return { error: -1 , shoppingList: null };
@@ -112,6 +110,29 @@ async function updateFavorites(favorite_recipes: string[]) {
     return { error: null, favorite_recipes: await response.json() };
 }
 
+/**
+ * Retrieves the favorite recipes for the current user.
+ * @returns {Promise<{ error: any, recipes: any }>} A promise that resolves to an object containing the error (if any) and the favorite recipes.
+ */
+async function getFavoriteRecipes() {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 , recipes: null };
+    }
+    const userId = JSON.parse(atob(token.split(".")[1])).user_id;
+
+    const response = await fetch(`${url}/api/users/${userId}/favorites/recipes`, {
+        headers: {
+            "Authorization": token
+        },
+    });
+
+    if (response.status !== 200) {
+        return { error: await response.json(), recipes: null };
+    }
+    return { error: null, recipes: await response.json() };
+}
+
 export default {
     user: {
         signup: signup,
@@ -119,5 +140,6 @@ export default {
         getAll: fetchAll
     },
     getRecipes,
-    updateFavorites
+    updateFavorites,
+    getFavoriteRecipes
 }
