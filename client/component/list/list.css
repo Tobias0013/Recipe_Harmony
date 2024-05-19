@@ -1,0 +1,48 @@
+.list-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 50dvh;
+}
+
+.list-container h2{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.list-headers{
+    width: 30dvw;
+    display: flex;
+    /* justify-content: space-evenly; */
+    text-align: left;
+}
+
+.list-headers h3{
+    padding: .3dvh;
+    font-size: 1.5rem;
+}
+
+.list-headers h3:nth-child(1){
+    width: 10dvw;
+    margin-left: 2.4dvw;
+}
+
+.list-headers h3:nth-child(2){
+    width: 5dvw;
+}
+
+.list-headers h3:nth-child(3){
+    width: 10dvw;
+}
+
+.list-container button{
+    border: 1px solid black;
+    padding: 2rem;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.list-container button:hover:enabled{
+    cursor: pointer;
+}

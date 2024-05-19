@@ -1,3 +1,15 @@
+.recipe-new-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.recipe-new {
+    font-size: 5rem;
+    color: #509e2f;
+}
+
 /* First section */
 
 .recipe-section {
@@ -39,39 +51,15 @@
     font-size: 2.125rem;
 }
 
-.recipe-info-header {
-    margin-top: 3rem;
-    font-size: 2.75rem;
-    font-weight: 600;
-}
-
-.recipe-rating {
-    margin-top: .5rem;
-    display: flex;
-    align-items: center;
-}
-
 .recipe-rating span {
-    font-size: 3rem;
-}
-
-.recipe-star {
-    color: gold;
-}
-.recipe-star.e {
-    color: rgb(201, 201, 201);
-}
-
-.recipe-rating > p {
-    margin-left: .75rem;
-    margin-top: .25rem;
-    font-size: 1.2rem;
+    color: red;
 }
 
 .recipe-info {
     margin-top: 2.5rem;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .recipe-info > span, .recipe-info > p{

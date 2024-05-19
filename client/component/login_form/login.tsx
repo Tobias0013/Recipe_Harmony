@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchUsers from "../../controller/fetch/users";
+import userAPI from "../../controller/fetch/users";
 import "./login.css"; 
 
 const LoginForm: React.FC = () => {
@@ -13,22 +13,36 @@ const LoginForm: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try{
-            const response: Response = await fetchUsers.user.login(email, password);
+            const response: Response = await userAPI.user.login(email, password);
 
             if(response.status === 200){
                 const data = await response.json();
-                const jwtToken = data.jwt;
-                sessionStorage.setItem("jwt", jwtToken)
+                const jwt = data.jwt;
+                sessionStorage.setItem("jwt", jwt)
+
+                const userId = JSON.parse(atob(jwt.split(".")[1])).user_id;
+
+                const { error, favorite_recipes } = await userAPI.getRecipes(userId, jwt)
+                if (error) {
+                    alert("Error\nCould not load favorite recipes\n" + error.Error)
+                }
+                else {
+                    sessionStorage.setItem("favorites", JSON.stringify(favorite_recipes));
+                }
                 nav("/")
-            }else if(response.status === 400){
+            }
+            else if(response.status === 400){
                 setError("All fields must be filled in");
-            }else if(response.status === 401){
+            }
+            else if(response.status === 401){
                 setError("Email or password incorrect")
-            }else{
+            }
+            else{
                 setError("Internal Server Error")
             }
 
-        }catch(err){
+        }
+        catch(err){
             console.log(err);
             setError("Internal Server Error");
         }

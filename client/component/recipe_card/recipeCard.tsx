@@ -46,9 +46,10 @@ export default function RecipeCard(prop: {
                         </div>
                     </div>
                     <div className="recipe-card-row two">
-                        <p className="recipe-card-cook-time">{`${
-                            cookTime + prepTime
-                        } min`}</p>
+                        <p className="recipe-card-time">{`${prepTime} min prep time`}</p>
+                    </div>
+                    <div className="recipe-card-row three">
+                        <p className="recipe-card-time">{`${cookTime} min cook time`}</p>
                     </div>
                 </div>
             </div>

@@ -9,8 +9,17 @@
 }
 
 .add-recipe-form label {
+    font-size: 2rem;
     display: block;
     margin-bottom: 10px;
+}
+
+.add-recipe-difficulty{
+    height: fit-content;
+}
+
+.add-recipe-image-input{
+    margin-bottom: 2rem;
 }
 
 .add-recipe-form .input-field {
@@ -35,18 +44,20 @@
     background-color: #d0e0d7;
 }
 
-.add-recipe-form .submit-button {
+.add-recipe-form .add-recipe-submit-button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background-color: #dee9e2;
+    background-color: #509e2f;
     border: none;
     border-radius: 5px;
     color: black;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
+    font-size: 2.3rem;
 }
 
-.add-recipe-form .submit-button:hover {
-    background-color: #d0e0d7;
+.add-recipe-form .add-recipe-submit-button:hover {
+    background-color: #85c06c;
 }

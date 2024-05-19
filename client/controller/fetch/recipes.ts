@@ -85,8 +85,83 @@ async function getById(id: string){
     }
 }
 
+async function deleteById(id: string, jwtToken: string){
+    let fetchURL = url;
+    fetchURL += `/api/recipes/${id}`;
+
+    try {
+        const res = await fetch(fetchURL, {
+            method: "DELETE",
+            headers: {
+                Authorization: jwtToken
+            }
+        });
+
+        if (res.status !== 200)
+            return {error: res.status, res: await res.json()};
+        
+        return {error: null, res: await res.json()};        
+    }
+    catch (e) {
+        return {error: e, res: null}
+    }
+}
+
+async function post(data: any, token: any) {
+    try {
+        const response = await fetch(`${url}/api/recipes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            return { error: null, recipe: await response.json() };
+        } 
+        else {
+            console.error("Failed to add recipe:", response.statusText);
+            return { error: await response.json(), recipe: null };
+        }
+    } 
+    catch (error) {
+        console.error("Error adding recipe:", error.message);
+        return { error: error.message, recipe: null };
+    }
+}
+
+async function patch(id: any, data: any, token: any) {
+     try {
+        const response = await fetch(`${url}/api/recipes/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            return { error: null, recipe: await response.json() };
+        } 
+        else {
+            console.error("Failed to add recipe:", response.statusText);
+            return { error: await response.json(), recipe: null };
+        }
+    } 
+    catch (error) {
+        console.error("Error adding recipe:", error.message);
+        return { error: error.message, recipe: null };
+    }
+}
+
 export default {
     get,
     getByName,
-    getById
+    getById,
+    deleteById,
+    post,
+    patch
 }
