@@ -9,7 +9,7 @@
     padding: 3rem 0; 
 }
 
-form {
+.sign-up-form {
     width: 85%;
     max-width: 450px; 
     margin-bottom: 1rem;
