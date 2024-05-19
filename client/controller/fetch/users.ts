@@ -133,6 +133,29 @@ async function getFavoriteRecipes() {
     return { error: null, recipes: await response.json() };
 }
 
+/**
+ * Retrieves the created recipes for the current user.
+ * @returns {Promise<{ error: any, recipes: any }>} A promise that resolves to an object containing the error (if any) and the created recipes.
+ */
+async function getCreatedRecipes() {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 , recipes: null };
+    }
+    const userId = JSON.parse(atob(token.split(".")[1])).user_id;
+
+    const response = await fetch(`${url}/api/users/${userId}/recipes`, {
+        headers: {
+            "Authorization": token
+        },
+    });
+
+    if (response.status !== 200) {
+        return { error: await response.json(), recipes: null };
+    }
+    return { error: null, recipes: await response.json() };
+}
+
 export default {
     user: {
         signup: signup,
@@ -141,5 +164,6 @@ export default {
     },
     getRecipes,
     updateFavorites,
-    getFavoriteRecipes
+    getFavoriteRecipes,
+    getCreatedRecipes
 }
