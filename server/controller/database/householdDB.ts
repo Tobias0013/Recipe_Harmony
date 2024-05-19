@@ -1,6 +1,7 @@
 import household from '../../mongoose/household';
 import HouseholdModel from '../../mongoose/household';
 import userAPI from "../database/userDB";
+import User from "../../mongoose/user";
 
 /**
  * Adds a new household to the database.
@@ -58,6 +59,10 @@ async function getHouseholdById(id: any) {
     try {
         const res = await HouseholdModel.findById(id);
         if (res) {
+            await Promise.all(res.members.map(async (userID, index) => {
+                const user = await User.findById(userID)
+                res.members[index] = user?.full_name || "Undefined";
+            }))
             return { error: null, household: res };
         } else {
             return { error: 404, household: null };
