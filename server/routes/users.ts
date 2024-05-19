@@ -121,4 +121,18 @@ usersRouter.patch("/:userId/favorites", verifyJWT, async (req: Request, res: Res
     return res.json(favorites);
 })
 
+usersRouter.get("/:userId/recipes", verifyJWT, async (req: Request, res: Response) =>{
+    const { userId } = req.params;
+    
+    if (!isValidObjectId(userId)) {
+        return res.status(400).json({ Error: "Invalid user id parameter" })
+    }
+    const { error, recipes } = await userDB.getCreated(userId);
+
+    if (error){
+        return res.status(500).json({ Error: "Internal server error" });
+    }
+    res.json(recipes)
+})
+
 export default usersRouter;
