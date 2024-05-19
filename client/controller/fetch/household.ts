@@ -1,3 +1,4 @@
+import Household from "../../component/household/household";
 import url from "../config"
 
 /**
@@ -120,9 +121,30 @@ async function getAll() {
     return { error: null, households: await res.json() };
 }
 
+async function getById() {
+    const token = sessionStorage.getItem("jwt");
+    if(!token) {
+        return { error: -1, household: null};
+    }
+    const household_id = JSON.parse(atob(token.split(".")[1])).household_id;
+    const fetchURL = `${url}/api/households/${household_id}`
+
+    const res = await fetch(fetchURL, {
+        headers: {
+            "Authorization": token,
+        },
+    });
+
+    if(res.status !== 200){
+        return {error: await res.json(), household: null};
+    }
+    return {error: null, household: await res.json()};
+}
+
 export default {
     getShoppingList,
     appendShoppingList,
     replaceShoppingList,
-    getAll
+    getAll,
+    getById
 }
