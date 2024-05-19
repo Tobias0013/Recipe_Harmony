@@ -60,7 +60,7 @@ async function getHouseholdById(id: any) {
             return { error: 404, household: null };
         }
     } catch (e) {
-        return { error: e, household: null };
+        return { error: e, household: null};
     }
 }
 
