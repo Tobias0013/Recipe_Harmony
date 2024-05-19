@@ -15,6 +15,7 @@ import AdminPage from "./pages/admin/admin";
 import Recipe from "./pages/recipe/recipe";
 import HouseHoldPage from "./pages/household/household";
 import NotFoundPage from "./pages/404/error";
+import InternalErrorPage from "./pages/500/error";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -36,6 +37,7 @@ export default function Index() {
                 <Route path="/recipe" element={<Recipe />} />
                 <Route path="/household" element={<HouseHoldPage />} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="/500" element={<InternalErrorPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>

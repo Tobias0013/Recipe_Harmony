@@ -16,7 +16,8 @@ export default function Home() {
     const fetchRecipes = async () => {
         const { error, recipes } = await recipeAPI.get({ limit: 8 });
         if (error) {
-            alert("Error: 500 server error");
+            window.location.href = "/500"; 
+            console.log("500 internal server error");
             return;
         }
         setRecipes(recipes);
@@ -27,11 +28,13 @@ export default function Home() {
         });
 
         if (e) {
-            alert("Error: 500 server error");
+            window.location.href = "/500";
+            console.log("500 internal server error");
             return;
         }
         setRecipeToday(recipe[0]);
     };
+    
 
     useEffect(() => {
         fetchRecipes();
