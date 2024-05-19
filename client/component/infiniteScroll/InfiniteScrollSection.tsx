@@ -42,7 +42,7 @@ export default function ExploreExample(prop: {
                                     ? recipe.image.url
                                     : recipe.image.base64
                             }
-                            rating={recipe.rating}
+                            ratingCount={recipe.review_count}
                         />
                     ))}
                 </div>
