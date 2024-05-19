@@ -78,7 +78,7 @@ export default function Header() {
                 style={
                     navbarShow
                         ? loggedIn
-                            ? { height: "27rem" }
+                            ? { height: "36rem" }
                             : { height: "23rem" }
                         : {}
                 }
