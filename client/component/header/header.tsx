@@ -43,7 +43,7 @@ export default function Header() {
             },
         ],
         secondRow: [
-            { text: "Favorites", link: "/" },
+            { text: "Favorites", link: "/favorites" },
             { text: "Your recipes", link: "/" },
             { text: "Logout", link: "/" },
         ],
