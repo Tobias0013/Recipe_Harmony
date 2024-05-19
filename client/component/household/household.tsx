@@ -37,10 +37,16 @@ function Household() {
             <div className="header-container">
                 <h1 className="header">{household.name}</h1>
             </div>
-            <p className="household-id">
-            <span className="id-label">ID:</span>
-            <span className="id-value">{household._id}</span>
-            </p>
+            <div className="household-id">
+                <div>
+                    <p className="id-label">Share this household ID with others to easily invite them to join your household: </p>
+                    <p className="id-value">{household._id}</p>
+                </div>
+                <div>
+                    <input type='text' placeholder='Household ID...'></input>
+                    <button>Join</button>
+                </div>  
+            </div>
             <section className="section">
                 <div className="members">
                     <h2>Members</h2>
