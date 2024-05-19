@@ -69,7 +69,7 @@ export default function Home() {
                                         ? recipe.image.url
                                         : recipe.image.base64
                                 }
-                                rating={recipe.rating}
+                                ratingCount={recipe.review_count}
                             />
                         ))}
                     </div>
