@@ -1,5 +1,6 @@
 import household from '../../mongoose/household';
 import HouseholdModel from '../../mongoose/household';
+import userAPI from "../database/userDB";
 
 /**
  * Adds a new household to the database.
@@ -13,8 +14,10 @@ async function addHousehold(userId: string) {
             return { error: 409, res };
         }
 
+        const owner = await userAPI.user.getUserData(userId);
+
         const newHousehold = new HouseholdModel({
-            name: "household",
+            name: `${owner.fullName}'s Household`,
             owner: userId,
             members: [],
             shopping_list: [],
