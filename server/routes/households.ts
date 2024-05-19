@@ -151,6 +151,44 @@ HouseholdRouter.patch("/:id/shopping-list", verifyJWT, async (req: Request, res:
     res.json({ shopping_list: household.shopping_list });
 });
 
+HouseholdRouter.patch("/:id/ingredients", verifyJWT, async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { ingredients } = req.body;
+
+    if (!isValidObjectId(id)) {
+        return res.status(400).json({ Error: "Invalid household ID" });
+    }
+
+    if (!Array.isArray(ingredients)) {
+        return res.status(400).json({ Error: "Ingredients must be an array" });
+    }
+
+    for (const ingredient of ingredients) {
+        if (
+            typeof ingredient.name !== "string" ||
+            typeof ingredient.quantity_type !== "string" ||
+            typeof ingredient.quantity !== "number"
+        ) {
+            return res.status(400).json({ Error: "Each ingredient must have a name (string), quantity_type (string), and quantity (number)" });
+        }
+    }
+
+    try {
+        const household = await HouseholdModel.findById(id);
+        if (!household) {
+            return res.status(404).json({ Error: "Household not found" });
+        }
+
+        household.ingredients = ingredients;
+        await household.save();
+
+        return res.json(household.ingredients);
+    } catch (error) {
+        console.error('Error updating ingredients:', error);
+        return res.status(500).json({ Error: "Internal Server Error" });
+    }
+});
+
 HouseholdRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) => {
     try {
         const householdId = req.params.id;
