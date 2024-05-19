@@ -15,6 +15,8 @@ import AdminPage from "./pages/admin/admin";
 import Recipe from "./pages/recipe/recipe";
 import HouseHoldPage from "./pages/household/household";
 import NotFoundPage from "./pages/404/error";
+import ShoppingListPage from "./pages/shopping_list/shopping_list";
+import IngredientsListPage from "./pages/ingredients_list/ingredients_list";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -36,6 +38,8 @@ export default function Index() {
                 <Route path="/recipe" element={<Recipe />} />
                 <Route path="/household" element={<HouseHoldPage />} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="/shopping-list" element={<ShoppingListPage />} />¨
+                <Route path="/ingredients" element={<IngredientsListPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>
