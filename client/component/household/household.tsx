@@ -23,17 +23,16 @@ function Household() {
     });
 
     useEffect(() => {
-        async function getHousehold(){
+        async function getHousehold() {
             const householdById = await householdAPI.getById();
             setHousehold(householdById.household);
-            console.log(householdRef.current)
         }
-        
+
         getHousehold();
     }, [])
 
-    return (  
-        <div className="household-page">
+    return (
+        (household) && (household._id !== "") && (<div className="household-page">
             <div className="header-container">
                 <h1 className="header">{household.name}</h1>
             </div>
@@ -45,7 +44,7 @@ function Household() {
                 <div>
                     <input type='text' placeholder='Household ID...'></input>
                     <button>Join</button>
-                </div>  
+                </div>
             </div>
             <section className="section">
                 <div className="members">
@@ -66,7 +65,7 @@ function Household() {
                 <h2>Ingredients</h2>
                 <Link to="/ingredients" className="go-to-list">Go to Ingredients List</Link>
             </section>
-        </div>
+        </div>)
     );
 }
 
