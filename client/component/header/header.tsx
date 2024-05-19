@@ -31,17 +31,23 @@ export default function Header() {
         setQuery("");
     };
 
-    let navBarItems: { text: string; link: string }[] = [
-        { text: "Home", link: "/" },
-        { text: "Explore", link: "/explore" },
-        { text: "Add Recipe", link: "/add" },
-        { text: "About", link: "/about" },
-        {
-            text: loggedIn ? "Household" : "Login/Register",
-            link: loggedIn ? "/household" : "/login",
-        },
-    ];
-    loggedIn && navBarItems.push({ text: "Logout", link: "/" });
+    let navBarItems = {
+        firstRow: [
+            { text: "Home", link: "/" },
+            { text: "Explore", link: "/explore" },
+            { text: "Add Recipe", link: "/add" },
+            { text: "About", link: "/about" },
+            {
+                text: loggedIn ? "Household" : "Login/Register",
+                link: loggedIn ? "/household" : "/login",
+            },
+        ],
+        secondRow: [
+            { text: "Favorites", link: "/" },
+            { text: "Your recipes", link: "/" },
+            { text: "Logout", link: "/" },
+        ],
+    };
 
     return (
         <header>
@@ -72,14 +78,14 @@ export default function Header() {
                 style={
                     navbarShow
                         ? loggedIn
-                            ? { height: "27rem" }
+                            ? { height: "36rem" }
                             : { height: "23rem" }
                         : {}
                 }
-                className="header-nav"
+                className={`header-nav ${loggedIn && "logged-in"}`}
             >
                 <ul className="header-navbar">
-                    {navBarItems.map((item) => {
+                    {navBarItems.firstRow.map((item) => {
                         return (
                             <ListItem
                                 key={item.text}
@@ -91,6 +97,21 @@ export default function Header() {
                         );
                     })}
                 </ul>
+                {loggedIn && (
+                    <ul className="header-navbar second">
+                        {navBarItems.secondRow.map((item) => {
+                            return (
+                                <ListItem
+                                    key={item.text}
+                                    text={item.text}
+                                    path={item.link}
+                                    location={location}
+                                    setNavbarShow={setNavbarShow}
+                                />
+                            );
+                        })}
+                    </ul>
+                )}
             </div>
         </header>
     );
