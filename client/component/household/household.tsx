@@ -54,7 +54,6 @@ function Household() {
                             <li key={index}>{member}</li>
                         ))}
                     </ul>
-                    <Link to="/members" className="go-to-list">Go to Member List</Link>
                 </div>
             </section>
             <section className="section">

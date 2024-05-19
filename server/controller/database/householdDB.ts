@@ -19,7 +19,7 @@ async function addHousehold(userId: string) {
         const newHousehold = new HouseholdModel({
             name: `${owner.fullName}'s Household`,
             owner: userId,
-            members: [owner],
+            members: [userId],
             shopping_list: [],
             ingredients: []
         });
