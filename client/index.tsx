@@ -16,6 +16,8 @@ import Recipe from "./pages/recipe/recipe";
 import HouseHoldPage from "./pages/household/household";
 import NotFoundPage from "./pages/404/error";
 import Favorites from "./pages/favorites/favorites";
+import ShoppingListPage from "./pages/shopping_list/shopping_list";
+import IngredientsListPage from "./pages/ingredients_list/ingredients_list";
 
 const rootElem = document.getElementById("root");
 
@@ -39,6 +41,8 @@ export default function Index() {
                 <Route path="/household" element={<HouseHoldPage />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="/shopping-list" element={<ShoppingListPage />} />¨
+                <Route path="/ingredients" element={<IngredientsListPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>
