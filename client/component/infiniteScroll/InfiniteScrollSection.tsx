@@ -1,7 +1,7 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import RecipeCard from "../../component/recipe_card/recipeCard";
+import RecipeCard from "../recipe_card/recipeCard";
 
 /**
  * ExploreExample component.
