@@ -46,7 +46,7 @@ sessionRouter.patch("/", verifyJWT, async(req: Request, res: Response) => {
         try{
             const tokenData = jwt.session.verifyJWT(req.body.jwt);
             if(tokenData){
-                const { error, household } = await householdDB.getOrCreate(tokenData.userId);
+                const { error, household } = await householdDB.getOrCreate(tokenData.user_id);
                 if (error || !household){
                     return res.status(500).json({"Error" : "500 Internal Server Error"});
                 }
