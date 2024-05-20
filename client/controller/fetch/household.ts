@@ -272,6 +272,7 @@ export default {
     getShoppingList,
     appendShoppingList,
     replaceShoppingList,
+    getIngredientsList,
     appendIngredientsList,
     replaceIngredientsList,
     getAll,
