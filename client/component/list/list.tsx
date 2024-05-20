@@ -23,8 +23,8 @@ export default function List({ listTitle="List", shoppingList=false}){
             const listResponse = await householdAPI.getShoppingList();
             list = listResponse.shoppingList;
         }else{
-            //const listResponse = await householdAPI.getIngredientsList();
-            //list = listResponse.ingredientsList;
+            const listResponse = await householdAPI.getIngredientsList();
+            list = listResponse.ingredientsList;
         }
         const formatedList = list.map(item => {
             return ({
@@ -46,6 +46,7 @@ export default function List({ listTitle="List", shoppingList=false}){
     }, [])
 
     const updateList = async () => {
+        console.log("UPDATE")
         const formatedListForDB = listItemsRef.current.map(item => {
             return ({
                 name: item.itemName,
@@ -57,14 +58,14 @@ export default function List({ listTitle="List", shoppingList=false}){
         if(shoppingList){
             const response = await householdAPI.replaceShoppingList(formatedListForDB);
         }else{
-            //const response = await householdAPI.replaceIngredientsList(formatedListForDB);
+            const response = await householdAPI.replaceIngredientsList(formatedListForDB);
         }
         
     }
 
     useEffect(() => {
         //auto save changes to shopping list. triggered on listItems changed
-        if(shoppingList){
+        if(shoppingList || !shoppingList){
             const timerId = setTimeout(updateList, 1000);
             setItemsToDelete([]); //reset and check each item if checkbox is checked
             for(let index in listItems){
