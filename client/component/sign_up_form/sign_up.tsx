@@ -25,12 +25,12 @@ const sign_up_form: React.FC = () => {
             }else if(response.status === 409){
                 setError("Email already in use");
             }else{
-                setError("Internal Server Error");
+                window.location.href = "/500";
             }
         
         }catch(err){
             console.log(err);
-            setError("Internal Server Error");
+            window.location.href = "/500";
         }
     }
 

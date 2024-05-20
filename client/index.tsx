@@ -20,6 +20,7 @@ import CreatedRecipes from "./pages/createdRecipes/createdRecipes";
 import ShoppingListPage from "./pages/shopping_list/shopping_list";
 import IngredientsListPage from "./pages/ingredients_list/ingredients_list";
 
+import InternalErrorPage from "./pages/500/error";
 const rootElem = document.getElementById("root");
 
 if (!rootElem) {
@@ -45,6 +46,7 @@ export default function Index() {
                 <Route path="/shopping-list" element={<ShoppingListPage />} />¨
                 <Route path="/ingredients" element={<IngredientsListPage />} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="/500" element={<InternalErrorPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>

@@ -38,13 +38,13 @@ const LoginForm: React.FC = () => {
                 setError("Email or password incorrect")
             }
             else{
-                setError("Internal Server Error")
+                window.location.href = "/500";
             }
 
         }
         catch(err){
             console.log(err);
-            setError("Internal Server Error");
+            window.location.href = "/500";
         }
     }
 
