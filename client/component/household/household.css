@@ -26,7 +26,6 @@
     border-bottom: 2px solid #030303;
     transition: border-bottom-color 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     font-size: 3.5rem;
-    line-height: 2.4rem;
     font-weight: 700; 
     letter-spacing: 0.1rem;
 }
@@ -78,10 +77,10 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 2rem;
     flex-direction: column;
+    width: 80%;
 }
 
 .household-id p {
-    margin-right: 0.5rem;
     display: inline-block;
 }
 

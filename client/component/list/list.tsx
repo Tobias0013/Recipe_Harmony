@@ -180,7 +180,7 @@ export default function List({ listTitle = "List", shoppingList = false }) {
             {!shoppingList && (itemsToDelete.length > 0 ? <button onClick={handleButtonClick} disabled={false}>Remove checked items</button> : <button onClick={handleButtonClick} disabled={true}>Remove checked items</button>)}
             <div className="list-headers">
                 <h3>Item</h3>
-                <h3>Quantity</h3>
+                <h3>Qty</h3>
                 <h3>Unit</h3>
             </div>
             {listItems.map((item, index) => (
