@@ -30,6 +30,31 @@ async function getShoppingList() {
     return { error: null, shoppingList: await res.json() };
 }
 
+async function getIngredientsList() {
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 , ingredientsList: null };
+    }
+    const householdId = JSON.parse(atob(token.split(".")[1])).household_id;
+
+    const fetchURL = `${url}/api/households/${householdId}/ingredients`;
+    console.log("DEBUG", fetchURL);
+
+    const res = await fetch(fetchURL, {
+        method: "GET",
+        headers:{
+            "Authorization": token
+        }
+    });
+
+    console.log("DEBUG", res);
+
+    if (res.status !== 200){
+        return { error: await res.json(), ingredientsList: null };
+    }
+    return { error: null, ingredientsList: await res.json() };
+}
+
 /**
  * Appends the given ingredients to the shopping list of the user's household.
  * @param ingredients - An array of ingredients to be added to the shopping list.
@@ -93,6 +118,65 @@ async function replaceShoppingList(shoppingList: any[]) {
         return { error: await res.json(), shoppingList: null};
     }
     return { error: null, shoppingList: await res.json() };
+}
+
+async function appendIngredientsList(ingredients: any[]){
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 };
+    }
+    const householdId = JSON.parse(atob(token.split(".")[1])).household_id;
+    
+    const { error, ingredientsList } = await getIngredientsList()
+
+    if (error || !ingredientsList){
+        return { error: error, ingredientsList: null };
+    }
+    ingredients.forEach(ingredient => ingredientsList.push(ingredient))
+    
+    const fetchURL = `${url}/api/households/${householdId}/ingredients`;
+
+    const res = await fetch(fetchURL, {
+        method: "PATCH",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ingredients: ingredientsList
+        })
+    });
+
+    if (res.status !== 200) {
+        return { error: await res.json(), ingredientsList: null};
+    }
+    return { error: null, ingredientsList: await res.json() };
+}
+
+async function replaceIngredientsList(ingredientsList: any[]){
+    const token = sessionStorage.getItem("jwt");
+    if (!token) {
+        return { error: -1 };
+    }
+    const householdId = JSON.parse(atob(token.split(".")[1])).household_id;
+    
+    const fetchURL = `${url}/api/households/${householdId}/ingredients`;
+
+    const res = await fetch(fetchURL, {
+        method: "PATCH",
+        headers: {
+            "Authorization": token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ingredients: ingredientsList
+        })
+    });
+
+    if (res.status !== 200) {
+        return { error: await res.json(), ingredientsList: null};
+    }
+    return { error: null, ingredientsList: await res.json() };
 }
 
 /**
@@ -188,6 +272,8 @@ export default {
     getShoppingList,
     appendShoppingList,
     replaceShoppingList,
+    appendIngredientsList,
+    replaceIngredientsList,
     getAll,
     getById,
     joinById
