@@ -17,6 +17,7 @@ export default function List({ listTitle = "List", shoppingList = false }) {
     const [listItems, setListItems, listItemsRef] = useState([{ ...emptyListItem }]);
     const [itemsToDelete, setItemsToDelete, itemsToDeleteRef] = useState<number[]>([]);
     const [deletedItems, setDeletedItems, deletedItemsRef] = useState([{ ...emptyListItem }]);
+    const [loadedList, setLoadedList] = useState<boolean>(false);
 
     const retrieveList = async () => {
         let list;
@@ -27,18 +28,22 @@ export default function List({ listTitle = "List", shoppingList = false }) {
             const listResponse = await householdAPI.getIngredientsList();
             list = listResponse.ingredientsList;
         }
-        const formatedList = list.map(item => {
-            return ({
-                itemName: item.name,
-                quantity: item.quantity === 0 ? "" : item.quantity,
-                unit: item.quantity_type,
-                checkBox: true,
-                checkBoxValue: false,
-                onChange: handleInputChange
-            })
-        });
-
-        setListItems([...formatedList, { ...emptyListItem }]);
+        if(list !== null){
+            setLoadedList(true);
+            const formatedList = list.map(item => {
+                return ({
+                    itemName: item.name,
+                    quantity: item.quantity === 0 ? "" : item.quantity,
+                    unit: item.quantity_type,
+                    checkBox: true,
+                    checkBoxValue: false,
+                    onChange: handleInputChange
+                })
+            });
+    
+            setListItems([...formatedList, { ...emptyListItem }]);
+        }
+        
     }
 
     useEffect(() => {
@@ -174,7 +179,7 @@ export default function List({ listTitle = "List", shoppingList = false }) {
 
 
     return (
-        <div className="list-container">
+        loadedList && (<div className="list-container">
             <h2>{listTitle}</h2>
             {shoppingList && (itemsToDelete.length > 0 ? <button onClick={handleButtonClick} disabled={false}>Mark checked items as purchased</button> : <button onClick={handleButtonClick} disabled={true}>Mark checked items as purchased</button>)}
             {!shoppingList && (itemsToDelete.length > 0 ? <button onClick={handleButtonClick} disabled={false}>Remove checked items</button> : <button onClick={handleButtonClick} disabled={true}>Remove checked items</button>)}
@@ -195,7 +200,7 @@ export default function List({ listTitle = "List", shoppingList = false }) {
                     onChange={handleInputChange}
                 />
             ))}
-        </div>
+        </div>)
 
     );
 }
