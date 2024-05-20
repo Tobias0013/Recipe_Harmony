@@ -39,7 +39,7 @@ async function addHousehold(userId: string) {
  */
 async function getHouseholdByUserId(userId: string){
     try {
-        const household = await HouseholdModel.findOne().or([{owner: userId}, {members: [userId]}]);
+        const household = await HouseholdModel.findOne().or([{owner: userId}, {members: { $in: [userId]}}]);
         if (!household) {
             return { error: 404, household };
         }
@@ -55,14 +55,16 @@ async function getHouseholdByUserId(userId: string){
  * @param id - The ID of the household to retrieve.
  * @returns {Promise<{ error: number | null, household: any }>} - An object containing the error (if any) and the retrieved household.
  */
-async function getHouseholdById(id: any) {
+async function getHouseholdById(id: any, mapIdToName: boolean) {
     try {
         const res = await HouseholdModel.findById(id);
         if (res) {
-            await Promise.all(res.members.map(async (userID, index) => {
-                const user = await User.findById(userID)
-                res.members[index] = user?.full_name || "Undefined";
-            }))
+            if(mapIdToName){
+                await Promise.all(res.members.map(async (userID, index) => {
+                    const user = await User.findById(userID)
+                    res.members[index] = user?.full_name || "Undefined";
+                }))
+            }
             return { error: null, household: res };
         } else {
             return { error: 404, household: null };
