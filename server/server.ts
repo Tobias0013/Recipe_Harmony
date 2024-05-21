@@ -25,7 +25,8 @@ app.use(async (req, res, next) => {
     res.set("Content-Type", "text/html; charset=UTF-8")
     fs.readFile(__dirname.replace("dist-server", "") + "dist\\index.html", (err, data) =>{
         if (err) {
-            res.status(500).send("Something went wrong while reading file");
+            res.status(500).send("Something went wrong while reading file\n" + 
+            __dirname.replace("dist-server", "") + "dist\\index.html");
             return;
         }
         
