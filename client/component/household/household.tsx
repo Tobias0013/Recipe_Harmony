@@ -40,8 +40,7 @@ function Household() {
             sessionStorage.setItem("jwt", response.newJWT.jwt);
             window.location.reload();
         }else{
-            console.log(response.error)
-            alert(response.household);
+            alert(`Error: ${response.error.error}`);
         }
         
     }
