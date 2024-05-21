@@ -8,12 +8,13 @@
     color: #333;
     text-decoration: none;
     border-bottom: none;
+    margin-bottom: 1rem;
 }
 
 .not-found-message {
     font-size: 1.8rem; 
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 

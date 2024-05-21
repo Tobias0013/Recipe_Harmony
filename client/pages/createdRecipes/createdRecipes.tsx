@@ -41,7 +41,7 @@ export default function CreatedRecipes() {
                     className="favorites-title "
                     style={{ marginBottom: "55rem" }}
                 >
-                    To find recipes click{" "}
+                    Click{" "}
                     <Link
                         style={{
                             textDecoration: "underline",
@@ -51,7 +51,7 @@ export default function CreatedRecipes() {
                     >
                         here
                     </Link>{" "}
-                    to created new recipes
+                    to create new recipes
                 </p>
             </>
         );

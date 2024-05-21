@@ -22,6 +22,8 @@ function Household() {
         ingredients: {}
     });
 
+    const [householdId, setHouseholdId] = useState<string>("");
+
     useEffect(() => {
         async function getHousehold() {
             const householdById = await householdAPI.getById();
@@ -30,6 +32,22 @@ function Household() {
 
         getHousehold();
     }, [])
+
+    async function joinHousehold(){
+        const response = await householdAPI.joinById(householdId);
+        if(response.household !== null){
+            console.log(response.newJWT.jwt)
+            sessionStorage.setItem("jwt", response.newJWT.jwt);
+            window.location.reload();
+        }else{
+            alert(`Error: ${response.error.error}`);
+        }
+        
+    }
+
+    function handleInputChange(newInput: string){
+        setHouseholdId(newInput);
+    }
 
     return (
         (household) && (household._id !== "") && (<div className="household-page">
@@ -42,8 +60,8 @@ function Household() {
                     <p className="id-value">{household._id}</p>
                 </div>
                 <div>
-                    <input type='text' placeholder='Household ID...'></input>
-                    <button>Join</button>
+                    <input type='text' placeholder='Household ID...' onChange={(e) => handleInputChange(e.target.value)}></input>
+                    <button onClick={joinHousehold}>Join</button>
                 </div>
             </div>
             <section className="section">

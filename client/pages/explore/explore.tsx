@@ -33,7 +33,8 @@ export default function Explore() {
                 skip
             );
             if (error) {
-                alert("Error: 500 server error");
+                window.location.href = "/500";
+                console.log("500 internal server error");
                 return;
             }
             setRecipes((prevItems) => [...prevItems, ...recipes]);
@@ -52,7 +53,8 @@ export default function Explore() {
         });
 
         if (error) {
-            alert("Error: 500 server error");
+            window.location.href = "/500";
+            console.log("500 internal server error");
             return;
         }
         setRecipes((prevItems) => [...prevItems, ...recipes]);

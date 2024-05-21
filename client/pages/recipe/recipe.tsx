@@ -132,9 +132,7 @@ export default function Recipe() {
                 alert(error.Error);
                 return;
             }
-            console.log(shoppingList);
-
-            alert("Shopping list have been updated. [TEMPORARY]"); //TODO once able redirect to household shopping list
+            navigate("/shopping-list")
         })();
     };
 

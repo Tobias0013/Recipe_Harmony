@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
         )
     }else{
         return (
-            <div>
+            <div style={{marginBottom: "10rem"}}>
                 <List listTitle="Shopping List" shoppingList={true}/>
             </div>
         );
