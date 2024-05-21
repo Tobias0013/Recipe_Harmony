@@ -23,7 +23,7 @@ To install and set up Recipe Harmony, follow these steps:
     - Open the `.env` file and add the following environment variables:
       ```
       PORT=your-preferred-port
-      MONGODB_URI=your-mongodb-uri
+      URI=your-mongodb-uri
       SECRET=your-jwt-secret
       ADMIN=your-admin-email
       ```
