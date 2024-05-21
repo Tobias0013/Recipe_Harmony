@@ -47,11 +47,11 @@ const sign_up_form: React.FC = () => {
     return (
         <div className="signup-form">
             <p className="error-msg">{error}</p>
-            <form onSubmit={handleSubmit} className="sign-up-form">
-                <input type="text" placeholder="Full Name" className="input-field" onChange={(e) => setFullName(e.target.value)}/>
-                <input type="text" placeholder="Email" className="input-field" onChange={(e) => setEmail(e.target.value)}/>
-                <input type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}/>
-                <input type="password" placeholder="Re-enter password" className="input-field" onChange={(e) => setConfirmPassword(e.target.value)}/>
+            <form onSubmit={handleSubmit} className="sign-up-form" autoComplete="one-time-code">
+                <input autoComplete="one-time-code" type="text" placeholder="Full Name" className="input-field" onChange={(e) => setFullName(e.target.value)}/>
+                <input autoComplete="one-time-code" type="text" placeholder="Email" className="input-field" onChange={(e) => setEmail(e.target.value)}/>
+                <input autoComplete="one-time-code" type="password" placeholder="Password" className="input-field" onChange={(e) => setPassword(e.target.value)}/>
+                <input autoComplete="one-time-code" type="password" placeholder="Re-enter password" className="input-field" onChange={(e) => setConfirmPassword(e.target.value)}/>
                 <button type="submit" className="submit-button" disabled={isSubmitDisabled}>Sign Up</button>
             </form>
             <p className="login-msg">Already have an account? <a href="/login" className = "login-link">Login here</a></p>
