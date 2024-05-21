@@ -23,11 +23,12 @@ app.get("/status", (req: Request, res: Response) =>{
 
 app.use(async (req, res, next) => {
     res.set("Content-Type", "text/html; charset=UTF-8")
-    fs.readFile(__dirname.replace("server", "") + "dist/index.html", (err, data) =>{
+    fs.readFile(__dirname.replace("dist-server", "") + "dist\\index.html", (err, data) =>{
         if (err) {
             res.status(500).send("Something went wrong while reading file");
             return;
         }
+        
         res.send(data);
     });
 })
