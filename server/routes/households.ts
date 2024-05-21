@@ -194,6 +194,10 @@ HouseholdRouter.delete('/:id', verifyJWT, async (req: Request, res: Response) =>
         const householdId = req.params.id;
         const { newHousegholdId, userId } = req.body;
 
+        if(householdId === newHousegholdId){
+            return res.status(400).json({error: "Already member of this household"})
+        }
+
         if (!newHousegholdId || !userId) {
             return res.status(400).json({ error: "request body incorrect" });
         }
